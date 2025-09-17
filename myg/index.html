@@ -51,8 +51,8 @@
         .page {
             background: white;
             width: 21cm;
-            min-height: 29.7cm;
-            padding: 1.8cm 2.5cm;
+            height: 29.7cm; /* Fixed height for A4 */
+            padding: 1.8cm 2.5cm; /* These are the document's margins */
             margin: 1cm auto;
             box-shadow: 0 0 10px rgba(0,0,0,0.2);
             position: relative;
@@ -66,12 +66,13 @@
         }
 
         .page-header {
-            margin-bottom: 20px;
+            margin: 0 -2.5cm 20px -2.5cm; /* Negative margin to make header full-width */
+            flex-shrink: 0;
         }
 
         .header-top-box {
             background-color: var(--header-top-bg);
-            padding: 10px 20px;
+            padding: 10px 2.5cm; /* Add padding back to align content */
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -92,7 +93,7 @@
         }
 
         .header-bottom-box {
-            padding: 8px 0;
+            padding: 8px 2.5cm; /* Add padding back to align content */
             text-align: center;
         }
         
@@ -113,6 +114,7 @@
         
         .content-wrapper { 
             flex-grow: 1;
+            overflow: hidden; /* Prevent content from spilling out */
         }
 
         .section-title {
@@ -135,7 +137,6 @@
         
         .pembahasan-box {
             margin-bottom: 20px;
-            break-inside: avoid;
         }
 
         .soal-card {
@@ -210,39 +211,45 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            text-align: left;
             font-size: 8pt;
             color: var(--secondary-text);
             padding-top: 15px;
-            margin-top: auto;
+            margin-top: auto; /* Pushes footer to the bottom */
             border-top: 1px solid var(--border-color);
+            flex-shrink: 0; /* Prevent footer from shrinking */
         }
 
         /* --- PRINT STYLES --- */
         @media print {
             @page {
                 size: A4;
-                margin: 0;
+                margin: 0; /* CRITICAL: Must be 0 to let the .page element control everything */
             }
 
             body { 
-                background: none; 
+                background: none;
+                margin: 0;
+            }
+            .page-container{
+                margin: 0;
             }
 
             .page { 
-                width: 100%; 
-                height: 100%;
-                min-height: 29.7cm;
                 margin: 0; 
-                padding: 1.8cm 2.5cm;
                 box-shadow: none; 
                 page-break-after: always;
+                height: 29.7cm; /* Ensure it respects A4 height */
             }
 
             .page:last-of-type {
                 page-break-after: avoid;
             }
 
+            .pembahasan-box {
+                break-inside: avoid;
+            }
+
+            /* Force background colors to print */
             .header-top-box, .header-bottom-text, .soal-card td:first-child, .summary-table .summary-table-header td, .pembahasan-detail {
                 -webkit-print-color-adjust: exact; 
                 print-color-adjust: exact;
