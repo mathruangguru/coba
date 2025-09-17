@@ -52,7 +52,7 @@
             background: white;
             width: 21cm;
             min-height: 29.7cm;
-            padding: 1.8cm 2.5cm 1.5cm 2.5cm;
+            padding: 1.8cm 2.5cm;
             margin: 1cm auto;
             box-shadow: 0 0 10px rgba(0,0,0,0.2);
             position: relative;
@@ -60,14 +60,9 @@
             flex-direction: column;
         }
         
-        .page::after {
+        .page-number::after {
             counter-increment: page;
             content: counter(page);
-            position: absolute;
-            bottom: 1cm;
-            right: 2.5cm;
-            font-size: 8.5pt;
-            color: #888;
         }
 
         .page-header {
@@ -117,9 +112,6 @@
         }
         
         .content-wrapper { 
-            position: relative; 
-            z-index: 1; 
-            width: 100%; 
             flex-grow: 1;
         }
 
@@ -215,6 +207,9 @@
         }
 
         .page-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
             text-align: left;
             font-size: 8pt;
             color: var(--secondary-text);
@@ -224,10 +219,6 @@
         }
 
         /* --- PRINT STYLES --- */
-        .print-header, .print-footer {
-            display: none; /* Sembunyikan di tampilan web biasa */
-        }
-
         @media print {
             @page {
                 size: A4;
@@ -238,64 +229,18 @@
                 background: none; 
             }
 
-            .page .page-header, .page .page-footer {
-                display: none;
-            }
-
-            .print-header, .print-footer {
-                display: block;
-                position: fixed;
-                width: 100%;
-                background: white;
-                z-index: 100;
-            }
-
-            .print-header {
-                top: 0;
-                left: 0;
-                right: 0;
-                padding: 0 2.5cm;
-            }
-
-            .print-header .header-top-box, .print-header .header-bottom-box {
-                max-width: 16cm; /* 21cm - 2.5cm - 2.5cm = 16cm */
-                margin: 0 auto;
-                padding-left: 0;
-                padding-right: 0;
-            }
-            
-            .print-footer {
-                bottom: 0;
-                left: 0;
-                right: 0;
-                padding: 5px 2.5cm 1cm 2.5cm;
-                border-top: 1px solid var(--border-color);
-                font-size: 7.5pt;
-            }
-
-            .page-container {
-                margin: 0;
-                padding: 0;
-            }
-
             .page { 
                 width: 100%; 
-                min-height: 0;
-                height: auto;
+                height: 100%;
+                min-height: 29.7cm;
                 margin: 0; 
+                padding: 1.8cm 2.5cm;
                 box-shadow: none; 
                 page-break-after: always;
-                padding: 5cm 2.5cm 3.5cm 2.5cm; /* RUANG EKSTRA ATAS & BAWAH */
             }
 
             .page:last-of-type {
                 page-break-after: avoid;
-            }
-            
-            .page::after {
-                 position: fixed;
-                 bottom: 1.5cm;
-                 right: 2.5cm;
             }
 
             .header-top-box, .header-bottom-text, .soal-card td:first-child, .summary-table .summary-table-header td, .pembahasan-detail {
@@ -307,33 +252,10 @@
 </head>
 <body>
 
-<!-- KOP UNTUK CETAK (DI LUAR CONTAINER) -->
-<header class="print-header">
-    <div class="header-top-box">
-        <div>
-            <div class="header-title-main">Panduan Mengajar</div>
-            <div class="header-title-sub">Matematika</div>
-        </div>
-        <img src="https://imgix3.ruangguru.com/assets/miscellaneous/png_63qwb1_5293.png" alt="Brain Academy Logo" class="header-logo">
-    </div>
-    <div class="header-bottom-box">
-        <div class="header-bottom-text">
-            IX SMP | Kurikulum Merdeka | [TKA] Bentuk Aljabar dan Fungsi | Relasi dan Fungsi | Pertemuan 14
-        </div>
-    </div>
-</header>
-
-<!-- FOOTER UNTUK CETAK (DI LUAR CONTAINER) -->
-<footer class="print-footer">
-    <b>Copyright Ⓒ 2025 - PT Ruang Raya Indonesia - All Rights Reserved.</b> Dilarang menyebarluaskan dokumen ini tanpa seizin PT Ruang Raya Indonesia.
-</footer>
-
-
 <div class="page-container">
 
     <!-- HALAMAN 1: TUJUAN, ALUR & TEORI -->
     <section class="page">
-        <!-- Header ini hanya akan tampil di web, disembunyikan saat print -->
         <header class="page-header">
             <div class="header-top-box">
                 <div>
@@ -401,21 +323,27 @@
             </ul>
         </div>
 
-        <!-- Footer ini hanya akan tampil di web, disembunyikan saat print -->
         <footer class="page-footer">
-            <b>Copyright Ⓒ 2025 - PT Ruang Raya Indonesia - All Rights Reserved.</b> Dilarang menyebarluaskan dokumen ini tanpa seizin PT Ruang Raya Indonesia.
+            <span><b>Copyright Ⓒ 2025 - PT Ruang Raya Indonesia - All Rights Reserved.</b><br>Dilarang menyebarluaskan dokumen ini tanpa seizin PT Ruang Raya Indonesia.</span>
+            <span class="page-number"></span>
         </footer>
     </section>
 
     <!-- HALAMAN 2: PEMBAHASAN SOAL 1-3 -->
     <section class="page">
-        <header class="page-header no-bottom">
+        <header class="page-header">
              <div class="header-top-box">
                  <div>
                      <div class="header-title-main">Panduan Mengajar</div>
                      <div class="header-title-sub">Matematika</div>
                  </div>
+                 <img src="https://imgix3.ruangguru.com/assets/miscellaneous/png_63qwb1_5293.png" alt="Brain Academy Logo" class="header-logo">
              </div>
+             <div class="header-bottom-box">
+                <div class="header-bottom-text">
+                    IX SMP | Kurikulum Merdeka | [TKA] Bentuk Aljabar dan Fungsi | Relasi dan Fungsi | Pertemuan 14
+                </div>
+            </div>
         </header>
         <div class="content-wrapper">
             <h2 class="section-title">3. Kunci Jawaban dan Pembahasan</h2>
@@ -507,19 +435,26 @@
             </div>
         </div>
         <footer class="page-footer">
-             <b>Copyright Ⓒ 2025 - PT Ruang Raya Indonesia - All Rights Reserved.</b> Dilarang menyebarluaskan dokumen ini tanpa seizin PT Ruang Raya Indonesia.
+            <span><b>Copyright Ⓒ 2025 - PT Ruang Raya Indonesia - All Rights Reserved.</b><br>Dilarang menyebarluaskan dokumen ini tanpa seizin PT Ruang Raya Indonesia.</span>
+            <span class="page-number"></span>
         </footer>
     </section>
     
     <!-- HALAMAN 3: PEMBAHASAN SOAL 4-6 -->
     <section class="page">
-        <header class="page-header no-bottom">
+        <header class="page-header">
              <div class="header-top-box">
                  <div>
                      <div class="header-title-main">Panduan Mengajar</div>
                      <div class="header-title-sub">Matematika</div>
                  </div>
+                 <img src="https://imgix3.ruangguru.com/assets/miscellaneous/png_63qwb1_5293.png" alt="Brain Academy Logo" class="header-logo">
              </div>
+             <div class="header-bottom-box">
+                <div class="header-bottom-text">
+                    IX SMP | Kurikulum Merdeka | [TKA] Bentuk Aljabar dan Fungsi | Relasi dan Fungsi | Pertemuan 14
+                </div>
+            </div>
         </header>
         <div class="content-wrapper">
              <div class="pembahasan-box">
@@ -606,19 +541,26 @@
             </div>
         </div>
         <footer class="page-footer">
-             <b>Copyright Ⓒ 2025 - PT Ruang Raya Indonesia - All Rights Reserved.</b> Dilarang menyebarluaskan dokumen ini tanpa seizin PT Ruang Raya Indonesia.
+            <span><b>Copyright Ⓒ 2025 - PT Ruang Raya Indonesia - All Rights Reserved.</b><br>Dilarang menyebarluaskan dokumen ini tanpa seizin PT Ruang Raya Indonesia.</span>
+            <span class="page-number"></span>
         </footer>
     </section>
 
     <!-- HALAMAN 4: PEMBAHASAN SOAL 7-9 -->
     <section class="page">
-        <header class="page-header no-bottom">
+        <header class="page-header">
              <div class="header-top-box">
                  <div>
                      <div class="header-title-main">Panduan Mengajar</div>
                      <div class="header-title-sub">Matematika</div>
                  </div>
+                 <img src="https://imgix3.ruangguru.com/assets/miscellaneous/png_63qwb1_5293.png" alt="Brain Academy Logo" class="header-logo">
              </div>
+             <div class="header-bottom-box">
+                <div class="header-bottom-text">
+                    IX SMP | Kurikulum Merdeka | [TKA] Bentuk Aljabar dan Fungsi | Relasi dan Fungsi | Pertemuan 14
+                </div>
+            </div>
         </header>
         <div class="content-wrapper">
              <div class="pembahasan-box">
@@ -706,19 +648,26 @@
             </div>
         </div>
         <footer class="page-footer">
-             <b>Copyright Ⓒ 2025 - PT Ruang Raya Indonesia - All Rights Reserved.</b> Dilarang menyebarluaskan dokumen ini tanpa seizin PT Ruang Raya Indonesia.
+            <span><b>Copyright Ⓒ 2025 - PT Ruang Raya Indonesia - All Rights Reserved.</b><br>Dilarang menyebarluaskan dokumen ini tanpa seizin PT Ruang Raya Indonesia.</span>
+            <span class="page-number"></span>
         </footer>
     </section>
 
     <!-- HALAMAN 5: PEMBAHASAN SOAL 10-12 -->
     <section class="page">
-        <header class="page-header no-bottom">
+        <header class="page-header">
              <div class="header-top-box">
                  <div>
                      <div class="header-title-main">Panduan Mengajar</div>
                      <div class="header-title-sub">Matematika</div>
                  </div>
+                 <img src="https://imgix3.ruangguru.com/assets/miscellaneous/png_63qwb1_5293.png" alt="Brain Academy Logo" class="header-logo">
              </div>
+             <div class="header-bottom-box">
+                <div class="header-bottom-text">
+                    IX SMP | Kurikulum Merdeka | [TKA] Bentuk Aljabar dan Fungsi | Relasi dan Fungsi | Pertemuan 14
+                </div>
+            </div>
         </header>
         <div class="content-wrapper">
             <div class="pembahasan-box">
@@ -795,19 +744,26 @@
             </div>
         </div>
         <footer class="page-footer">
-             <b>Copyright Ⓒ 2025 - PT Ruang Raya Indonesia - All Rights Reserved.</b> Dilarang menyebarluaskan dokumen ini tanpa seizin PT Ruang Raya Indonesia.
+            <span><b>Copyright Ⓒ 2025 - PT Ruang Raya Indonesia - All Rights Reserved.</b><br>Dilarang menyebarluaskan dokumen ini tanpa seizin PT Ruang Raya Indonesia.</span>
+            <span class="page-number"></span>
         </footer>
     </section>
     
     <!-- HALAMAN 6: PEMBAHASAN SOAL 13-15 -->
     <section class="page">
-        <header class="page-header no-bottom">
+        <header class="page-header">
              <div class="header-top-box">
                  <div>
                      <div class="header-title-main">Panduan Mengajar</div>
                      <div class="header-title-sub">Matematika</div>
                  </div>
+                 <img src="https://imgix3.ruangguru.com/assets/miscellaneous/png_63qwb1_5293.png" alt="Brain Academy Logo" class="header-logo">
              </div>
+             <div class="header-bottom-box">
+                <div class="header-bottom-text">
+                    IX SMP | Kurikulum Merdeka | [TKA] Bentuk Aljabar dan Fungsi | Relasi dan Fungsi | Pertemuan 14
+                </div>
+            </div>
         </header>
         <div class="content-wrapper">
              <div class="pembahasan-box">
@@ -877,7 +833,8 @@
             </div>
         </div>
         <footer class="page-footer">
-             <b>Copyright Ⓒ 2025 - PT Ruang Raya Indonesia - All Rights Reserved.</b> Dilarang menyebarluaskan dokumen ini tanpa seizin PT Ruang Raya Indonesia.
+            <span><b>Copyright Ⓒ 2025 - PT Ruang Raya Indonesia - All Rights Reserved.</b><br>Dilarang menyebarluaskan dokumen ini tanpa seizin PT Ruang Raya Indonesia.</span>
+            <span class="page-number"></span>
         </footer>
     </section>
 
