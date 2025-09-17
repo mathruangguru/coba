@@ -231,45 +231,43 @@
         @media print {
             @page {
                 size: A4;
-                margin: 0; /* Margin diatur oleh padding pada .page */
+                margin: 0;
             }
 
             body { 
                 background: none; 
             }
 
-            /* Sembunyikan header dan footer asli di dalam .page */
             .page .page-header, .page .page-footer {
                 display: none;
             }
 
-            /* Tampilkan header dan footer khusus cetak */
             .print-header, .print-footer {
                 display: block;
                 position: fixed;
-                left: 0;
-                right: 0;
-                width: 21cm;
-                margin: 0 auto;
+                width: 100%;
                 background: white;
                 z-index: 100;
             }
 
             .print-header {
                 top: 0;
+                left: 0;
+                right: 0;
                 padding: 0 2.5cm;
             }
-            .print-header .header-top-box {
-                padding-left: 0;
-                padding-right: 0;
-            }
-            .print-header .header-bottom-box {
+
+            .print-header .header-top-box, .print-header .header-bottom-box {
+                max-width: 16cm; /* 21cm - 2.5cm - 2.5cm = 16cm */
+                margin: 0 auto;
                 padding-left: 0;
                 padding-right: 0;
             }
             
             .print-footer {
                 bottom: 0;
+                left: 0;
+                right: 0;
                 padding: 5px 2.5cm 1cm 2.5cm;
                 border-top: 1px solid var(--border-color);
                 font-size: 7.5pt;
@@ -282,13 +280,12 @@
 
             .page { 
                 width: 100%; 
-                min-height: 0; /* Biarkan konten menentukan tinggi */
+                min-height: 0;
                 height: auto;
                 margin: 0; 
                 box-shadow: none; 
                 page-break-after: always;
-                /* Beri ruang untuk header dan footer yang fixed */
-                padding: 3.5cm 2.5cm 3cm 2.5cm; 
+                padding: 5cm 2.5cm 3.5cm 2.5cm; /* RUANG EKSTRA ATAS & BAWAH */
             }
 
             .page:last-of-type {
@@ -296,7 +293,9 @@
             }
             
             .page::after {
-                 bottom: 1.5cm; /* Sesuaikan posisi nomor halaman */
+                 position: fixed;
+                 bottom: 1.5cm;
+                 right: 2.5cm;
             }
 
             .header-top-box, .header-bottom-text, .soal-card td:first-child, .summary-table .summary-table-header td, .pembahasan-detail {
@@ -316,6 +315,11 @@
             <div class="header-title-sub">Matematika</div>
         </div>
         <img src="https://imgix3.ruangguru.com/assets/miscellaneous/png_63qwb1_5293.png" alt="Brain Academy Logo" class="header-logo">
+    </div>
+    <div class="header-bottom-box">
+        <div class="header-bottom-text">
+            IX SMP | Kurikulum Merdeka | [TKA] Bentuk Aljabar dan Fungsi | Relasi dan Fungsi | Pertemuan 14
+        </div>
     </div>
 </header>
 
@@ -405,6 +409,14 @@
 
     <!-- HALAMAN 2: PEMBAHASAN SOAL 1-3 -->
     <section class="page">
+        <header class="page-header no-bottom">
+             <div class="header-top-box">
+                 <div>
+                     <div class="header-title-main">Panduan Mengajar</div>
+                     <div class="header-title-sub">Matematika</div>
+                 </div>
+             </div>
+        </header>
         <div class="content-wrapper">
             <h2 class="section-title">3. Kunci Jawaban dan Pembahasan</h2>
             
@@ -494,10 +506,21 @@
                 </div>
             </div>
         </div>
+        <footer class="page-footer">
+             <b>Copyright Ⓒ 2025 - PT Ruang Raya Indonesia - All Rights Reserved.</b> Dilarang menyebarluaskan dokumen ini tanpa seizin PT Ruang Raya Indonesia.
+        </footer>
     </section>
     
     <!-- HALAMAN 3: PEMBAHASAN SOAL 4-6 -->
     <section class="page">
+        <header class="page-header no-bottom">
+             <div class="header-top-box">
+                 <div>
+                     <div class="header-title-main">Panduan Mengajar</div>
+                     <div class="header-title-sub">Matematika</div>
+                 </div>
+             </div>
+        </header>
         <div class="content-wrapper">
              <div class="pembahasan-box">
                 <table class="soal-card">
@@ -582,10 +605,21 @@
                 </div>
             </div>
         </div>
+        <footer class="page-footer">
+             <b>Copyright Ⓒ 2025 - PT Ruang Raya Indonesia - All Rights Reserved.</b> Dilarang menyebarluaskan dokumen ini tanpa seizin PT Ruang Raya Indonesia.
+        </footer>
     </section>
 
     <!-- HALAMAN 4: PEMBAHASAN SOAL 7-9 -->
     <section class="page">
+        <header class="page-header no-bottom">
+             <div class="header-top-box">
+                 <div>
+                     <div class="header-title-main">Panduan Mengajar</div>
+                     <div class="header-title-sub">Matematika</div>
+                 </div>
+             </div>
+        </header>
         <div class="content-wrapper">
              <div class="pembahasan-box">
                 <table class="soal-card">
@@ -671,10 +705,21 @@
                 </div>
             </div>
         </div>
+        <footer class="page-footer">
+             <b>Copyright Ⓒ 2025 - PT Ruang Raya Indonesia - All Rights Reserved.</b> Dilarang menyebarluaskan dokumen ini tanpa seizin PT Ruang Raya Indonesia.
+        </footer>
     </section>
 
     <!-- HALAMAN 5: PEMBAHASAN SOAL 10-12 -->
     <section class="page">
+        <header class="page-header no-bottom">
+             <div class="header-top-box">
+                 <div>
+                     <div class="header-title-main">Panduan Mengajar</div>
+                     <div class="header-title-sub">Matematika</div>
+                 </div>
+             </div>
+        </header>
         <div class="content-wrapper">
             <div class="pembahasan-box">
                 <table class="soal-card">
@@ -749,10 +794,21 @@
                 </div>
             </div>
         </div>
+        <footer class="page-footer">
+             <b>Copyright Ⓒ 2025 - PT Ruang Raya Indonesia - All Rights Reserved.</b> Dilarang menyebarluaskan dokumen ini tanpa seizin PT Ruang Raya Indonesia.
+        </footer>
     </section>
     
     <!-- HALAMAN 6: PEMBAHASAN SOAL 13-15 -->
     <section class="page">
+        <header class="page-header no-bottom">
+             <div class="header-top-box">
+                 <div>
+                     <div class="header-title-main">Panduan Mengajar</div>
+                     <div class="header-title-sub">Matematika</div>
+                 </div>
+             </div>
+        </header>
         <div class="content-wrapper">
              <div class="pembahasan-box">
                 <table class="soal-card">
@@ -820,6 +876,9 @@
                 </div>
             </div>
         </div>
+        <footer class="page-footer">
+             <b>Copyright Ⓒ 2025 - PT Ruang Raya Indonesia - All Rights Reserved.</b> Dilarang menyebarluaskan dokumen ini tanpa seizin PT Ruang Raya Indonesia.
+        </footer>
     </section>
 
 </div>
