@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Program: Mathchamps Holiday Clash</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 4px solid #007bff;
+        }
+        h1 {
+            color: #0056b3;
+            font-size: 2.5em;
+            margin: 0;
+        }
+        header p {
+            font-size: 1.2em;
+            color: #6c757d;
+            margin-top: 10px;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            border-bottom: 2px solid #dee2e6;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .nav-link {
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #6c757d;
+            font-weight: 600;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .nav-link:hover {
+            color: #007bff;
+        }
+        .nav-link.active {
+            color: #007bff;
+            border-bottom-color: #007bff;
+        }
+        .page {
+            display: none; /* Pages are hidden by default */
+        }
+        .page.active {
+            display: block; /* The active page is shown */
+        }
+        h2 {
+            font-size: 2em;
+            color: #0056b3;
+            background-color: #e9f5ff;
+            padding: 12px 20px;
+            border-left: 6px solid #007bff;
+            border-radius: 5px;
+            margin-top: 50px;
+            margin-bottom: 30px;
+        }
+        h3 {
+            font-size: 1.6em;
+            color: #007bff;
+            margin-top: 40px;
+            border-bottom: 2px solid #dee2e6;
+            padding-bottom: 8px;
+        }
+        h4 {
+            font-size: 1.2em;
+            color: #343a40;
+            font-weight: 600;
+        }
+        h5 {
+            font-size: 1.1em;
+            color: #495057;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        th, td {
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+            font-size: 1.1em;
+        }
+        td ul {
+            padding-left: 20px;
+            margin: 0;
+        }
+        .summary-section {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+        .summary-block {
+            margin-bottom: 20px;
+        }
+        .activity-block {
+            margin-bottom: 25px;
+            padding-left: 20px;
+            border-left: 4px solid #ced4da;
+        }
+        .activity-detail ul {
+            list-style-type: '✓  ';
+            padding-left: 20px;
+        }
+        .activity-detail li {
+            margin-bottom: 10px;
+        }
+        .narasi {
+            font-style: italic;
+            color: #555;
+            background-color: #f9f9f9;
+            border: 1px solid #eee;
+            padding: 15px;
+            border-radius: 5px;
+            quotes: "“" "”";
+            margin-top: 10px;
+        }
+        .contoh-soal {
+            background-color: #fffbe6;
+            border: 1px solid #ffeeba;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .contoh-soal strong {
+            color: #856404;
+        }
+        .hook-box {
+            background: linear-gradient(135deg, #17a2b8, #138496);
+            color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(23, 162, 184, 0.4);
+        }
+        .hook-box h4 {
+            color: #fff;
+            margin-top: 0;
+            text-transform: uppercase;
+        }
+        .platform-note {
+            background-color: #e2e3e5;
+            border-left: 4px solid #6c757d;
+            padding: 10px 15px;
+            margin-top: 15px;
+            font-size: 0.9em;
+            border-radius: 0 4px 4px 0;
+        }
+        .platform-note strong {
+            color: #495057;
+        }
+        .facilitator-note {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 0.9em;
+            border-radius: 0 4px 4px 0;
+        }
+        .facilitator-note strong {
+            color: #856404;
+        }
+        .recommendation-box {
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 0.9em;
+            border-radius: 0 4px 4px 0;
+        }
+        .recommendation-box strong {
+            color: #155724;
+        }
+        
+        /* Game Styles */
+        #game-container {
+            background: #0c0a24;
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 3px solid #4a4e69;
+            box-shadow: 0 0 20px rgba(74, 78, 105, 0.5);
+        }
+        .game-screen { display: none; }
+        .game-screen.active { display: block; }
+        #game-container h3 { color: #ffd60a; border-bottom: none; }
+        #game-container p { font-size: 1.1em; }
+        .game-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            margin: 10px;
+        }
+        .game-btn:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        #game-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        #question-text {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 5px;
+        }
+        #answer-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .answer-btn {
+            background-color: #6c757d;
+            padding: 20px;
+        }
+        .answer-btn.correct { background-color: #28a745; }
+        .answer-btn.wrong { background-color: #dc3545; }
+        #explanation-box {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 5px;
+            font-size: 1em;
+            text-align: left;
+            border-left: 4px solid #ffd60a;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #dee2e6;
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Holiday Program: Mathchamps Holiday Clash</h1>
+            <p>Highlight semangat kompetisi "Clash of Champions".</p>
+        </header>
+
+        <nav>
+            <a class="nav-link active" onclick="showPage('kerangka-besar', this)">Kerangka Besar</a>
+            <a class="nav-link" onclick="showPage('detail-individu-10-12', this)">Detail (Individu 10-12 thn)</a>
+            <a class="nav-link" onclick="showPage('detail-tim-10-12', this)">Detail (Tim 10-12 thn)</a>
+            <a class="nav-link" onclick="showPage('detail-individu-7-9', this)">Detail (Individu 7-9 thn)</a>
+            <a class="nav-link" onclick="showPage('detail-tim-7-9', this)">Detail (Tim 7-9 thn)</a>
+            <a class="nav-link" onclick="showPage('detail-individu-5-7', this)">Detail (Individu 5-7 thn)</a>
+            <a class="nav-link" onclick="showPage('detail-tim-5-7', this)">Detail (Tim 5-7 thn)</a>
+            <a class="nav-link" onclick="showPage('contoh-game', this)">Contoh Game</a>
+        </nav>
+
+        <main>
+            <!-- ==================== HALAMAN 1: KERANGKA BESAR ==================== -->
+            <section id="kerangka-besar" class="page active">
+                <h2>Kerangka Besar Desain Materi per Kelompok Usia</h2>
+                <p>Tabel berikut memetakan konsep program "Holiday Clash" ke dalam empat segmen usia yang ditargetkan, memastikan bahwa aktivitas relevan, menantang, dan menyenangkan sesuai dengan tahap perkembangan mereka.</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Kelompok Usia</th>
+                            <th>Nama Misi (Contoh)</th>
+                            <th>Konsep Matematika Kunci</th>
+                            <th>Ide Aktivitas ala "Clash of Champions"</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>5-7 Tahun</strong></td>
+                            <td>Festival Belanja Hutan Ajaib</td>
+                            <td><ul><li><strong>Bilangan & Operasi (&lt;20)</strong> dalam konteks uang</li><li>Pengenalan Nilai Uang (1, 5, 10)</li><li>Penjumlahan (Total Belanja)</li><li>Pengurangan (Hitung Kembalian)</li></ul></td>
+                            <td><ul><li><strong>Mengenal Koin Ajaib:</strong> Mengidentifikasi & menjumlahkan nilai koin (Bilangan & Operasi).</li><li><strong>Tantangan Belanja Cepat:</strong> Role-play membeli barang dan menghitung total (Aplikasi Penjumlahan).</li><li><strong>Misi Hitung Kembalian:</strong> Menghitung sisa uang dari anggaran (Aplikasi Pengurangan).</li></ul></td>
+                        </tr>
+                        <tr>
+                            <td><strong>7-9 Tahun</strong></td>
+                            <td>Misi Kode Rahasia: Petualangan Detektif</td>
+                            <td><ul><li>Perkalian & Pembagian</li><li>Soal Cerita (1-2 langkah)</li><li>Nilai Tempat</li><li><strong>Simetri & Pencerminan</strong></li></ul></td>
+                            <td><ul><li><strong>Pecahkan Brankas:</strong> Menyelesaikan soal berantai untuk menemukan "kode".</li><li><strong>Analisis Saksi Mata:</strong> Membedah soal cerita menggunakan <em>bar model</em>.</li><li><strong>Analisis Simbol Misterius:</strong> Lomba menemukan & melengkapi gambar simetris.</li></ul></td>
+                        </tr>
+                        <tr>
+                            <td><strong>10-12 Tahun</strong></td>
+                            <td>Turnamen Antargalaksi: Penjelajah Bintang</td>
+                            <td><ul><li>Pecahan, Desimal, Persen</li><li>Rata-rata (Mean)</li><li>KPK & FPB</li></ul></td>
+                            <td><ul><li><strong>"Asteroid Field Dash":</strong> Ujian kecepatan dengan beragam soal dasar.</li><li><strong>"The Black Hole Calculation":</strong> Analisis soal cerita kompleks tentang rata-rata.</li><li><strong>"Logika Gerbang Bintang":</strong> Teka-teki berbasis KPK & FPB.</li></ul></td>
+                        </tr>
+                        <tr>
+                            <td><strong>12-15 Tahun</strong></td>
+                            <td>Quantum League: Misi Dimensi Paralel</td>
+                            <td><ul><li>Aljabar Dasar</li><li>Teorema Pythagoras</li><li>Peluang & Statistik</li><li>Sistem Persamaan Linear</li></ul></td>
+                            <td><ul><li><strong>Misi Variabel X:</strong> Memecahkan persamaan aljabar untuk mengungkap pesan rahasia.</li><li><strong>Peta Harta Karun Pythagoras:</strong> Menghitung jarak terpendek dalam sebuah peta.</li><li><strong>Prediksi Masa Depan:</strong> Soal berbasis peluang dan kombinasi.</li></ul></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="summary-section">
+                    <h3>Ringkasan Alur Aktivitas & Pembeda Program "Holiday Clash"</h3>
+                    <p>Untuk memberikan gambaran yang lebih jelas, berikut adalah alur umum kegiatan selama 3 hari untuk setiap jenjang, dengan penekanan pada elemen ala "Clash of Champions" yang menjadi pembeda utama dari program sebelumnya.</p>
+                    
+                    <div class="summary-block">
+                        <h4>Usia 5-7 Tahun (Festival Belanja Hutan Ajaib)</h4>
+                        <p><strong>Gambaran Umum:</strong> Anak-anak akan bermain peran sebagai pengunjung festival di Hutan Ajaib. Mereka akan belajar mengenal nilai "Koin Daun Emas", berbelanja di "Toko Hutan", dan menghitung kembalian.<br>
+                        <strong>Pembeda ala CoC:</strong>
+                        <ul>
+                            <li><strong>Sistem Poin Konkret:</strong> Menggunakan "Koin Daun Emas" (fisik atau digital) sebagai poin yang bisa mereka "belanjakan".</li>
+                            <li><strong>Tantangan Berbasis Misi (Role-Play):</strong> Misi belanja dengan anggaran terbatas menciptakan tantangan yang seru dan relevan.</li>
+                            <li><strong>Narasi Interaktif:</strong> Alur cerita tentang persiapan "Pesta Hutan Besar" membuat setiap sesi saling berhubungan dan membangun antusiasme.</li>
+                        </ul>
+                        </p>
+                    </div>
+
+                    <div class="summary-block">
+                        <h4>Usia 7-9 Tahun (Misi Kode Rahasia)</h4>
+                        <p><strong>Gambaran Umum:</strong> Anak-anak berperan sebagai detektif yang memecahkan kasus matematika selama 3 hari, mulai dari mengumpulkan bukti hingga memecahkan teka-teki akhir.<br>
+                        <strong>Pembeda ala CoC:</strong>
+                        <ul>
+                            <li><strong>Leaderboard Detektif:</strong> Papan peringkat yang melacak "Poin Investigasi" setiap peserta.</li>
+                            <li><strong>Tantangan Multi-format:</strong> Menggabungkan tantangan kecepatan (kuis perkalian) dengan tantangan analisis (membedah soal cerita dan menemukan simetri pada "bukti").</li>
+                            <li><strong>Gamifikasi Naratif:</strong> Setiap jawaban yang benar akan membuka "petunjuk" atau "kode brankas" berikutnya, membuat mereka merasa seperti sedang memecahkan misteri.</li>
+                        </ul>
+                        </p>
+                    </div>
+
+                    <div class="summary-block">
+                        <h4>Usia 10-12 Tahun (Turnamen Antargalaksi)</h4>
+                        <p><strong>Gambaran Umum:</strong> Format kompetisi yang intens selama 3 hari. Hari pertama untuk latihan, hari kedua untuk babak kualifikasi sengit, dan hari ketiga adalah misi final sebagai Grand Finale.<br>
+                        <strong>Pembeda ala CoC:</strong>
+                        <ul>
+                            <li><strong>Leaderboard Real-time:</strong> Peringkat peserta (individu atau tim) terus diperbarui setelah setiap tantangan.</li>
+                            <li><strong>Segmen "Tantangan Cepat":</strong> Mengadopsi format game interaktif (seperti Kahoot!/Quizizz atau game custom) sebagai segmen khusus berkecepatan tinggi di dalam kelas untuk melatih skill dan menampilkan leaderboard live.</li>
+                            <li><strong>Cliffhanger Harian:</strong> Penggunaan "misi rahasia" dan "transmisi darurat" sebagai pemicu rasa penasaran yang kuat untuk menjaga engagement antar sesi.</li>
+                        </ul>
+                        </p>
+                    </div>
+
+                    <div class="summary-block">
+                        <h4>Usia 12-15 Tahun (Quantum League)</h4>
+                        <p><strong>Gambaran Umum:</strong> Kompetisi strategis yang menuntut pemikiran tingkat tinggi. Peserta akan dihadapkan pada masalah-masalah kompleks yang membutuhkan penalaran aljabar dan logika.<br>
+                        <strong>Pembeda ala CoC:</strong>
+                        <ul>
+                            <li><strong>Sistem Poin Strategis:</strong> Tidak hanya kecepatan, tetapi efisiensi dan ketepatan juga diberi bobot poin yang tinggi.</li>
+                            <li><strong>Segmen "Tantangan Cepat":</strong> Sesi latihan menggunakan platform web-based untuk mengasah kecepatan penyelesaian soal dasar sebelum masuk ke masalah yang lebih kompleks.</li>
+                            <li><strong>Final Mission Berbasis Proyek:</strong> Grand Finale berupa satu misi pemecahan masalah skala besar yang kompleks dan berdurasi panjang, menguji pemahaman konsep secara mendalam.</li>
+                        </ul>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="summary-section" style="background-color: #e9f5ff; border-left: 4px solid #007bff;">
+                    <h3>Kelebihan Program 'Holiday Clash' Dibanding Program Sebelumnya</h3>
+                    <p>Program baru ini dirancang dengan beberapa keunggulan strategis untuk meningkatkan daya tarik dan efektivitas pembelajaran:</p>
+                    <ul>
+                        <li>
+                            <strong>Highlight Pembelajaran Matematika & Berhitung Cepat:</strong> Program ini secara eksplisit menonjolkan kemampuan matematika. Segmen "Tantangan Cepat" dirancang khusus untuk melatih dan menguji kecepatan berhitung, menjadikannya fokus utama yang seru, bukan sekadar aktivitas sampingan dalam sebuah tema.
+                        </li>
+                        <li>
+                            <strong>Fokus pada Gamifikasi dan Kompetisi Sehat:</strong> Mengganti model berbasis tema naratif dengan format kompetisi ala "Clash of Champions". Penggunaan leaderboard real-time, sistem poin, dan peringkat menciptakan motivasi intrinsik dan rasa pencapaian yang lebih kuat bagi peserta.
+                        </li>
+                        <li>
+                            <strong>Engagement Tinggi Antar Sesi:</strong> Adanya "misi rahasia" dan "cliffhanger" di setiap akhir sesi (seperti Kode Akses Pribadi) adalah pembeda signifikan yang membuat peserta terus memikirkan program dan tidak sabar menunggu sesi berikutnya, meningkatkan retensi dan antusiasme.
+                        </li>
+                        <li>
+                            <strong>Struktur Progresif yang Membangun Antusiasme:</strong> Alur 3 hari (Training -> The Gauntlet -> Grand Finale) memberikan progresi yang jelas. Setiap hari terasa berbeda dan tingkat kesulitannya meningkat, memuncak pada sebuah "Grand Finale" yang epik, berbeda dari struktur 3 sesi dengan tema yang sama.
+                        </li>
+                         <li>
+                            <strong>Pengalaman Interaktif Modern:</strong> Dengan adanya prototype game interaktif dan format misi yang dipandu secara live, program ini menawarkan pengalaman yang lebih modern dan dinamis dibandingkan aktivitas berbasis worksheet tradisional, baik untuk kelas online maupun offline.
+                        </li>
+                        <li>
+                            <strong>Relevansi dengan Budaya Populer:</strong> Dengan mengadopsi semangat dari acara yang sedang tren, program ini menjadi lebih relevan dan menarik bagi target audiens, memberikannya nilai jual yang lebih kuat.
+                        </li>
+                    </ul>
+                </div>
+
+            </section>
+
+            <!-- ==================== HALAMAN 2: CONTOH DETAIL (INDIVIDU 10-12) ==================== -->
+            <section id="detail-individu-10-12" class="page">
+                <h2>Rencana Detail Aktivitas (Individu 10-12 Tahun)</h2>
+                <p>Berikut adalah penjabaran alur sesi harian untuk tema "Turnamen Antargalaksi" yang menunjukkan bagaimana kelas akan berlangsung secara mendetail.</p>
+
+                <!-- ========== HARI 1 ========== -->
+                <h3>Hari 1: Training Ground (Total Durasi: 80 Menit)</h3>
+                <div class="activity-block">
+                    <h4>1. Opening: Briefing Misi Individual (10 Menit)</h4>
+                    <div class="activity-detail">
+                         <ul>
+                            <li><strong>Aktivitas Guru:</strong> Menyapa peserta ("Kadet Bintang"). Menjelaskan narasi, sistem poin, dan <em>leaderboard</em>.</li>
+                            <li><strong>Aktivitas Siswa:</strong> Mendengarkan, membangun antusiasme, dan menerima "Logbook Kadet".</li>
+                        </ul>
+                         <div class="platform-note">
+                            <strong>Pembeda Online/Offline:</strong><br>
+                            - <strong>Online:</strong> Guru menggunakan <em>virtual background</em> kokpit pesawat. Logbook Kadet dibagikan dalam format PDF. <br>
+                            - <strong>Offline:</strong> Guru menampilkan gambar kokpit di proyektor. Logbook Kadet adalah worksheet yang dicetak.
+                        </div>
+                    </div>
+                    <div class="narasi">
+                        <strong>Contoh Narasi Guru (Pembuka):</strong><br>
+                        "Selamat pagi, para Kadet Bintang! Selamat datang di pusat komando Mathchamps. Saya Komandan [Nama Guru], dan saya akan memandu kalian dalam misi paling menantang liburan ini: Turnamen Antargalaksi! ..."
+                    </div>
+                </div>
+                <div class="activity-block">
+                    <h4>2. Skill Training 1 & 2 (Total 50 Menit)</h4>
+                    <div class="activity-detail">
+                        <ul>
+                            <li><strong>Aktivitas Guru:</strong> Menjelaskan konsep Pecahan/Desimal dan Rata-rata.</li>
+                            <li><strong>Aktivitas Siswa:</strong> Berpartisipasi aktif dan mengerjakan soal latihan di logbook.</li>
+                        </ul>
+                        <div class="platform-note">
+                            <strong>Pembeda Online/Offline:</strong><br>
+                            - <strong>Online:</strong> Penjelasan konsep menggunakan <em>digital whiteboard</em> (Jamboard/Miro) untuk visualisasi interaktif.<br>
+                            - <strong>Offline:</strong> Penjelasan menggunakan papan tulis/flip chart. Siswa bisa menggunakan mini whiteboard untuk partisipasi.
+                        </div>
+                    </div>
+                </div>
+                <div class="activity-block">
+                    <h4>3. Tantangan Cepat & Closing (20 Menit)</h4>
+                    <div class="activity-detail">
+                        <ul>
+                            <li><strong>Aktivitas Guru:</strong> Meluncurkan segmen "Tantangan Cepat", sebuah kuis interaktif berkecepatan tinggi via Kahoot!/Quizizz. Mengomentari <em>leaderboard live</em> dan menyampaikan narasi penutup.</li>
+                            <li><strong>Aktivitas Siswa:</strong> Bersaing dalam kuis, mencatat petunjuk untuk Kode Akses.</li>
+                        </ul>
+                         <div class="platform-note">
+                            <strong>Pembeda Online/Offline:</strong><br>
+                            - <strong>Online:</strong> Kuis menggunakan platform interaktif seperti Kahoot! atau Quizizz.<br>
+                            - <strong>Offline:</strong> Bisa tetap menggunakan Kahoot! (jika siswa membawa gawai) atau menggunakan format angkat tangan/mini whiteboard dengan timer di proyektor.
+                        </div>
+                    </div>
+                    <div class="narasi">
+                        <strong>Contoh Narasi Guru (Penutup):</strong><br>
+                        "Waktu habis! Kerja bagus, Kadet! ... Sebelum kalian log off, perhatikan layar. Ada sebuah misi rahasia untuk kalian..."
+                    </div>
+                     <div class="hook-box">
+                        <h4>✨ Misi Rahasia Hari ke-2 ✨</h4>
+                        <p><strong>PETUNJUK DIGIT PERTAMA:</strong> Digit pertama Kodemu adalah <strong>jawaban dari soal terakhir</strong> di Tantangan Cepat tadi. Ingat baik-baik angka itu!</p>
+                    </div>
+                    <div class="recommendation-box">
+                        <strong>Rekomendasi Latihan Tambahan:</strong><br>
+                        Komandan Misi merekomendasikan para kadet untuk mengasah kemampuan di game AdaptoX resmi Ruangguru. Coba mainkan game yang berhubungan dengan perbandingan pecahan untuk persiapan misi besok!
+                    </div>
+                </div>
+
+                <!-- ========== HARI 2 ========== -->
+                <h3>Hari 2: The Gauntlet (Total Durasi: 80 Menit)</h3>
+                <div class="activity-block">
+                    <h4>1. Opening & Aktivasi Gerbang (10 Menit)</h4>
+                     <div class="narasi">
+                        <strong>Contoh Narasi Guru (Pembuka):</strong><br>
+                        "Selamat datang kembali, para penjelajah! Saya lihat semua sudah siap dengan digit pertama kode akses. ... Kode diterima! Selamat datang di The Gauntlet! ..."
+                    </div>
+                    <div class="platform-note">
+                        <strong>Pembeda Online/Offline:</strong><br>
+                        - <strong>Online:</strong> Siswa mengetikkan digit kode akses di kolom chat.<br>
+                        - <strong>Offline:</strong> Siswa menuliskan digit kode akses di mini whiteboard dan mengangkatnya bersamaan.
+                    </div>
+                </div>
+                 <div class="activity-block">
+                    <h4>2. Tantangan Cepat: "Asteroid Field Dash" (15 Menit)</h4>
+                     <div class="activity-detail">
+                        <p><strong>Deskripsi:</strong> Segmen latihan cepat untuk memulai sesi. Peserta akan menghadapi soal-soal hitungan dasar dalam platform game (Kahoot!/Quizizz) dengan timer yang sangat singkat per soal untuk memanaskan otak dan memperebutkan poin pertama hari ini.</p>
+                        <div class="contoh-soal">
+                           <strong>Contoh Soal:</strong><br>
+                           1. Manakah yang lebih besar: 0.85 atau 5/6?<br>
+                           2. Rata-rata dari 11, 15, dan 19 adalah...<br>
+                           3. Ubah 3/8 menjadi bentuk desimal!
+                        </div>
+                    </div>
+                </div>
+                <div class="activity-block">
+                    <h4>3. Ujian Analisis & Logika (50 Menit)</h4>
+                     <div class="activity-detail">
+                        <h5>"The Black Hole Calculation" (25 menit)</h5>
+                        <p><strong>Deskripsi:</strong> Ujian analisis. Peserta harus membedah satu soal cerita kompleks yang multi-langkah dan membutuhkan pemahaman konsep, bukan hanya kecepatan menghitung.</p>
+                         <div class="contoh-soal">
+                            <strong>Contoh Soal:</strong><br>
+                            Kamu menganalisis dua nebula. Nebula Orion memiliki 5 bintang dengan rata-rata massa 30 unit. Nebula Elang memiliki 8 bintang, namun total massanya 60 unit lebih banyak dari total massa Nebula Orion. Berapa rata-rata massa bintang di Nebula Elang?<br>
+                            <strong>Petunjuk Tambahan:</strong> Jawaban dari soal ini akan memberimu digit kedua dari Kode Akses Pribadimu! (Misal: Digit kedua adalah angka satuan dari total massa Nebula Elang).
+                        </div>
+
+                        <h5>"Logika Gerbang Bintang" (25 menit)</h5>
+                        <p><strong>Deskripsi:</strong> Ujian logika terapan. Peserta harus menggunakan konsep KPK atau FPB untuk memecahkan sebuah teka-teki atau masalah kontekstual.</p>
+                         <div class="contoh-soal">
+                            <strong>Contoh Soal:</strong><br>
+                             Sebuah sinyal aneh diterima dari 3 planet berbeda. Sinyal dari Planet A berulang setiap 6 menit. Sinyal dari Planet B berulang setiap 9 menit, dan sinyal dari Planet C berulang setiap 15 menit. Jika semua sinyal terdengar bersamaan pada pukul 10:00 pagi, pada pukul berapa ketiganya akan terdengar bersamaan lagi?
+                        </div>
+                         <div class="platform-note">
+                            <strong>Pembeda Online/Offline:</strong><br>
+                            - <strong>Online:</strong> Ujian diberikan dalam format digital (Google Forms, PDF interaktif, dll).<br>
+                            - <strong>Offline:</strong> Ujian diberikan dalam bentuk lembar kerja yang dicetak.
+                        </div>
+                    </div>
+                </div>
+                <div class="activity-block">
+                    <h4>4. Closing & Faktor Pemicu Rasa Penasaran (5 Menit)</h4>
+                     <div class="narasi">
+                        <strong>Contoh Narasi Guru (Penutup):</strong><br>
+                        "Tantangan yang luar biasa! Mari kita lihat Papan Peringkat terbaru... Tapi tunggu... *[Suara statis]*... Pusat komando menerima transmisi darurat! ..."
+                    </div>
+                    <div class="hook-box">
+                        <h4>🚨 TRANSMISI DARurat MASUK! 🚨</h4>
+                        <p>Grand Finale besok adalah <strong>Misi Penyelamatan Solo</strong>!</p>
+                        <p><strong>PETUNJUK DIGIT KETIGA:</strong> Hitunglah <strong>jumlah huruf pada nama depanmu</strong>. Itulah digit terakhir kodemu!</p>
+                    </div>
+                    <div class="recommendation-box">
+                        <strong>Rekomendasi Latihan Tambahan:</strong><br>
+                        Untuk persiapan Grand Finale, tantang dirimu di game AdaptoX resmi yang menguji logika KPK dan FPB. Semakin sering berlatih, semakin siap kamu untuk misi penyelamatan besok!
+                    </div>
+                </div>
+
+                <!-- ========== HARI 3 (REVISED) ========== -->
+                <h3>Hari 3: The Grand Finale - Misi Penyelamatan Interaktif (Total Durasi: 80 Menit)</h3>
+                <div class="activity-block">
+                     <h4>1. Opening: The Final Mission Briefing (10 Menit)</h4>
+                     <div class="narasi">
+                        <strong>Contoh Narasi Guru (Pembuka):</strong><br>
+                        "Selamat datang di Grand Finale, Kadet. ... Ini adalah Misi Penyelamatan LIVE! ... Gunakan Kode Akses 3-digit kalian untuk membuka **Protokol Darurat Pertama**... sekarang! ..."
+                    </div>
+                    <div class="platform-note">
+                        <strong>Pembeda Online/Offline:</strong><br>
+                        - <strong>Online:</strong> Latar belakang guru "Red Alert". Kode akses digunakan sebagai password untuk membuka file PDF misi pertama.<br>
+                        - <strong>Offline:</strong> Proyektor menampilkan gambar "Red Alert". Misi pertama diberikan dalam amplop tertutup yang baru boleh dibuka setelah menunjukkan kode yang benar.
+                    </div>
+                </div>
+                <div class="activity-block">
+                    <h4>2. Misi Penyelamatan Live: "Cygnus-X1 Lockdown" (50 Menit)</h4>
+                    <div class="activity-detail">
+                        <p>Guru memandu misi tahap demi tahap secara live. Jawaban tercepat mendapat bonus poin.</p>
+                         <div class="platform-note">
+                            <strong>Pembeda Online/Offline:</strong><br>
+                            - <strong>Online:</strong> Jawaban tercepat dikirim melalui kolom chat pribadi (private message) ke guru.<br>
+                            - <strong>Offline:</strong> Jawaban tercepat adalah siswa pertama yang mengangkat mini whiteboard dengan jawaban yang benar.
+                        </div>
+                        <ul>
+                           <li><strong>Protokol 1 - Reboot Sistem Navigasi (10 menit):</strong> Guru menampilkan serangkaian soal logika/hitung cepat.
+                               <div class="narasi">"Sistem navigasi kacau! Cepat selesaikan 5 soal ini untuk meresetnya!"</div>
+                           </li>
+                           <li><strong>Protokol 2 - Kalibrasi Ulang Tangki Bahan Bakar (15 menit):</strong> Guru menampilkan soal cerita tentang pecahan/persen.
+                                <div class="narasi">"Navigasi online, tapi pembacaan bahan bakar salah! Hitung ulang sisa bahan bakar secara manual dari data ini!"</div>
+                                <div class="contoh-soal"><strong>Soal:</strong> Reaktor utama hanya memiliki 2/5 daya. Sistem darurat butuh 75% daya. Berapa persen daya tambahan yang dibutuhkan?</div>
+                           </li>
+                           <li><strong>Protokol 3 - Stabilisasi Suplai Oksigen (15 menit):</strong> Guru menampilkan soal tentang rata-rata.
+                               <div class="narasi">"Bahan bakar stabil, tapi alarm oksigen berbunyi! Cepat hitung rata-rata suplai yang tersisa!"</div>
+                               <div class="contoh-soal"><strong>Soal:</strong> Ada 4 tangki oksigen: 50L, 75L, 80L, 35L. Rata-rata konsumsi 65L/jam. Berapa selisih antara kebutuhan dan ketersediaan rata-rata?</div>
+                           </li>
+                            <li><strong>Protokol 4 - Membuka Kunci Pintu Darurat (10 menit):</strong> Guru menampilkan teka-teki terakhir berbasis KPK/FPB.
+                               <div class="narasi">"Sistem stabil! Misi terakhir, buka pintu darurat. Kodenya adalah jawaban dari teka-teki ini!"</div>
+                               <div class="contoh-soal"><strong>Soal:</strong> Pintu darurat A & B harus dibuka bersamaan. Pintu A butuh 8 detik untuk siklus buka-tutup, Pintu B butuh 10 detik. Pada detik ke berapa kedua pintu akan sama-sama dalam posisi siap dibuka lagi?</div>
+                           </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="activity-block">
+                    <h4>3. Coronation & Closing Ceremony (20 Menit)</h4>
+                     <div class="narasi">
+                        <strong>Contoh Narasi Guru (Penutup):</strong><br>
+                        "Misi berhasil! Stasiun Cygnus-X1 telah diselamatkan! Selamat kepada Pahlawan Galaksi kita, [Nama Pemenang]! ... Komandan [Nama Guru], selesai bertugas."
+                    </div>
+                     <div class="platform-note">
+                        <strong>Pembeda Online/Offline:</strong><br>
+                        - <strong>Online:</strong> Penghargaan berupa sertifikat dan lencana digital yang ditampilkan di layar.<br>
+                        - <strong>Offline:</strong> Penghargaan berupa sertifikat yang dicetak dan lencana stiker/pin fisik.
+                    </div>
+                    <div class="recommendation-box">
+                        <strong>Jaga Kemampuanmu Tetap Tajam!</strong><br>
+                        Petualanganmu belum berakhir! Teruslah berlatih di berbagai game AdaptoX yang tersedia di website Ruangguru untuk menjadi Math Champion sejati. Sampai jumpa di misi berikutnya!
+                    </div>
+                </div>
+            </section>
+            
+            <!-- ==================== HALAMAN 3: CONTOH DETAIL (TIM 10-12) ==================== -->
+            <section id="detail-tim-10-12" class="page">
+                <h2>Rencana Detail Aktivitas (Format Tim 10-12 Tahun)</h2>
+                <p>Berikut adalah skema alternatif untuk tema "Turnamen Antargalaksi" yang difokuskan pada kolaborasi dan kompetisi antar tim.</p>
+
+                <!-- ========== HARI 1 ========== -->
+                <h3>Hari 1: Training & Individual Seeding (Total Durasi: 80 Menit)</h3>
+                <div class="activity-block">
+                    <h4>1. Opening: Briefing Misi & Isyarat Pembentukan Tim (10 Menit)</h4>
+                    <div class="narasi">
+                        <strong>Contoh Narasi Guru (Pembuka):</strong><br>
+                        "Selamat datang, Kadet Bintang! Dalam turnamen ini, kalian akan diuji secara individu, namun pada akhirnya, hanya kerja sama tim yang akan membawa kemenangan. Hari ini, tunjukkan kemampuan terbaik kalian, karena performa kalian akan menentukan komposisi tim untuk misi besok!"
+                    </div>
+                </div>
+                <div class="activity-block">
+                    <h4>2. Skill Training 1 & 2 (Total 50 Menit)</h4>
+                    <p>Sama seperti format individu, semua peserta mendapatkan pelatihan konsep dasar yang sama untuk Pecahan/Desimal dan Rata-rata.</p>
+                </div>
+                <div class="activity-block">
+                    <h4>3. Tantangan Cepat (Individual Seeding) & Closing (20 Menit)</h4>
+                    <div class="activity-detail">
+                        <ul>
+                            <li><strong>Aktivitas Guru:</strong> Meluncurkan kuis individu via Kahoot!/Quizizz. Menjelaskan bahwa hasilnya akan digunakan untuk membentuk tim yang seimbang.</li>
+                            <li><strong>Aktivitas Siswa:</strong> Bersaing secara individu untuk mendapatkan skor setinggi-tingginya.</li>
+                        </ul>
+                    </div>
+                    <div class="narasi">
+                        <strong>Contoh Narasi Guru (Penutup):</strong><br>
+                        "Performa yang luar biasa! Pusat komando telah merekam semua data kalian. Besok, berdasarkan hasil ini, kalian akan dibagi ke dalam Skuadron Elit. Datang dan temukan siapa rekan satu timmu dalam misi 'The Gauntlet'!"
+                    </div>
+                     <div class="hook-box">
+                        <h4>✨ Pembentukan Skuadron Elit! ✨</h4>
+                        <p>Hasilmu hari ini akan menentukan timmu besok. Siapakah yang akan menjadi rekanmu?</p>
+                    </div>
+                </div>
+
+                <!-- ========== HARI 2 ========== -->
+                <h3>Hari 2: The Gauntlet - Team Challenge (Total Durasi: 80 Menit)</h3>
+                <div class="activity-block">
+                    <h4>1. Opening: Pengumuman Tim & Strategi Awal (15 Menit)</h4>
+                    <div class="narasi">
+                        <strong>Contoh Narasi Guru (Pembuka):</strong><br>
+                        "Selamat datang kembali, Kadet! Saat yang ditunggu-tunggu tiba. Skuadron telah dibentuk! Skuadron Alpha adalah [...], Skuadron Bravo adalah [...]. Diskusikan strategi kalian sekarang! Misi pertama akan segera dimulai!"
+                    </div>
+                     <div class="platform-note">
+                        <strong>Pembeda Online/Offline:</strong><br>
+                        - <strong>Online:</strong> Guru mengumumkan tim dan langsung membuka <em>breakout rooms</em> selama 5 menit untuk perkenalan & diskusi strategi.<br>
+                        - <strong>Offline:</strong> Siswa pindah ke meja tim mereka masing-masing.
+                    </div>
+                </div>
+                <div class="activity-block">
+                    <h4>2. Tantangan Kolaboratif (60 Menit)</h4>
+                    <div class="activity-detail">
+                        
+                        <h5>"Misi Komunikasi - Sinkronisasi Jadwal & Kargo" (60 menit)</h5>
+                        <p><strong>Deskripsi:</strong> Sebuah tantangan 2-bagian yang dirancang khusus untuk kerja sama tim. Setiap tim akan menerima potongan informasi yang berbeda dan harus berkomunikasi untuk menggabungkannya. Mustahil diselesaikan sendirian.</p>
+                        
+                        <h5>Petunjuk Rahasia (Diberikan Terpisah)</h5>
+                        <p>Guru membagi tim ke breakout rooms/meja kelompok, lalu memberikan petunjuk berikut secara terpisah kepada anggota tim:</p>
+                         <div class="contoh-soal">
+                            <strong>Petunjuk ALFA (diberikan ke 50% anggota tim):</strong><br>
+                            "Data Sinyal Terintersep:<br>1. Pesawat Kargo A berangkat dari stasiun setiap 8 jam. Kapasitasnya 150 ton.<br>2. Pesawat Kargo B berangkat setiap 12 jam. Kapasitasnya 200 ton."
+                        </div>
+                         <div class="contoh-soal" style="border-color: #b8daff;">
+                            <strong>Petunjuk BRAVO (diberikan ke 50% anggota tim lainnya):</strong><br>
+                            "Data Sinyal Terintersep:<br>1. Pesawat Penumpang C berangkat dari stasiun setiap 10 jam. Kapasitas kargonya 190 ton."
+                        </div>
+
+                        <h5 style="margin-top: 25px;">Misi Utama Skuadron</h5>
+                        <p>Setelah berdiskusi dan menggabungkan petunjuk, tim harus menyelesaikan dua misi berikut:</p>
+                        <div class="contoh-soal">
+                            <strong>Misi 1 - Sinkronisasi:</strong><br>
+                            Berdasarkan data sinyal yang kalian kumpulkan, kapan ketiga pesawat (A, B, dan C) akan berangkat bersamaan untuk pertama kalinya?
+                        </div>
+                        <div class="contoh-soal">
+                            <strong>Misi 2 - Analisis Kargo:</strong><br>
+                             Setelah mengetahui waktu sinkronisasi, hitunglah berapa rata-rata kapasitas kargo dari ketiga pesawat tersebut!
+                        </div>
+
+                         <div class="platform-note">
+                            <strong>Pembeda Online/Offline:</strong><br>
+                            - <strong>Online:</strong> Guru mengirimkan petunjuk via private chat. Tim berdiskusi di breakout room menggunakan digital whiteboard.<br>
+                            - <strong>Offline:</strong> Guru memberikan dua kartu petunjuk berbeda kepada anggota tim yang duduk berseberangan. Mereka berdiskusi di meja kelompok.
+                        </div>
+                        <div class="facilitator-note">
+                            <strong>Catatan untuk Fasilitator:</strong><br>
+                            Kunci sukses tantangan ini adalah fasilitasi aktif. Kunjungi setiap kelompok dan pancing diskusi jika mereka diam. Ajukan pertanyaan seperti: "Informasi apa yang masih kalian butuhkan?" atau "Konsep matematika apa yang cocok untuk mencari 'jadwal bersama'?". Beri petunjuk bertahap, jangan berikan jawaban.
+                        </div>
+                    </div>
+                </div>
+                <div class="activity-block">
+                    <h4>3. Closing & Misi Tim Berikutnya (5 Menit)</h4>
+                    <div class="narasi">
+                        <strong>Contoh Narasi Guru (Penutup):</strong><br>
+                        "Kerja sama yang solid, semua Skuadron! Papan peringkat tim sangat ketat! Tapi... ada transmisi darurat untuk SEMUA SKUADRON dari Stasiun Cygnus-X1! Mereka butuh bantuan kalian!"
+                    </div>
+                    <div class="hook-box">
+                        <h4>🚨 Misi Penyelamatan Tim! 🚨</h4>
+                        <p>Besok, setiap Skuadron akan berlomba melawan waktu untuk menyelamatkan stasiun luar angkasa. Koordinasi dan kerja sama tim akan menjadi kunci kemenangan!</p>
+                    </div>
+                </div>
+
+                <!-- ========== HARI 3 ========== -->
+                <h3>Hari 3: The Grand Finale - Lomba Antar Tim (Total Durasi: 80 Menit)</h3>
+                 <div class="activity-block">
+                    <h4>1. Opening & Final Team Briefing (10 Menit)</h4>
+                     <div class="narasi">
+                        <strong>Contoh Narasi Guru (Pembuka):</strong><br>
+                        "Skuadron, lapor! Ini adalah misi terakhir dan terpenting. Stasiun Cygnus-X1 dalam bahaya. Kalian akan berlomba sebagai tim untuk menyelesaikan 4 protokol penyelamatan. Tim pertama yang berhasil adalah pahlawannya! Siap?"
+                    </div>
+                </div>
+                <div class="activity-block">
+                    <h4>2. Misi Penyelamatan Live (50 Menit)</h4>
+                    <div class="activity-detail">
+                        <p>Tim bekerja di <em>breakout rooms</em>/meja kelompok. Guru akan mengumumkan setiap protokol penyelamatan secara live. Tim pertama yang menyerahkan jawaban benar untuk satu protokol akan mendapatkan bonus poin dan keuntungan di protokol berikutnya.</p>
+                        <ul>
+                           <li><strong>Protokol 1:</strong> Soal tentang pecahan/persen.</li>
+                           <li><strong>Protokol 2:</strong> Soal tentang rata-rata.</li>
+                           <li><strong>Protokol 3:</strong> Soal logika berbasis KPK/FPB.</li>
+                           <li><strong>Protokol 4:</strong> Teka-teki final yang menggabungkan semua konsep.</li>
+                        </ul>
+                    </div>
+                </div>
+                 <div class="activity-block">
+                    <h4>3. Coronation & Closing Ceremony (20 Menit)</h4>
+                     <div class="narasi">
+                        <strong>Contoh Narasi Guru (Penutup):</strong><br>
+                        "Misi berhasil! Selamat kepada Skuadron [Nama Tim Pemenang] yang telah menjadi Pahlawan Galaksi! Dan tepuk tangan untuk semua Skuadron atas kerja sama yang luar biasa! Kalian semua adalah juara!"
+                    </div>
+                </div>
+            </section>
+            
+            <!-- ==================== HALAMAN 4: CONTOH DETAIL (INDIVIDU 5-7) ==================== -->
+            <section id="detail-individu-5-7" class="page">
+                <h2>Rencana Detail Aktivitas (Individu 5-7 Tahun)</h2>
+                 <p>Berikut adalah penjabaran alur sesi harian untuk tema baru **"Festival Belanja Hutan Ajaib"**, dengan fokus pada pengenalan uang dan aritmetika dasar melalui role-play.</p>
+
+                <!-- ========== HARI 1 ========== -->
+                <h3>Hari 1: Mengenal Koin Daun Emas (Total Durasi: 70 Menit)</h3>
+                <div class="activity-block">
+                    <h4>1. Opening: Selamat Datang di Hutan Ajaib (10 Menit)</h4>
+                    <div class="narasi">
+                        <strong>Contoh Narasi Guru (Pembuka):</strong><br>
+                        "Halo, para Petualang Cilik! Selamat datang di Hutan Ajaib Mathchamps! Aku Pemandu [Nama Guru]. Di hutan ini, kita tidak pakai uang biasa, kita pakai **Koin Daun Emas**! Hari ini, kita akan belajar menjadi pengumpul koin terhebat!"
+                    </div>
+                </div>
+                <div class="activity-block">
+                    <h4>2. Latihan 1: Mengenal Nilai Koin (25 Menit)</h4>
+                    <div class="activity-detail">
+                        <ul>
+                            <li><strong>Konsep:</strong> Bilangan & Operasi (mengenal nilai 1, 5, dan 10).</li>
+                            <li><strong>Aktivitas:</strong> Guru memperkenalkan 3 jenis Koin Daun Emas (kecil=1, sedang=5, besar=10) sebagai representasi konkret dari angka. Anak-anak berlatih menghitung dan menukar (misal: "5 koin kecil bisa ditukar dengan 1 koin apa ya?").</li>
+                        </ul>
+                        <div class="platform-note">
+                            <strong>Pembeda Online/Offline:</strong><br>
+                            - <strong>Online:</strong> Guru menggunakan gambar koin di <em>digital whiteboard</em>.<br>
+                            - <strong>Offline:</strong> Menggunakan koin mainan atau potongan kertas bergambar daun.
+                        </div>
+                    </div>
+                </div>
+                <div class="activity-block">
+                    <h4>3. Latihan 2: Menjumlahkan Koin (20 Menit)</h4>
+                    <div class="activity-detail">
+                        <ul>
+                            <li><strong>Konsep:</strong> Bilangan & Operasi (penjumlahan sederhana).</li>
+                            <li><strong>Aktivitas:</strong> Guru memberikan tantangan seperti, "Aku punya 1 koin sedang dan 3 koin kecil. Berapa total koin emasku?" (5 + 1 + 1 + 1 = 8). Ini adalah aplikasi langsung dari penjumlahan.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="activity-block">
+                    <h4>4. Tantangan Cepat & Closing (15 Menit)</h4>
+                    <div class="narasi">
+                        <strong>Contoh Narasi Guru (Penutup):</strong><br>
+                        "Hebat! Kalian sudah pintar menghitung Koin Daun Emas! Sebagai hadiah, besok Pemandu Hutan akan membuka **Toko Hutan Ajaib**! Kalian akan mendapatkan dompet pertama kalian untuk berbelanja. Sampai jumpa besok!"
+                    </div>
+                     <div class="hook-box">
+                        <h4>✨ Toko Hutan Akan Buka! ✨</h4>
+                        <p>Siapkan dirimu! Besok kita akan mulai berbelanja dengan Koin Daun Emas yang kita pelajari hari ini!</p>
+                    </div>
+                </div>
+
+                <!-- ========== HARI 2 ========== -->
+                <h3>Hari 2: Hari Belanja Pertama! (Total Durasi: 70 Menit)</h3>
+                 <div class="activity-block">
+                    <h4>1. Opening: Pembagian Dompet (10 Menit)</h4>
+                     <div class="narasi">
+                        <strong>Contoh Narasi Guru (Pembuka):</strong><br>
+                        "Selamat datang kembali, Petualang Cilik! Sesuai janji, Toko Hutan sudah buka! Ini dompet untuk kalian, masing-masing berisi 10 Koin Daun Emas! Misi kalian hari ini: berbelanja dengan bijak!"
+                    </div>
+                </div>
+                <div class="activity-block">
+                    <h4>2. Tantangan Belanja 1: Membeli Satu Barang (25 menit)</h4>
+                    <div class="activity-detail">
+                        <p><strong>Deskripsi:</strong> Guru menampilkan "etalase toko" dengan 3-4 barang dan harganya (misal: Madu 5 Koin, Jamur 3 Koin, Berry 8 Koin). Misi anak-anak adalah memilih satu barang dan menghitung kembaliannya dari 10 Koin.</p>
+                         <div class="contoh-soal">
+                            <strong>Misi Belanja (Aplikasi Pengurangan):</strong><br>
+                            "Kamu punya 10 Koin. Jika kamu membeli Madu seharga 5 Koin, berapa kembalianmu?"
+                        </div>
+                    </div>
+                </div>
+                 <div class="activity-block">
+                    <h4>3. Tantangan Belanja 2: Membeli Dua Barang (25 menit)</h4>
+                    <div class="activity-detail">
+                        <p><strong>Deskripsi:</strong> Tantangan yang lebih sulit. Anak-anak harus memilih DUA barang yang total harganya tidak lebih dari 10 Koin.</p>
+                         <div class="contoh-soal">
+                            <strong>Misi Belanja (Aplikasi Penjumlahan & Perbandingan):</strong><br>
+                            "Bisakah kamu membeli Jamur (3 Koin) dan Madu (5 Koin) dengan 10 Koin-mu? Berapa totalnya? Apakah uangmu cukup?"
+                        </div>
+                    </div>
+                </div>
+                <div class="activity-block">
+                    <h4>4. Closing & Misi Final (10 Menit)</h4>
+                    <div class="narasi">
+                        <strong>Contoh Narasi Guru (Penutup):</strong><br>
+                        "Kalian semua pembeli yang hebat! Karena kalian pintar berbelanja, besok akan ada **Pesta Besar di Hutan Ajaib**! Kalian akan mendapatkan anggaran yang lebih besar dan sebuah daftar belanjaan rahasia untuk pesta!"
+                    </div>
+                </div>
+
+                <!-- ========== HARI 3 ========== -->
+                <h3>Hari 3: Grand Finale - Pesta Hutan Ajaib (Total Durasi: 70 Menit)</h3>
+                <div class="activity-block">
+                     <h4>1. Opening: Misi Pesta (10 Menit)</h4>
+                     <div class="narasi">
+                        <strong>Contoh Narasi Guru (Pembuka):</strong><br>
+                        "Petualang Cilik, selamat datang di hari terakhir! Hari ini adalah Pesta Hutan! Dompet kalian sekarang berisi 20 Koin Daun Emas! Ini adalah daftar belanjaan rahasia kalian. Siapa yang bisa membeli semua barang dengan benar dan paling cepat?"
+                    </div>
+                </div>
+                <div class="activity-block">
+                    <h4>2. Misi Belanja Final (40 Menit)</h4>
+                    <div class="activity-detail">
+                        <p>Setiap anak mendapat "daftar belanja" (misal: 1 Madu (8) dan 2 Jamur (3+3)). Mereka harus menghitung total harga (8+3+3=14), lalu menghitung kembalian dari 20 Koin (20-14=6). Ini adalah lomba kecepatan dan ketepatan.</p>
+                    </div>
+                </div>
+                <div class="activity-block">
+                    <h4>3. Perayaan Pesta & Penobatan Juara (20 Menit)</h4>
+                     <div class="narasi">
+                        <strong>Contoh Narasi Guru (Penutup):</strong><br>
+                        "Semua barang sudah dibeli! Pesta Hutan bisa dimulai! Selamat kepada [Nama Pemenang] sebagai 'Pembelanja Terhebat'! Dan tepuk tangan untuk semua petualang cilik yang sudah bermain dan belajar dengan luar biasa!"
+                    </div>
+                </div>
+            </section>
+            
+            <!-- ==================== HALAMAN 5: CONTOH DETAIL (TIM 5-7) ==================== -->
+            <section id="detail-tim-5-7" class="page">
+                <h2>Rencana Detail Aktivitas (Format Tim 5-7 Tahun)</h2>
+                 <p>Berikut adalah skema alternatif untuk tema **"Festival Belanja Hutan Ajaib"** yang difokuskan pada kolaborasi dan kompetisi antar kelompok.</p>
+                
+                <!-- ========== HARI 1 ========== -->
+                <h3>Hari 1: Latihan & Penentuan Kelompok (Total Durasi: 70 Menit)</h3>
+                <div class="activity-block">
+                    <h4>1. Opening: Panggilan Para Penjaga Hutan (10 Menit)</h4>
+                    <div class="narasi">
+                        <strong>Contoh Narasi Guru (Pembuka):</strong><br>
+                        "Halo, para Petualang Cilik! Di Festival Belanja Hutan Ajaib, kita akan bekerja dalam kelompok. Hari ini, tunjukkan kemampuan terbaikmu menghitung koin, karena Pemandu Hutan akan melihatnya untuk membentuk kelompok yang hebat untuk petualangan besok!"
+                    </div>
+                </div>
+                <div class="activity-block">
+                    <h4>2. Latihan Keterampilan 1 & 2 (Total 40 Menit)</h4>
+                    <p>Sama seperti format individu, semua peserta mendapatkan pelatihan konsep dasar mengenal nilai Koin Daun Emas dan menjumlahkannya.</p>
+                </div>
+                <div class="activity-block">
+                    <h4>3. Tantangan Cepat (Penentuan Kelompok) & Closing (20 Menit)</h4>
+                    <div class="activity-detail">
+                        <ul>
+                            <li><strong>Aktivitas Guru:</strong> Meluncurkan kuis individu berbasis gambar (via Kahoot!) tentang menjumlahkan nilai koin. Menjelaskan hasilnya akan membantu membentuk kelompok.</li>
+                        </ul>
+                    </div>
+                    <div class="narasi">
+                        <strong>Contoh Narasi Guru (Penutup):</strong><br>
+                        "Wow, kalian semua hebat! Besok, kalian akan dibagi ke dalam kelompok-kelompok hewan hutan yang keren: ada Kelompok Tupai, Kelompok Kupu-kupu, dan Kelompok Kelinci! Datang lagi besok ya untuk tahu kamu ada di kelompok mana!"
+                    </div>
+                </div>
+
+                <!-- ========== HARI 2 ========== -->
+                <h3>Hari 2: Misi Memasak untuk Pesta (Total Durasi: 70 Menit)</h3>
+                <div class="activity-block">
+                    <h4>1. Opening: Pengumuman Kelompok (10 Menit)</h4>
+                     <div class="platform-note">
+                        <strong>Pembeda Online/Offline:</strong><br>
+                        - <strong>Online:</strong> Guru mengumumkan kelompok dan membuka <em>breakout rooms</em> untuk perkenalan.<br>
+                        - <strong>Offline:</strong> Siswa pindah ke meja kelompok yang sudah ditandai dengan gambar hewan.
+                    </div>
+                </div>
+                <div class="activity-block">
+                    <h4>2. Tantangan Kolaboratif: "Misi Resep Ajaib" (50 menit)</h4>
+                    <div class="activity-detail">
+                        <p><strong>Deskripsi:</strong> Lomba yang terstruktur dan aktif. Setiap kelompok mendapat "Buku Resep Ajaib". Secara bergantian, anggota tim akan "berbelanja" satu bahan dari resep. Setelah semua bahan terkumpul, seluruh tim bekerja sama menghitung total biaya resep.</p>
+                        <div class="contoh-soal">
+                            <strong>Misi Kelompok "Tupai" (Resep Kue Pelangi):</strong><br>
+                            "Kelompok Tupai, resep kalian membutuhkan:<br>
+                            - 1 Kantung Tepung Bintang (5 Koin)<br>
+                            - 3 Telur Emas (masing-masing 1 Koin)<br>
+                            - 2 Buah Berry Bernyanyi (masing-masing 2 Koin)<br>
+                            Ambil bahannya satu per satu, lalu hitung bersama berapa total biayanya!"
+                        </div>
+                        <div class="platform-note">
+                            <strong>Pembeda Online/Offline:</strong><br>
+                            - <strong>Online:</strong> "Toko Hutan" (slide dengan gambar bahan) ada di <em>main room</em>. Anggota tim dari <em>breakout room</em> bergiliran masuk, mengambil (drag & drop) ikon bahan ke "dapur" kelompoknya, lalu kembali.<br>
+                            - <strong>Offline:</strong> "Toko Hutan" ada di sudut kelas. Anggota tim bergiliran lari mengambil kartu gambar bahan dan membawanya ke meja kelompok.
+                        </div>
+                    </div>
+                </div>
+                <div class="activity-block">
+                    <h4>3. Closing & Misi Final (10 Menit)</h4>
+                    <p>Guru mengumumkan skor kelompok dan memberikan misi terakhir untuk besok: "Mendirikan Toko Hutan!".</p>
+                </div>
+
+                <!-- ========== HARI 3 ========== -->
+                <h3>Hari 3: Final Kelompok - Mendirikan Toko (Total Durasi: 70 Menit)</h3>
+                 <div class="activity-block">
+                    <h4>1. Opening: Persiapan Pasar Hutan (15 Menit)</h4>
+                    <div class="narasi">
+                        <strong>Contoh Narasi Guru (Pembuka):</strong><br>
+                        "Selamat datang di hari terakhir! Hari ini adalah Puncak Festival Belanja! Kita akan membuka Pasar Hutan Ajaib! Kelompok Tupai dan Kelinci akan menjadi Tim Penjual yang hebat. Kelompok Kupu-kupu dan Rubah akan menjadi Tim Pembeli yang cerdas!"
+                    </div>
+                    <div class="activity-detail">
+                        <ul>
+                            <li><strong>Aktivitas Guru:</strong> Membagi kelas menjadi 2 grup besar (Penjual & Pembeli). Guru membantu Tim Penjual menyiapkan "toko" mereka (memasang label harga pada barang) dan memberikan "dompet" berisi 20 Koin serta "daftar belanja" kepada Tim Pembeli.</li>
+                        </ul>
+                         <div class="platform-note">
+                            <strong>Pembeda Online/Offline:</strong><br>
+                            - <strong>Online:</strong> Tim Penjual akan membuka "toko" mereka di breakout room masing-masing. Tim Pembeli akan berpindah-pindah antar breakout room.<br>
+                            - <strong>Offline:</strong> Tim Penjual menyiapkan meja toko mereka. Tim Pembeli akan berkeliling.
+                        </div>
+                    </div>
+                </div>
+                <div class="activity-block">
+                    <h4>2. Babak 1: Waktunya Berbelanja! (20 Menit)</h4>
+                    <div class="activity-detail">
+                        <p><strong>Deskripsi:</strong> Tim Pembeli mengunjungi toko-toko untuk membeli barang sesuai daftar. Tim Penjual harus melayani, menghitung total, dan memberikan kembalian dengan benar.</p>
+                        <div class="contoh-soal">
+                            <strong>Contoh Interaksi Role-Play:</strong><br>
+                            - <strong>Pembeli:</strong> "Halo Kelompok Tupai, kami mau beli Madu."<br>
+                            - <strong>Penjual (Tim Tupai):</strong> "Boleh, harganya 8 Koin Daun Emas."<br>
+                            - <strong>Pembeli:</strong> (Memberikan Koin 10) "Ini uangnya."<br>
+                            - <strong>Penjual (Tim Tupai):</strong> (Berdikusi & menghitung bersama) "Kembaliannya 2 Koin. Terima kasih!"
+                        </div>
+                        <div class="facilitator-note">
+                            <strong>Catatan untuk Fasilitator:</strong> Peran guru sangat penting untuk mengawasi transaksi, memastikan penjual menghitung kembalian dengan benar dan pembeli membayar dengan pas.
+                        </div>
+                    </div>
+                </div>
+                <div class="activity-block">
+                    <h4>3. Babak 2: Tukar Peran! (20 Menit)</h4>
+                    <div class="activity-detail">
+                       <p><strong>Deskripsi:</strong> Peran ditukar. Kelompok yang tadinya Pembeli sekarang menjadi Penjual, dan sebaliknya. Mereka akan mendapatkan daftar belanja dan anggaran baru untuk memastikan semua anak merasakan kedua pengalaman.</p>
+                    </div>
+                </div>
+                 <div class="activity-block">
+                    <h4>4. Perayaan & Penobatan Juara (15 Menit)</h4>
+                     <div class="narasi">
+                        <strong>Contoh Narasi Guru (Penutup):</strong><br>
+                        "Pasar Hutan Ajaib sukses besar! Terima kasih untuk semua Penjual yang jujur dan Pembeli yang pintar! Hari ini, kita semua adalah pemenang karena sudah belajar sambil bermain. Selamat untuk 'Tim Penjual Paling Hebat' dan 'Tim Pembeli Paling Cermat'!"
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- ==================== HALAMAN 7: CONTOH DETAIL (INDIVIDU 7-9) ==================== -->
+            <section id="detail-individu-7-9" class="page">
+                <h2>Rencana Detail Aktivitas (Individu 7-9 Tahun)</h2>
+                <p>Berikut adalah penjabaran alur sesi harian untuk tema "Misi Kode Rahasia: Petualangan Detektif".</p>
+                <!-- Isi detail 7-9 Individu -->
+                <h3>Hari 1: Pelatihan Detektif Junior (80 Menit)</h3>
+                 <div class="activity-block">
+                    <h4>1. Opening: Panggilan untuk Detektif (10 Menit)</h4>
+                    <div class="narasi">"Selamat datang, Detektif Cilik! Ada sebuah misteri besar di markas Mathchamps, dan kami butuh bantuan kalian! Sebuah brankas rahasia terkunci, dan kita harus menemukan kodenya dalam 3 hari. Hari ini, kita akan berlatih dua skill penting: memecahkan soal cerita dan menganalisis simbol!"</div>
+                </div>
+                <div class="activity-block">
+                    <h4>2. Latihan 1: Menginterogasi Saksi (25 Menit)</h4>
+                    <p><strong>Konsep:</strong> Soal Cerita Perkalian & Pembagian dengan Bar Model.</p>
+                    <div class="contoh-soal"><strong>Soal Cerita:</strong> "Seorang saksi mata melihat pencuri meletakkan 24 permata ke dalam 4 kotak berbeda. Setiap kotak berisi jumlah permata yang sama. Berapa permata di setiap kotak?" Guru akan memandu cara menggambar Bar Model untuk memvisualisasikan 24 dibagi 4.</div>
+                </div>
+                 <div class="activity-block">
+                    <h4>3. Latihan 2: Menganalisis Simbol Misterius (25 Menit)</h4>
+                    <p><strong>Konsep:</strong> Simetri & Pencerminan.</p>
+                    <div class="contoh-soal"><strong>Aktivitas:</strong> Guru menunjukkan sebuah "simbol petunjuk" yang hanya setengah gambar (misal: setengah gambar kunci). "Detektif, untuk melihat bentuk utuhnya, kita harus mencerminkannya! Coba kalian gambar setengahnya lagi!"</div>
+                </div>
+                <div class="activity-block">
+                    <h4>4. Tantangan Cepat & Closing (20 Menit)</h4>
+                    <p>Sebuah kuis cepat via Kahoot! berisi soal perkalian dasar dan simetri sederhana.</p>
+                    <div class="hook-box">
+                        <h4>✨ Petunjuk Pertama Ditemukan! ✨</h4>
+                        <p>Kalian menemukan sebuah catatan: "Digit pertama kode brankas adalah jawaban dari soal terakhir di latihanmu!"</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- ==================== HALAMAN 8: CONTOH DETAIL (TIM 7-9) ==================== -->
+            <section id="detail-tim-7-9" class="page">
+                <h2>Rencana Detail Aktivitas (Format Tim 7-9 Tahun)</h2>
+                <p>Berikut adalah skema alternatif untuk tema "Misi Kode Rahasia" yang difokuskan pada kolaborasi tim detektif.</p>
+                <!-- Isi detail 7-9 Tim -->
+                <h3>Hari 1: Latihan & Pembentukan Tim Investigasi (80 Menit)</h3>
+                 <div class="activity-block">
+                    <p>Alur sama dengan format individu. Di akhir sesi, guru mengumumkan bahwa berdasarkan hasil kuis, peserta akan dibagi menjadi beberapa "Tim Investigasi" (Tim Alpha, Tim Bravo, dll) pada hari berikutnya.</p>
+                </div>
+                <h3>Hari 2: Penyelidikan Lapangan (80 Menit)</h3>
+                <div class="activity-block">
+                    <h4>1. Opening: Pembentukan Tim & Misi Hari Ini (15 Menit)</h4>
+                    <div class="narasi">"Selamat datang kembali, Detektif! Tim Investigasi telah dibentuk! Tim Alpha adalah [...], Tim Bravo adalah [...]. Misi kalian hari ini: kumpulkan dua petunjuk berikutnya dengan bekerja sama!"</div>
+                </div>
+                <div class="activity-block">
+                    <h4>2. Tantangan Tim 1: Menyusun Laporan Saksi (30 Menit)</h4>
+                    <p><strong>Deskripsi:</strong> Setiap tim diberikan satu soal cerita kompleks yang membutuhkan Bar Model. Mereka harus berdiskusi di breakout room/meja kelompok untuk menyelesaikannya bersama.</p>
+                    <div class="contoh-soal"><strong>Soal Tim:</strong> "Tim Alpha, kalian menemukan catatan: 'Ada 3 kantung barang bukti, setiap kantung berisi 8 koin. Lalu, 5 koin terjatuh.' Berapa total koin yang tersisa? Gambarkan solusimu dengan Bar Model!"</div>
+                </div>
+                <div class="activity-block">
+                    <h4>3. Tantangan Tim 2: Estafet Gambar Simetris (30 Menit)</h4>
+                    <p><strong>Deskripsi:</strong> Lomba estafet di mana setiap anggota tim bergiliran lari ke papan tulis (offline) atau menggambar di whiteboard digital (online) untuk melengkapi satu bagian dari gambar simetris yang besar.</p>
+                </div>
+                 <div class="activity-block">
+                    <h4>4. Closing (5 Menit)</h4>
+                    <div class="narasi">"Kerja tim yang hebat! Kalian berhasil mengumpulkan semua petunjuk. Besok, kita akan gabungkan semuanya untuk membuka brankas rahasia di misi terakhir!"</div>
+                </div>
+                <h3>Hari 3: Final - Membuka Brankas (80 Menit)</h3>
+                <div class="activity-block">
+                    <p><strong>Deskripsi:</strong> Misi final live. Guru akan memberikan serangkaian teka-teki. Jawaban dari setiap teka-teki adalah kombinasi angka dari petunjuk-petunjuk yang sudah dikumpulkan tim di hari-hari sebelumnya. Tim pertama yang berhasil "membuka brankas" adalah pemenangnya.</p>
+                </div>
+            </section>
+            
+             <!-- ==================== HALAMAN 9: CONTOH GAME ==================== -->
+            <section id="contoh-game" class="page">
+                <h2>Contoh Prototype Game "Tantangan Cepat"</h2>
+                <p>Berikut adalah contoh game interaktif sederhana yang bisa digunakan untuk segmen "Tantangan Cepat" di dalam kelas. Game ini menguji kecepatan dan akurasi dalam menjawab soal-soal matematika dasar dengan batasan waktu, memberikan pengalaman yang seru dan kompetitif.</p>
+
+                <div id="game-container">
+                    <!-- Start Screen -->
+                    <div id="start-screen" class="game-screen active">
+                        <h3>Tantangan Cepat: Asteroid Field Dash</h3>
+                        <p>Uji kecepatanmu dalam menavigasi medan asteroid matematika! Jawab 5 soal secepat mungkin sebelum waktu habis.</p>
+                        <button id="start-btn" class="game-btn">Mulai!</button>
+                    </div>
+
+                    <!-- Game Screen -->
+                    <div id="game-screen" class="game-screen">
+                        <div id="game-stats">
+                            <div id="timer">Waktu: 60</div>
+                            <div id="score">Skor: 0</div>
+                        </div>
+                        <div id="question-container">
+                            <p id="question-counter"></p>
+                            <div id="question-text"></div>
+                            <div id="answer-buttons">
+                                <!-- Buttons will be generated by JS -->
+                            </div>
+                            <div id="explanation-box">
+                                <p id="explanation-text"></p>
+                            </div>
+                            <button id="next-btn" class="game-btn" style="display: none;">Lanjut</button>
+                        </div>
+                    </div>
+
+                    <!-- End Screen -->
+                    <div id="end-screen" class="game-screen">
+                        <h3>Misi Selesai!</h3>
+                        <p>Skor Akhirmu:</p>
+                        <h3 id="final-score">0</h3>
+                        <p id="end-message" style="margin-top: 15px; font-size: 1.1em;"></p>
+                        <button id="restart-btn" class="game-btn">Coba Lagi</button>
+                    </div>
+                </div>
+
+                <script>
+                    // Game Elements
+                    const startBtn = document.getElementById('start-btn');
+                    const restartBtn = document.getElementById('restart-btn');
+                    const nextBtn = document.getElementById('next-btn');
+                    const startScreen = document.getElementById('start-screen');
+                    const gameScreen = document.getElementById('game-screen');
+                    const endScreen = document.getElementById('end-screen');
+
+                    const timerEl = document.getElementById('timer');
+                    const scoreEl = document.getElementById('score');
+                    const finalScoreEl = document.getElementById('final-score');
+                    const questionCounterEl = document.getElementById('question-counter');
+                    const questionTextEl = document.getElementById('question-text');
+                    const answerButtonsEl = document.getElementById('answer-buttons');
+                    const explanationBox = document.getElementById('explanation-box');
+                    const explanationText = document.getElementById('explanation-text');
+                    const endMessageEl = document.getElementById('end-message');
+
+                    // Game Variables
+                    let questions = [];
+                    let currentQuestionIndex = 0;
+                    let score = 0;
+                    let timeLeft = 60;
+                    let timerInterval;
+
+                    const questionBank = [
+                        // Pecahan, Desimal, Persen (Comparison & Conversion) - 15 questions
+                        { question: "Manakah yang lebih besar: 3/4 atau 0.7?", options: ["3/4", "0.7", "Sama besar"], answer: "3/4", explanation: "Untuk membandingkan, ubah 3/4 menjadi desimal. Caranya, 3 dibagi 4 = 0.75. Sekarang kita bandingkan 0.75 dengan 0.7. Jelas 0.75 lebih besar!" },
+                        { question: "Ubah 2/5 menjadi persen!", options: ["20%", "40%", "50%"], answer: "40%", explanation: "Untuk mengubah pecahan menjadi persen, kalikan dengan 100%. Jadi, (2/5) x 100% = 40%." },
+                        { question: "Manakah yang lebih kecil: 65% atau 2/3?", options: ["65%", "2/3", "Sama besar"], answer: "65%", explanation: "Ubah keduanya ke desimal. 65% = 0.65. Sedangkan 2/3 = 0.666... Jadi, 65% lebih kecil." },
+                        { question: "Bentuk desimal dari 7/8 adalah...", options: ["0.78", "0.875", "0.75"], answer: "0.875", explanation: "Untuk mengubah pecahan ke desimal, bagi pembilang dengan penyebut: 7 dibagi 8 = 0.875." },
+                        { question: "Manakah yang sama nilainya dengan 0.6?", options: ["1/6", "6/100", "3/5"], answer: "3/5", explanation: "0.6 sama dengan 6/10. Jika disederhanakan (dibagi 2), hasilnya adalah 3/5." },
+                        { question: "Urutkan dari terkecil: 0.5, 3/5, 55%", options: ["0.5, 55%, 3/5", "3/5, 55%, 0.5", "55%, 0.5, 3/5"], answer: "0.5, 55%, 3/5", explanation: "Ubah semua ke desimal: 0.5, 0.6, 0.55. Jadi urutan terkecilnya adalah 0.5, 0.55 (55%), lalu 0.6 (3/5)." },
+                        { question: "Manakah yang tidak sama dengan 1/4?", options: ["0.25", "25%", "40%"], answer: "40%", explanation: "1/4 sama dengan 0.25 dan juga sama dengan 25%. Nilai yang berbeda adalah 40%." },
+                        { question: "Bentuk pecahan paling sederhana dari 0.8 adalah...", options: ["8/1", "4/5", "2/3"], answer: "4/5", explanation: "0.8 adalah 8/10. Keduanya bisa dibagi 2, menjadi 4/5." },
+                        { question: "Manakah yang lebih besar: 120% atau 1.25?", options: ["120%", "1.25", "Sama besar"], answer: "1.25", explanation: "120% sama dengan 1.20. Jadi, 1.25 lebih besar dari 1.20." },
+                        { question: "Ubah 1.5 menjadi bentuk pecahan campuran!", options: ["1 1/5", "1 1/2", "1 5/100"], answer: "1 1/2", explanation: "1.5 adalah 1 dan 0.5. Nilai 0.5 sama dengan 1/2. Jadi, bentuknya adalah 1 1/2." },
+                        { question: "Manakah yang terletak di antara 0.4 dan 0.6?", options: ["1/3", "1/2", "2/3"], answer: "1/2", explanation: "Ubah ke desimal: 1/3 = 0.33..., 1/2 = 0.5, 2/3 = 0.66... Angka 0.5 adalah satu-satunya yang ada di antara 0.4 dan 0.6." },
+                        { question: "Bentuk persen dari 3/20 adalah...", options: ["15%", "30%", "23%"], answer: "15%", explanation: "Untuk mengubah ke persen, kalikan dengan 100%. (3/20) x 100% = 15%." },
+                        { question: "Nilai dari 125% adalah...", options: ["1.25", "12.5", "0.125"], answer: "1.25", explanation: "Persen artinya 'per seratus'. Jadi 125% adalah 125 / 100 = 1.25." },
+                        { question: "Manakah yang paling mendekati 1?", options: ["8/9", "90%", "0.8"], answer: "90%", explanation: "Ubah ke desimal: 8/9 ≈ 0.888..., 90% = 0.9, dan 0.8. Jarak 0.9 ke 1 hanya 0.1, jadi 90% lebih dekat." },
+                        { question: "Ubah 0.375 menjadi pecahan!", options: ["3/8", "1/3", "3/75"], answer: "3/8", explanation: "0.375 sama dengan 375/1000. Jika disederhanakan dengan membagi keduanya dengan 125, hasilnya adalah 3/8." },
+
+                        // Pecahan, Desimal, Persen (Operations) - 10 questions
+                        { question: "0.25 + 1/2 = ?", options: ["0.75", "0.50", "1.0"], answer: "0.75", explanation: "Ubah 1/2 menjadi 0.5. Jadi, 0.25 + 0.5 = 0.75." },
+                        { question: "Hasil dari 60% x 50 adalah...", options: ["30", "25", "35"], answer: "30", explanation: "Bayangkan Bar Model utuh senilai 50. 60% adalah 6 dari 10 bagian. 1 bagiannya (10%) adalah 50 : 10 = 5. Maka 6 bagian adalah 6 x 5 = 30." },
+                        { question: "1 - 3/8 = ?", options: ["5/8", "1.38", "3/8"], answer: "5/8", explanation: "Bayangkan sebuah kue utuh (1) yang dipotong 8 bagian. Kue itu adalah 8/8. Jika dimakan 3/8, maka sisanya adalah 8/8 - 3/8 = 5/8." },
+                        { question: "20% dari 150 adalah...", options: ["20", "30", "15"], answer: "30", explanation: "Bayangkan sebuah Bar Model yang nilainya 150. Karena 20% itu sama dengan 1/5, kita bagi bar itu menjadi 5 kotak sama besar. Nilai satu kotaknya adalah 150 : 5 = 30." },
+                        { question: "0.5 x 1/4 = ?", options: ["0.125", "0.25", "1.25"], answer: "0.125", explanation: "0.5 sama dengan setengah. Jadi soal ini menanyakan 'setengah dari seperempat'. Bayangkan pizza dipotong 4, lalu setengah dari 1 potongan itu adalah 1/8 atau 0.125." },
+                        { question: "3/4 : 0.25 = ?", options: ["1", "3", "0.1875"], answer: "3", explanation: "0.25 sama dengan 1/4. Pertanyaannya menjadi 'ada berapa banyak potongan 1/4 dalam 3/4?' Jawabannya tentu saja ada 3 potongan." },
+                        { question: "Berapa 10% dari 250?", options: ["10", "2.5", "25"], answer: "25", explanation: "Mencari 10% dari sebuah angka sama dengan membagi angka itu dengan 10. Jadi, 250 / 10 = 25." },
+                        { question: "1.2 + 3/5 = ?", options: ["1.6", "1.8", "2.0"], answer: "1.8", explanation: "Ubah 3/5 menjadi desimal. Caranya, kalikan pembilang dan penyebut dengan 2 agar penyebutnya jadi 10. Hasilnya 6/10 atau 0.6. Jadi, 1.2 + 0.6 = 1.8." },
+                        { question: "Harga baju Rp 200.000 diskon 20%. Berapa harga bayarnya?", options: ["Rp 160.000", "Rp 180.000", "Rp 40.000"], answer: "Rp 160.000", explanation: "Bayangkan harga utuh (100%) adalah Rp 200.000. Diskon 20% berarti kita hanya bayar 80%. 10% dari 200.000 adalah 20.000. Jadi 80% adalah 8 x 20.000 = Rp 160.000." },
+                        { question: "2/3 dari 90 adalah...", options: ["30", "60", "45"], answer: "60", explanation: "Bayangkan Bar Model utuh senilai 90. Kita bagi menjadi 3 kotak. Nilai 1 kotaknya adalah 90 : 3 = 30. Karena kita butuh 2/3, maka kita ambil 2 kotak: 2 x 30 = 60." },
+
+                        // Rata-rata (Mean) - 10 questions
+                        { question: "Rata-rata dari 10, 12, dan 17 adalah...", options: ["12", "13", "15"], answer: "13", explanation: "Bayangkan 3 tumpukan balok. Agar 'rata', jumlahkan semua balok (10+12+17=39) lalu bagi rata ke 3 tumpukan (39 : 3 = 13)." },
+                        { question: "Rata-rata dari 5, 10, 15, 20 adalah...", options: ["12", "12.5", "15"], answer: "12.5", explanation: "Jumlahkan semua angka: 5+10+15+20=50. Lalu bagi dengan banyaknya angka (4). Jadi, 50 / 4 = 12.5." },
+                        { question: "Nilai ulangan Andi adalah 8, 9, 7. Berapa rata-ratanya?", options: ["8", "8.5", "7"], answer: "8", explanation: "Bayangkan kita 'meratakan' nilainya. Ambil 1 dari 9 (jadi 8) dan berikan ke 7 (jadi 8). Semua nilainya sekarang jadi 8, 8, 8. Rata-ratanya 8." },
+                        { question: "Jika rata-rata dari 4 dan X adalah 6, maka X adalah...", options: ["8", "10", "6"], answer: "8", explanation: "Jika rata-rata 2 angka adalah 6, totalnya harus 12. Jika satu angka adalah 4, maka pasangannya adalah 12 - 4 = 8." },
+                        { question: "Rata-rata dari 2, 4, 6, 8, 10 adalah...", options: ["5", "6", "7"], answer: "6", explanation: "Karena ini adalah barisan angka berurutan, rata-ratanya adalah angka yang di tengah, yaitu 6." },
+                        { question: "Tinggi 3 anak adalah 140cm, 145cm, 150cm. Rata-rata tingginya?", options: ["145cm", "142cm", "147cm"], answer: "145cm", explanation: "Karena ini barisan angka berurutan, rata-ratanya adalah angka tengah, yaitu 145cm." },
+                        { question: "Jika total nilai 5 siswa adalah 400, berapa rata-ratanya?", options: ["80", "85", "90"], answer: "80", explanation: "Rata-rata adalah Total Nilai dibagi Banyak Siswa. Jadi, 400 / 5 = 80." },
+                        { question: "Rata-rata dari 0.5, 1.5, dan 2.5 adalah...", options: ["1.0", "1.5", "2.0"], answer: "1.5", explanation: "Ini adalah barisan angka berurutan, jadi rata-ratanya adalah angka yang di tengah, yaitu 1.5." },
+                        { question: "Suhu 4 hari: 28, 30, 26, 32 derajat. Berapa rata-ratanya?", options: ["28", "29", "30"], answer: "29", explanation: "Jumlahkan semua: 28+30+26+32=116. Lalu bagi 4: 116 / 4 = 29." },
+                        { question: "Rata-rata dari 1/2 dan 1/4 adalah...", options: ["3/4", "3/8", "1/3"], answer: "3/8", explanation: "Jumlahkan dulu: 1/2 + 1/4 = 2/4 + 1/4 = 3/4. Lalu, karena ada 2 angka, kita bagi 2: (3/4) / 2 = 3/8." },
+
+                        // KPK (LCM) - 8 questions
+                        { question: "KPK dari 8 dan 12 adalah...", options: ["16", "24", "48"], answer: "24", explanation: "Cari kelipatan dari angka terbesar (12): 12, 24, 36... Manakah yang bisa dibagi 8? Angka pertama adalah 24." },
+                        { question: "KPK dari 10 dan 15 adalah...", options: ["30", "45", "60"], answer: "30", explanation: "Cari kelipatan dari 15: 15, 30... Angka 30 bisa dibagi 10. Jadi KPK-nya 30." },
+                        { question: "KPK dari 7 dan 5 adalah...", options: ["35", "12", "75"], answer: "35", explanation: "Karena 7 dan 5 adalah bilangan prima, KPK-nya adalah hasil perkalian keduanya: 7 x 5 = 35." },
+                        { question: "KPK dari 6, 9, dan 12 adalah...", options: ["18", "36", "72"], answer: "36", explanation: "Cari kelipatan dari angka terbesar (12): 12, 24, 36. Angka 36 bisa dibagi 9 dan juga bisa dibagi 6. Jadi KPK-nya 36." },
+                        { question: "Lampu A berkedip setiap 4 detik, lampu B setiap 6 detik. Kapan mereka berkedip bersama?", options: ["8 detik", "10 detik", "12 detik"], answer: "12 detik", explanation: "Ini adalah soal mencari KPK dari 4 dan 6. Kelipatan 4: 4, 8, 12... Kelipatan 6: 6, 12... Mereka berkedip bersama di detik ke-12." },
+                        { question: "KPK dari 5 dan 20 adalah...", options: ["10", "20", "40"], answer: "20", explanation: "Karena 20 adalah kelipatan dari 5, maka KPK dari keduanya adalah angka yang lebih besar, yaitu 20." },
+                        { question: "KPK dari 3 dan 11 adalah...", options: ["33", "14", "30"], answer: "33", explanation: "Karena 3 dan 11 adalah bilangan prima, KPK-nya adalah hasil perkaliannya: 3 x 11 = 33." },
+                        { question: "KPK dari 2, 3, dan 5 adalah...", options: ["15", "30", "60"], answer: "30", explanation: "Karena 2, 3, dan 5 semuanya bilangan prima, KPK-nya adalah hasil perkalian ketiganya: 2 x 3 x 5 = 30." },
+
+                        // FPB (GCD) - 7 questions
+                        { question: "FPB dari 20 dan 30 adalah...", options: ["5", "10", "60"], answer: "10", explanation: "FPB adalah pembagi terbesar yang sama. Angka berapa paling besar yang bisa membagi 20 dan 30? Jawabannya adalah 10." },
+                        { question: "FPB dari 24 dan 36 adalah...", options: ["6", "12", "72"], answer: "12", explanation: "Angka berapa paling besar yang bisa membagi 24 dan 36? 24 bisa dibagi 12, dan 36 juga bisa dibagi 12. Jadi FPB-nya 12." },
+                        { question: "FPB dari 18 dan 27 adalah...", options: ["3", "6", "9"], answer: "9", explanation: "Angka berapa paling besar yang bisa membagi 18 dan 27? Keduanya ada di perkalian 9. Jadi FPB-nya 9." },
+                        { question: "Ibu punya 16 apel dan 24 jeruk. Berapa bungkusan identik terbanyak yang bisa dibuat?", options: ["4", "8", "12"], answer: "8", explanation: "Ini adalah soal mencari FPB dari 16 dan 24, yaitu 8. Jadi bisa dibuat 8 bungkusan, masing-masing berisi 2 apel dan 3 jeruk." },
+                        { question: "FPB dari 48 dan 60 adalah...", options: ["6", "12", "24"], answer: "12", explanation: "Angka berapa paling besar yang bisa membagi 48 dan 60? Jawabannya 12. (48 = 12x4, 60 = 12x5)." },
+                        { question: "FPB dari 15, 25, dan 30 adalah...", options: ["5", "10", "15"], answer: "5", explanation: "Satu-satunya angka (selain 1) yang bisa membagi 15, 25, dan 30 adalah 5. Maka FPB-nya adalah 5." },
+                        { question: "FPB dari 17 dan 23 adalah...", options: ["1", "17", "23"], answer: "1", explanation: "Karena 17 dan 23 adalah bilangan prima, mereka tidak memiliki faktor persekutuan selain 1. Jadi FPB-nya adalah 1." }
+                    ];
+
+                    function shuffleArray(array) {
+                        for (let i = array.length - 1; i > 0; i--) {
+                            const j = Math.floor(Math.random() * (i + 1));
+                            [array[i], array[j]] = [array[j], array[i]];
+                        }
+                    }
+
+                    function startGame() {
+                        // Select 5 random questions
+                        shuffleArray(questionBank);
+                        questions = questionBank.slice(0, 5);
+                        
+                        currentQuestionIndex = 0;
+                        score = 0;
+                        timeLeft = 60;
+                        scoreEl.textContent = `Skor: ${score}`;
+                        timerEl.textContent = `Waktu: ${timeLeft}`;
+                        
+                        startScreen.classList.remove('active');
+                        endScreen.classList.remove('active');
+                        gameScreen.classList.add('active');
+
+                        displayQuestion();
+                        clearInterval(timerInterval); // Clear previous timer before starting a new one
+                        timerInterval = setInterval(updateTimer, 1000);
+                    }
+
+                    function displayQuestion() {
+                        explanationBox.style.display = 'none'; // Hide explanation
+                        nextBtn.style.display = 'none'; // Hide next button
+                        
+                        if (currentQuestionIndex >= questions.length) {
+                            endGame();
+                            return;
+                        }
+
+                        let currentQuestion = questions[currentQuestionIndex];
+                        questionCounterEl.textContent = `Soal ${currentQuestionIndex + 1}/${questions.length}`;
+                        questionTextEl.textContent = currentQuestion.question;
+                        answerButtonsEl.innerHTML = '';
+
+                        // Shuffle options to make it more challenging
+                        let shuffledOptions = [...currentQuestion.options];
+                        shuffleArray(shuffledOptions);
+
+                        shuffledOptions.forEach(option => {
+                            const button = document.createElement('button');
+                            button.textContent = option;
+                            button.classList.add('game-btn', 'answer-btn');
+                            button.addEventListener('click', () => selectAnswer(button, option, currentQuestion));
+                            answerButtonsEl.appendChild(button);
+                        });
+                    }
+                    
+                    function selectAnswer(button, selectedOption, currentQuestion) {
+                        const correctAnswer = currentQuestion.answer;
+                        const explanation = currentQuestion.explanation;
+
+                        // Disable all buttons to prevent multiple clicks
+                        document.querySelectorAll('.answer-btn').forEach(btn => btn.disabled = true);
+
+                        if (selectedOption === correctAnswer) {
+                            score += 10;
+                            scoreEl.textContent = `Skor: ${score}`;
+                            button.classList.add('correct');
+                        } else {
+                            button.classList.add('wrong');
+                             // Show correct answer
+                            document.querySelectorAll('.answer-btn').forEach(btn => {
+                                if(btn.textContent === correctAnswer) {
+                                    btn.classList.add('correct');
+                                }
+                            });
+                        }
+
+                        // Show explanation and next button
+                        explanationText.innerHTML = `<strong>Pembahasan:</strong> ${explanation}`;
+                        explanationBox.style.display = 'block';
+                        nextBtn.style.display = 'inline-block';
+
+                    }
+
+                    function goToNextQuestion() {
+                         currentQuestionIndex++;
+                         displayQuestion();
+                    }
+
+                    function updateTimer() {
+                        timeLeft--;
+                        timerEl.textContent = `Waktu: ${timeLeft}`;
+                        if (timeLeft <= 0) {
+                            endGame();
+                        }
+                    }
+
+                    function endGame() {
+                        clearInterval(timerInterval);
+                        gameScreen.classList.remove('active');
+                        endScreen.classList.add('active');
+                        finalScoreEl.textContent = score;
+
+                        const totalScore = questions.length * 10;
+                        let message = "";
+                        if (score === totalScore) {
+                            message = "LUAR BIASA, KADET! Skor sempurna! Kecepatan dan ketepatanmu setingkat Komandan. Kamu siap memimpin misi apa pun!";
+                        } else if (score > totalScore / 2) {
+                            message = "KERJA BAGUS, KADET! Kamu menunjukkan bakat seorang penjelajah bintang sejati. Terus asah kemampuanmu!";
+                        } else {
+                            message = "SEMANGAT, KADET! Setiap misi adalah latihan. Jangan menyerah, coba lagi dan taklukkan medan asteroid ini!";
+                        }
+                        endMessageEl.textContent = message;
+                    }
+                    
+                    startBtn.addEventListener('click', startGame);
+                    restartBtn.addEventListener('click', startGame);
+                    nextBtn.addEventListener('click', goToNextQuestion);
+
+                </script>
+            </section>
+        </main>
+
+        <footer>
+            <p>Proposal Program Mathchamps Holiday Clash</p>
+        </footer>
+    </div>
+
+    <script>
+        function showPage(pageId, element) {
+            // Hide all page sections
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            // Show the selected page section
+            const newPage = document.getElementById(pageId);
+            if (newPage) {
+                newPage.classList.add('active');
+            }
+
+            // Update active state on nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            element.classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
+
