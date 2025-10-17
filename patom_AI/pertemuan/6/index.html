@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pelatihan AI untuk Guru</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f2f5;
+        }
+        .slide {
+            display: none;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
+        }
+        .slide.active {
+            display: flex;
+            opacity: 1;
+        }
+        .slide-content {
+            width: 90%;
+            max-width: 1000px;
+            height: 90%;
+            max-height: 600px;
+        }
+        .slide-card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 40px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 8px 16px;
+            border-radius: 99px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        .nav-btn {
+            background-color: #4f46e5;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 99px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        .nav-btn:hover {
+            background-color: #4338ca;
+        }
+        .nav-btn:disabled {
+            background-color: #a5b4fc;
+            cursor: not-allowed;
+        }
+        #slide-counter {
+            font-weight: 500;
+            color: #374151;
+            min-width: 50px;
+            text-align: center;
+        }
+        .pill {
+            display: inline-block;
+            background-color: #e0e7ff;
+            color: #4338ca;
+            padding: 4px 12px;
+            border-radius: 99px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .list-check li {
+            padding-left: 2.5rem;
+            position: relative;
+        }
+        .list-check li::before {
+            content: '✓';
+            position: absolute;
+            left: 0.5rem;
+            color: #4ade80;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <main id="presentation-container" class="w-full h-full">
+
+        <!-- Slide 1: Judul -->
+        <section class="slide active">
+            <div class="slide-content flex items-center justify-center">
+                <div class="slide-card text-center">
+                    <span class="pill">Pelatihan untuk Guru</span>
+                    <h1 class="text-5xl font-bold text-gray-800 mt-4 mb-3">Meningkatkan Kualitas Mengajar dengan Kecerdasan Artifisial (AI)</h1>
+                    <p class="text-xl text-gray-500">Panduan Praktis AI untuk Kebutuhan Sehari-hari Guru</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 2: Urgensi -->
+        <section class="slide">
+            <div class="slide-content flex items-center justify-center">
+                <div class="slide-card">
+                    <h2 class="text-4xl font-bold text-gray-800 mb-6">Mengapa Sesi Ini Penting?</h2>
+                    <ul class="space-y-4 text-xl text-gray-600 list-check">
+                        <li>AI bukan lagi masa depan, tapi <span class="font-semibold text-indigo-600">masa kini</span> di dunia pendidikan.</li>
+                        <li>Membantu guru bekerja lebih <span class="font-semibold text-indigo-600">efisien dan efektif</span> dalam persiapan mengajar.</li>
+                        <li>Membekali guru dengan <span class="font-semibold text-indigo-600">keterampilan relevan</span> untuk mendidik generasi digital.</li>
+                        <li>Membuka <span class="font-semibold text-indigo-600">peluang kreativitas baru</span> dalam merancang pembelajaran.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Slide Sela: Jajak Pendapat -->
+        <section class="slide">
+            <div class="slide-content flex items-center justify-center">
+                <div class="slide-card text-center bg-indigo-50">
+                     <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-indigo-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a2 2 0 01-2-2V4a2 2 0 012-2h8a2 2 0 012 2v4z" /></svg>
+                    <h2 class="text-4xl font-bold text-gray-800 mb-4">Jajak Pendapat!</h2>
+                    <p class="text-xl text-gray-600">Seberapa sering Anda menggunakan AI dalam satu minggu terakhir?</p>
+                    <p class="text-lg text-gray-500 mt-4">(Silakan buka aplikasi polling di ponsel Anda)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 3: Pengenalan AI & Analogi Kalkulator -->
+        <section class="slide">
+            <div class="slide-content flex items-center justify-center">
+                <div class="slide-card">
+                    <h2 class="text-4xl font-bold text-gray-800 mb-6">Bolehkah Guru Pakai AI?</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div class="text-center">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" fill="currentColor" class="bi bi-calculator-fill inline-block text-gray-300" viewBox="0 0 16 16"><path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zm2 .5v2a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0-.5.5m0 4v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5m3 0v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5m3 0v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5m-6 3v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5m3 0v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5m3 0v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5m-6 3v1a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 0-.5.5m6 0v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5"/></svg>
+                        </div>
+                        <div>
+                             <p class="text-xl text-gray-600">Ingatkah kita saat kalkulator pertama kali muncul? Ada kekhawatiran siswa menjadi tidak bisa berhitung.</p>
+                             <p class="text-xl text-gray-600 mt-4">Kenyataannya, kalkulator menjadi <span class="font-semibold text-indigo-600">alat bantu</span>, bukan pengganti. Begitu pula dengan AI. Ia adalah asisten, bukan pengganti guru.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 4: Google vs Gen AI -->
+        <section class="slide">
+            <div class="slide-content flex items-center justify-center">
+                <div class="slide-card">
+                    <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Google Search vs. Generative AI</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="bg-gray-50 p-6 rounded-xl">
+                            <h3 class="text-2xl font-semibold text-gray-700 mb-3">Google Search</h3>
+                            <p class="text-lg text-gray-600">Berfungsi seperti pustakawan. Ia <span class="font-semibold">mencarikan</span> informasi yang sudah ada di internet dan memberikan tautannya kepada Anda.</p>
+                             <p class="mt-4 font-semibold text-gray-500">Contoh: "Daftar pahlawan nasional Indonesia"</p>
+                        </div>
+                        <div class="bg-indigo-50 p-6 rounded-xl">
+                            <h3 class="text-2xl font-semibold text-indigo-700 mb-3">Generative AI</h3>
+                            <p class="text-lg text-gray-600">Berfungsi seperti asisten kreatif. Ia <span class="font-semibold">menciptakan</span> konten baru berdasarkan permintaan Anda: teks, ide, gambar, dll.</p>
+                            <p class="mt-4 font-semibold text-indigo-500">Contoh: "Buatkan puisi tentang Ki Hajar Dewantara"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 5: Fokus Sesi -->
+        <section class="slide">
+            <div class="slide-content flex items-center justify-center">
+                <div class="slide-card">
+                    <h2 class="text-4xl font-bold text-gray-800 mb-6">Fokus Sesi Ini: Penggunaan Praktis</h2>
+                    <p class="text-xl text-gray-500 mb-8">Kita tidak akan membahas hal teknis yang rumit. Kita akan fokus pada 4 kebutuhan utama guru:</p>
+                    <div class="grid grid-cols-2 grid-rows-2 gap-6 text-center">
+                        <div class="bg-green-50 p-6 rounded-xl"><h3 class="text-2xl font-semibold text-green-800">Bahan Ajar</h3></div>
+                        <div class="bg-blue-50 p-6 rounded-xl"><h3 class="text-2xl font-semibold text-blue-800">Soal Tambahan</h3></div>
+                        <div class="bg-yellow-50 p-6 rounded-xl"><h3 class="text-2xl font-semibold text-yellow-800">Ide Aktivitas Kelas</h3></div>
+                        <div class="bg-purple-50 p-6 rounded-xl"><h3 class="text-2xl font-semibold text-purple-800">Media Belajar (Teaser)</h3></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 6: Cara Prompting -->
+        <section class="slide">
+            <div class="slide-content flex items-center justify-center">
+                <div class="slide-card">
+                    <h2 class="text-4xl font-bold text-gray-800 mb-6">Seni Bertanya pada AI: Prompting</h2>
+                    <p class="text-xl text-gray-500 mb-8">Kualitas jawaban AI bergantung pada kualitas pertanyaan Anda. Prompt yang baik memiliki 4 karakteristik:</p>
+                    <ul class="space-y-4 text-xl text-gray-600 list-check">
+                        <li><span class="font-semibold text-indigo-600">Persona:</span> "Bertindaklah sebagai seorang guru sejarah..."</li>
+                        <li><span class="font-semibold text-indigo-600">Konteks:</span> "...untuk siswa kelas 5 SD yang sedang belajar tentang kerajaan Majapahit."</li>
+                        <li><span class="font-semibold text-indigo-600">Tugas (Task):</span> "Buatkan sebuah cerita pendek..."</li>
+                        <li><span class="font-semibold text-indigo-600">Format:</span> "...dalam 3 paragraf dengan bahasa yang ceria dan mudah dipahami."</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Slide 7: Ice Breaker -->
+        <section class="slide">
+            <div class="slide-content flex items-center justify-center">
+                <div class="slide-card text-center bg-yellow-50">
+                     <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-yellow-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547a2 2 0 00-.547 1.806l.477 2.387a6 6 0 00.517 3.86l.158.318a6 6 0 00.517 3.86l2.387.477a2 2 0 001.806-.547a2 2 0 00.547-1.806l-.477-2.387a6 6 0 00-.517-3.86l-.158-.318a6 6 0 00-.517-3.86l-2.387-.477zM12 6.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z" /></svg>
+                    <h2 class="text-4xl font-bold text-gray-800 mb-4">Ice Breaker: Math Riddle!</h2>
+                    <p class="text-xl text-gray-600">Saya adalah sebuah angka. Jika saya ditambah 5, hasilnya sama dengan jika saya dikalikan 3. Siapakah saya?</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 8: Simulasi -->
+        <section class="slide">
+            <div class="slide-content flex items-center justify-center">
+                <div class="slide-card text-center">
+                    <h2 class="text-5xl font-bold text-gray-800 mb-4">Saatnya Praktik!</h2>
+                    <p class="text-2xl text-gray-500">Mari kita coba bersama-sama menggunakan AI.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Slide 9: Praktik Bahan Ajar -->
+        <section class="slide">
+            <div class="slide-content flex items-center justify-center">
+                <div class="slide-card">
+                    <span class="pill bg-green-200 text-green-800">Praktik 1: Bahan Ajar (15 Menit)</span>
+                    <h2 class="text-3xl font-bold text-gray-800 mt-4 mb-4">Tantangan:</h2>
+                    <p class="text-xl text-gray-600 mb-6">Buka tab AI Anda (Gemini, ChatGPT, dll.) dan coba buat penjelasan sederhana tentang konsep <span class="font-semibold text-green-700">"Siklus Air"</span> untuk siswa <span class="font-semibold text-green-700">kelas 4 SD</span>. Gunakan analogi yang menarik!</p>
+                    <div class="bg-gray-50 p-4 rounded-lg mt-4 text-gray-700">
+                        <strong>Contoh Prompt:</strong><br>
+                        <code>Jelaskan konsep siklus air dengan bahasa yang sangat sederhana untuk anak kelas 4 SD. Gunakan analogi seperti memasak air di panci. Buat dalam 3 paragraf.</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Slide 10: Praktik Soal -->
+        <section class="slide">
+            <div class="slide-content flex items-center justify-center">
+                <div class="slide-card">
+                    <span class="pill bg-blue-200 text-blue-800">Praktik 2: Membuat Soal (15 Menit)</span>
+                    <h2 class="text-3xl font-bold text-gray-800 mt-4 mb-4">Tantangan:</h2>
+                    <p class="text-xl text-gray-600 mb-6">Minta AI untuk membuat <span class="font-semibold text-blue-700">3 soal pilihan ganda</span> tentang materi <span class="font-semibold text-blue-700">"Penjumlahan Pecahan"</span> untuk <span class="font-semibold text-blue-700">kelas 5 SD</span>, lengkap dengan kunci jawaban dan pembahasan singkat.</p>
+                     <div class="bg-gray-50 p-4 rounded-lg mt-4 text-gray-700">
+                        <strong>Contoh Prompt:</strong><br>
+                        <code>Buatkan 3 soal pilihan ganda tentang penjumlahan pecahan dengan penyebut berbeda untuk siswa kelas 5 SD. Sertakan kunci jawaban dan cara pengerjaannya untuk setiap soal.</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Slide 11: Praktik Ide Aktivitas -->
+        <section class="slide">
+            <div class="slide-content flex items-center justify-center">
+                <div class="slide-card">
+                    <span class="pill bg-yellow-200 text-yellow-800">Praktik 3: Ide Aktivitas (15 Menit)</span>
+                    <h2 class="text-3xl font-bold text-gray-800 mt-4 mb-4">Tantangan:</h2>
+                    <p class="text-xl text-gray-600 mb-6">Cari <span class="font-semibold text-yellow-700">2 ide aktivitas kelompok</span> yang seru di dalam kelas untuk materi <span class="font-semibold text-yellow-700">"Sistem Tata Surya"</span> untuk siswa <span class="font-semibold text-yellow-700">SMP kelas 7</span>.</p>
+                     <div class="bg-gray-50 p-4 rounded-lg mt-4 text-gray-700">
+                        <strong>Contoh Prompt:</strong><br>
+                        <code>Berikan saya 2 ide aktivitas belajar kelompok yang interaktif dan menyenangkan di dalam kelas untuk materi sistem tata surya. Target siswa adalah kelas 7 SMP.</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 12: Gemini Pro vs Flash -->
+        <section class="slide">
+            <div class="slide-content flex items-center justify-center">
+                <div class="slide-card">
+                    <h2 class="text-4xl font-bold text-gray-800 mb-8 text-center">Sekilas Info: Gemini Pro vs Flash</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="bg-gray-50 p-6 rounded-xl">
+                            <h3 class="text-2xl font-semibold text-gray-700 mb-3">Flash Model</h3>
+                            <ul class="list-disc pl-5 space-y-2 text-lg text-gray-600">
+                                <li><strong class="text-green-600">Sangat Cepat:</strong> Jawaban instan.</li>
+                                <li><strong>Efisien:</strong> Baik untuk tugas-tugas cepat dan ringkas.</li>
+                                <li><strong>Kelemahan:</strong> Kadang kurang mendalam untuk analisis kompleks.</li>
+                            </ul>
+                        </div>
+                        <div class="bg-indigo-50 p-6 rounded-xl">
+                            <h3 class="text-2xl font-semibold text-indigo-700 mb-3">Pro Model</h3>
+                             <ul class="list-disc pl-5 space-y-2 text-lg text-gray-600">
+                                <li><strong class="text-blue-600">Lebih Cerdas:</strong> Kemampuan penalaran lebih tinggi.</li>
+                                <li><strong>Akurat:</strong> Cocok untuk tugas yang butuh analisis mendalam.</li>
+                                <li><strong>Kelemahan:</strong> Sedikit lebih lambat dalam merespons.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Slide 13: Etika Penggunaan AI -->
+        <section class="slide">
+            <div class="slide-content flex items-center justify-center">
+                <div class="slide-card">
+                    <h2 class="text-4xl font-bold text-gray-800 mb-6">Menggunakan AI dengan Bijak</h2>
+                    <p class="text-xl text-gray-500 mb-8">AI adalah alat bantu, bukan jalan pintas. Ingatlah selalu:</p>
+                    <ul class="space-y-4 text-xl text-gray-600 list-check">
+                        <li><span class="font-semibold">Verifikasi Fakta:</span> AI bisa membuat kesalahan. Selalu periksa kembali informasi penting.</li>
+                        <li><span class="font-semibold">Hindari Plagiarisme:</span> Gunakan hasil AI sebagai inspirasi dan tulis ulang dengan gaya Anda sendiri.</li>
+                        <li><span class="font-semibold">Jaga Kerahasiaan:</span> Jangan memasukkan data pribadi atau sensitif siswa ke dalam AI.</li>
+                        <li><span class="font-semibold">Fokus pada Proses Belajar:</span> Ajarkan siswa cara berpikir kritis, bukan hanya cara mendapatkan jawaban instan.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Slide 14: Sharing Session -->
+        <section class="slide">
+            <div class="slide-content flex items-center justify-center">
+                <div class="slide-card text-center">
+                     <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-indigo-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.653-.124-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.653.124-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                    <h2 class="text-4xl font-bold text-gray-800 mb-4">Sesi Berbagi Pengalaman (10 Menit)</h2>
+                    <p class="text-xl text-gray-600">Bagaimana pengalaman Anda selama sesi praktik tadi? Adakah ide baru yang muncul?</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 15: Penutup -->
+        <section class="slide">
+            <div class="slide-content flex items-center justify-center">
+                <div class="slide-card text-center">
+                    <h2 class="text-5xl font-bold text-gray-800 mb-4">Terima Kasih!</h2>
+                    <p class="text-2xl text-gray-500 mb-8">Mari terus belajar dan berinovasi untuk pendidikan yang lebih baik.</p>
+                    <p class="text-xl text-gray-600">Ada Pertanyaan?</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div class="navigation">
+        <button id="prev-btn" class="nav-btn">Sebelumnya</button>
+        <span id="slide-counter">1 / 15</span>
+        <button id="next-btn" class="nav-btn">Selanjutnya</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const slideCounter = document.getElementById('slide-counter');
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+
+            function showSlide(index) {
+                slides.forEach((slide, i) => {
+                    slide.classList.toggle('active', i === index);
+                });
+                currentSlide = index;
+                updateNavigation();
+            }
+
+            function updateNavigation() {
+                slideCounter.textContent = `${currentSlide + 1} / ${totalSlides}`;
+                prevBtn.disabled = currentSlide === 0;
+                nextBtn.disabled = currentSlide === totalSlides - 1;
+            }
+
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    showSlide(currentSlide - 1);
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < totalSlides - 1) {
+                    showSlide(currentSlide + 1);
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' || e.key === ' ') {
+                   if (currentSlide < totalSlides - 1) {
+                        showSlide(currentSlide + 1);
+                    }
+                } else if (e.key === 'ArrowLeft') {
+                    if (currentSlide > 0) {
+                        showSlide(currentSlide - 1);
+                    }
+                }
+            });
+
+            showSlide(0);
+        });
+    </script>
+</body>
+</html>
