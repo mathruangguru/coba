@@ -1,182 +1,388 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Holiday Program: Theme Ideas</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-        }
-        .theme-card {
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        }
-        .theme-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-        }
-        .tab-btn.active {
-            background-color: #4f46e5; /* indigo-600 */
-            color: white;
-        }
-        .tab-content {
-            display: none;
-        }
-        .tab-content.active {
-            display: grid;
-        }
+      body {
+        font-family: "Poppins", sans-serif;
+      }
+      .theme-card {
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      }
+      .theme-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1),
+          0 8px 10px -6px rgb(0 0 0 / 0.1);
+      }
+      .tab-btn.active {
+        background-color: #4f46e5; /* indigo-600 */
+        color: white;
+      }
+      .tab-content {
+        display: none;
+      }
+      .tab-content.active {
+        display: grid;
+      }
     </style>
-</head>
-<body class="bg-gray-100 text-gray-800">
-
+  </head>
+  <body class="bg-gray-100 text-gray-800">
     <div class="container mx-auto px-4 py-12">
-        <header class="text-center mb-12">
-            <h1 class="text-4xl md:text-5xl font-bold text-indigo-600">Holiday Program Theme Ideas</h1>
-            <p class="text-lg text-gray-600 mt-4 max-w-3xl mx-auto">Here are two different approaches for your holiday program theme: a competitive "Champion" path and a creative "Fun-First" path.</p>
-        </header>
+      <header class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold text-indigo-600">
+          Holiday Program Theme Ideas
+        </h1>
+        <p class="text-lg text-gray-600 mt-4 max-w-3xl mx-auto">
+          Here are two different approaches for your holiday program theme: a
+          competitive "Champion" path and a creative "Fun-First" path, both with
+          a 'Genius' vibe.
+        </p>
+      </header>
 
-        <!-- Tab Buttons -->
-        <div class="flex justify-center mb-10 border-b border-gray-300">
-            <button class="tab-btn active text-lg font-semibold py-4 px-8 text-gray-600 border-b-4 border-transparent hover:border-indigo-500 hover:text-indigo-500 focus:outline-none" onclick="openTab('champions')">
-                🏆 The Champion's Path
-            </button>
-            <button class="tab-btn text-lg font-semibold py-4 px-8 text-gray-600 border-b-4 border-transparent hover:border-indigo-500 hover:text-indigo-500 focus:outline-none" onclick="openTab('funfirst')">
-                🚀 The Fun-First Adventure
-            </button>
+      <!-- Tab Buttons -->
+      <div class="flex justify-center mb-10 border-b border-gray-300">
+        <button
+          class="tab-btn active text-lg font-semibold py-4 px-8 text-gray-600 border-b-4 border-transparent hover:border-indigo-500 hover:text-indigo-500 focus:outline-none"
+          onclick="openTab('champions')"
+        >
+          🏆 The Champion's Path
+        </button>
+        <button
+          class="tab-btn text-lg font-semibold py-4 px-8 text-gray-600 border-b-4 border-transparent hover:border-indigo-500 hover:text-indigo-500 focus:outline-none"
+          onclick="openTab('funfirst')"
+        >
+          🚀 The Fun-First Adventure
+        </button>
+      </div>
+
+      <!-- Tab Content -->
+      <div id="tab-content-container">
+        <!-- Champions Path Content -->
+        <div
+          id="champions"
+          class="tab-content active grid-cols-1 md:grid-cols-2 gap-10"
+        >
+          <div
+            class="theme-card bg-white rounded-2xl shadow-lg p-8 border-4 border-amber-400"
+          >
+            <div class="mb-4">
+              <span
+                class="text-sm font-semibold bg-amber-100 text-amber-700 py-1 px-3 rounded-full"
+                >⭐ Preferred Choice</span
+              >
+            </div>
+            <h2 class="text-3xl font-bold mb-3 text-amber-600">
+              Champions' Camp
+            </h2>
+            <p class="text-gray-600 mb-6">
+              A fun camp environment where you train 3 'Super Skills' through
+              exciting challenges to become a well-rounded champion.
+            </p>
+            <div class="space-y-4">
+              <div class="bg-amber-50 p-4 rounded-lg">
+                <h3 class="font-bold text-lg text-amber-800">Math:</h3>
+                <p class="text-amber-700">Math Arena</p>
+              </div>
+              <div class="bg-amber-50 p-4 rounded-lg">
+                <h3 class="font-bold text-lg text-amber-800">Coding:</h3>
+                <p class="text-amber-700">Coding Arena</p>
+              </div>
+              <div class="bg-amber-50 p-4 rounded-lg">
+                <h3 class="font-bold text-lg text-amber-800">Memory:</h3>
+                <p class="text-amber-700">Focus Arena</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="theme-card bg-white rounded-2xl shadow-lg p-8">
+            <div class="mb-4">
+              <span
+                class="text-sm font-semibold bg-indigo-100 text-indigo-700 py-1 px-3 rounded-full"
+                >The Original Vibe</span
+              >
+            </div>
+            <h2 class="text-3xl font-bold mb-3 text-indigo-600">
+              Mind Champions' League
+            </h2>
+            <p class="text-gray-600 mb-6">
+              Enter a league of champions where brainpower is your greatest
+              asset. Compete in challenges that test your intellect and
+              strategic thinking.
+            </p>
+            <div class="space-y-4">
+              <div class="bg-indigo-50 p-4 rounded-lg">
+                <h3 class="font-bold text-lg text-indigo-800">Math:</h3>
+                <p class="text-indigo-700">Logic Masters</p>
+              </div>
+              <div class="bg-indigo-50 p-4 rounded-lg">
+                <h3 class="font-bold text-lg text-indigo-800">Coding:</h3>
+                <p class="text-indigo-700">Code Creators</p>
+              </div>
+              <div class="bg-indigo-50 p-4 rounded-lg">
+                <h3 class="font-bold text-lg text-indigo-800">Memory:</h3>
+                <p class="text-indigo-700">Memory Whiz</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="theme-card bg-white rounded-2xl shadow-lg p-8">
+            <div class="mb-4">
+              <span
+                class="text-sm font-semibold bg-red-100 text-red-700 py-1 px-3 rounded-full"
+                >The Hero Vibe</span
+              >
+            </div>
+            <h2 class="text-3xl font-bold mb-3 text-red-600">
+              MindForce Academy
+            </h2>
+            <p class="text-gray-600 mb-6">
+              Unleash your greatest superpower: your mind! Join an academy for
+              gifted heroes who solve problems with brilliance and creativity.
+            </p>
+            <div class="space-y-4">
+              <div class="bg-red-50 p-4 rounded-lg">
+                <h3 class="font-bold text-lg text-red-800">Math:</h3>
+                <p class="text-red-700">Math Strategists</p>
+              </div>
+              <div class="bg-red-50 p-4 rounded-lg">
+                <h3 class="font-bold text-lg text-red-800">Coding:</h3>
+                <p class="text-red-700">Code Inventors</p>
+              </div>
+              <div class="bg-red-50 p-4 rounded-lg">
+                <h3 class="font-bold text-lg text-red-800">Memory:</h3>
+                <p class="text-red-700">Memory Masters</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="theme-card bg-white rounded-2xl shadow-lg p-8">
+            <div class="mb-4">
+              <span
+                class="text-sm font-semibold bg-green-100 text-green-700 py-1 px-3 rounded-full"
+                >The Explorer Vibe</span
+              >
+            </div>
+            <h2 class="text-3xl font-bold mb-3 text-green-600">
+              Quest for Genius
+            </h2>
+            <p class="text-gray-600 mb-6">
+              Embark on a legendary quest to rediscover the three lost arts of
+              the mind. Explore ancient puzzles and forgotten knowledge.
+            </p>
+            <div class="space-y-4">
+              <div class="bg-green-50 p-4 rounded-lg">
+                <h3 class="font-bold text-lg text-green-800">Math:</h3>
+                <p class="text-green-700">Number Quest</p>
+              </div>
+              <div class="bg-green-50 p-4 rounded-lg">
+                <h3 class="font-bold text-lg text-green-800">Coding:</h3>
+                <p class="text-green-700">Code Crafters</p>
+              </div>
+              <div class="bg-green-50 p-4 rounded-lg">
+                <h3 class="font-bold text-lg text-green-800">Memory:</h3>
+                <p class="text-green-700">Memory Quest</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="theme-card bg-white rounded-2xl shadow-lg p-8">
+            <div class="mb-4">
+              <span
+                class="text-sm font-semibold bg-blue-100 text-blue-700 py-1 px-3 rounded-full"
+                >The Player Vibe</span
+              >
+            </div>
+            <h2 class="text-3xl font-bold mb-3 text-blue-600">
+              LEVEL UP: Genius Mode
+            </h2>
+            <p class="text-gray-600 mb-6">
+              Activate 'Genius Mode' this holiday! It's not just about playing
+              the game, it's about mastering it with superior intellect.
+            </p>
+            <div class="space-y-4">
+              <div class="bg-blue-50 p-4 rounded-lg">
+                <h3 class="font-bold text-lg text-blue-800">Math:</h3>
+                <p class="text-blue-700">Math Puzzles</p>
+              </div>
+              <div class="bg-blue-50 p-4 rounded-lg">
+                <h3 class="font-bold text-lg text-blue-800">Coding:</h3>
+                <p class="text-blue-700">Coding World</p>
+              </div>
+              <div class="bg-blue-50 p-4 rounded-lg">
+                <h3 class="font-bold text-lg text-blue-800">Memory:</h3>
+                <p class="text-blue-700">Memory World</p>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- Tab Content -->
-        <div id="tab-content-container">
-            <!-- Champions Path Content -->
-            <div id="champions" class="tab-content active grid-cols-1 md:grid-cols-2 gap-10">
-                
-                <div class="theme-card bg-white rounded-2xl shadow-lg p-8">
-                    <div class="mb-4"><span class="text-sm font-semibold bg-indigo-100 text-indigo-700 py-1 px-3 rounded-full">The Original Vibe</span></div>
-                    <h2 class="text-3xl font-bold mb-3 text-indigo-600">Champions' Camp: The 3-Skill Challenge</h2>
-                    <p class="text-gray-600 mb-6">Master 3 core skills through exciting challenges and level up every week to become a champion.</p>
-                    <div class="space-y-4">
-                        <div class="bg-indigo-50 p-4 rounded-lg"><h3 class="font-bold text-lg text-indigo-800">Math:</h3><p class="text-indigo-700">The Logic Arena</p></div>
-                        <div class="bg-indigo-50 p-4 rounded-lg"><h3 class="font-bold text-lg text-indigo-800">Coding:</h3><p class="text-indigo-700">The Creator's Arena</p></div>
-                        <div class="bg-indigo-50 p-4 rounded-lg"><h3 class="font-bold text-lg text-indigo-800">Memory:</h3><p class="text-indigo-700">The Focus Arena</p></div>
-                    </div>
-                </div>
-
-                <div class="theme-card bg-white rounded-2xl shadow-lg p-8">
-                    <div class="mb-4"><span class="text-sm font-semibold bg-red-100 text-red-700 py-1 px-3 rounded-full">The Hero Vibe</span></div>
-                    <h2 class="text-3xl font-bold mb-3 text-red-600">Hero Skill Academy</h2>
-                    <p class="text-gray-600 mb-6">Every kid is a superhero in training, here to master their three core powers for the holidays.</p>
-                    <div class="space-y-4">
-                        <div class="bg-red-50 p-4 rounded-lg"><h3 class="font-bold text-lg text-red-800">Math:</h3><p class="text-red-700">The Super Logic Lab</p></div>
-                        <div class="bg-red-50 p-4 rounded-lg"><h3 class="font-bold text-lg text-red-800">Coding:</h3><p class="text-red-700">The Imagination Studio</p></div>
-                        <div class="bg-red-50 p-4 rounded-lg"><h3 class="font-bold text-lg text-red-800">Memory:</h3><p class="text-red-700">The Focus Training Center</p></div>
-                    </div>
-                </div>
-
-                <div class="theme-card bg-white rounded-2xl shadow-lg p-8">
-                    <div class="mb-4"><span class="text-sm font-semibold bg-green-100 text-green-700 py-1 px-3 rounded-full">The Explorer Vibe</span></div>
-                    <h2 class="text-3xl font-bold mb-3 text-green-600">The Great Skill Quest</h2>
-                    <p class="text-gray-600 mb-6">This holiday is a grand adventure to discover three legendary treasures of knowledge.</p>
-                    <div class="space-y-4">
-                        <div class="bg-green-50 p-4 rounded-lg"><h3 class="font-bold text-lg text-green-800">Math:</h3><p class="text-green-700">The Explorer's Map Room</p></div>
-                        <div class="bg-green-50 p-4 rounded-lg"><h3 class="font-bold text-lg text-green-800">Coding:</h3><p class="text-green-700">The Creator's Workshop</p></div>
-                        <div class="bg-green-50 p-4 rounded-lg"><h3 class="font-bold text-lg text-green-800">Memory:</h3><p class="text-green-700">The Adventurer's Journal</p></div>
-                    </div>
-                </div>
-
-                <div class="theme-card bg-white rounded-2xl shadow-lg p-8">
-                    <div class="mb-4"><span class="text-sm font-semibold bg-blue-100 text-blue-700 py-1 px-3 rounded-full">The Player Vibe</span></div>
-                    <h2 class="text-3xl font-bold mb-3 text-blue-600">Holiday LEVEL UP!</h2>
-                    <p class="text-gray-600 mb-6">The holiday program is a massive game where students level up their skills in three different worlds.</p>
-                    <div class="space-y-4">
-                        <div class="bg-blue-50 p-4 rounded-lg"><h3 class="font-bold text-lg text-blue-800">Math:</h3><p class="text-blue-700">The Puzzle World</p></div>
-                        <div class="bg-blue-50 p-4 rounded-lg"><h3 class="font-bold text-lg text-blue-800">Coding:</h3><p class="text-blue-700">The Creator World</p></div>
-                        <div class="bg-blue-50 p-4 rounded-lg"><h3 class="font-bold text-lg text-blue-800">Memory:</h3><p class="text-blue-700">The Focus World</p></div>
-                    </div>
-                </div>
-
+        <!-- Fun-First Adventure Content -->
+        <div
+          id="funfirst"
+          class="tab-content grid-cols-1 md:grid-cols-2 gap-10"
+        >
+          <div
+            class="theme-card bg-white rounded-2xl shadow-lg p-8 border-4 border-cyan-400"
+          >
+            <div class="mb-4">
+              <span
+                class="text-sm font-semibold bg-cyan-100 text-cyan-700 py-1 px-3 rounded-full"
+                >⭐ Preferred Choice</span
+              >
             </div>
-
-            <!-- Fun-First Adventure Content -->
-            <div id="funfirst" class="tab-content grid-cols-1 md:grid-cols-2 gap-10">
-                <div class="theme-card bg-white rounded-2xl shadow-lg p-8">
-                    <div class="mb-4"><span class="text-sm font-semibold bg-pink-100 text-pink-700 py-1 px-3 rounded-full">The Content Creator Vibe</span></div>
-                    <h2 class="text-3xl font-bold mb-3 text-pink-600">Creator Studio: Launch Your Channel!</h2>
-                    <p class="text-gray-600 mb-6">Become a content creator! This holiday, you'll plan, create, and launch your very own "YouTube" channel, learning key skills along the way.</p>
-                    <div class="space-y-4">
-                        <div class="bg-pink-50 p-4 rounded-lg"><h3 class="font-bold text-lg text-pink-800">Math:</h3><p class="text-pink-700">The Analyst Desk (Plan your content budget & analyze 'views')</p></div>
-                        <div class="bg-pink-50 p-4 rounded-lg"><h3 class="font-bold text-lg text-pink-800">Coding:</h3><p class="text-pink-700">The Production Room (Code your channel intro & animations)</p></div>
-                        <div class="bg-pink-50 p-4 rounded-lg"><h3 class="font-bold text-lg text-pink-800">Memory:</h3><p class="text-pink-700">The Scriptwriter's Room (Memorize fun facts & key points for your 'show')</p></div>
-                    </div>
-                </div>
-
-                <div class="theme-card bg-white rounded-2xl shadow-lg p-8">
-                    <div class="mb-4"><span class="text-sm font-semibold bg-teal-100 text-teal-700 py-1 px-3 rounded-full">The World Builder Vibe</span></div>
-                    <h2 class="text-3xl font-bold mb-3 text-teal-600">World Crafters: Design Your Universe</h2>
-                    <p class="text-gray-600 mb-6">Inspired by games like Minecraft, you get to design and build your own fantasy world from the ground up, complete with its own rules and stories.</p>
-                    <div class="space-y-4">
-                        <div class="bg-teal-50 p-4 rounded-lg"><h3 class="font-bold text-lg text-teal-800">Math:</h3><p class="text-teal-700">The Architect's Guild (Use geometry to design buildings & landscapes)</p></div>
-                        <div class="bg-teal-50 p-4 rounded-lg"><h3 class="font-bold text-lg text-teal-800">Coding:</h3><p class="text-teal-700">The Magic Forge (Code the 'rules of magic' and interactive elements of your world)</p></div>
-                        <div class="bg-teal-50 p-4 rounded-lg"><h3 class="font-bold text-lg text-teal-800">Memory:</h3><p class="text-teal-700">The Lore Keeper's Library (Create & remember the history and characters of your universe)</p></div>
-                    </div>
-                </div>
-
-                <div class="theme-card bg-white rounded-2xl shadow-lg p-8">
-                    <div class="mb-4"><span class="text-sm font-semibold bg-purple-100 text-purple-700 py-1 px-3 rounded-full">The Mystery Vibe (New & Improved!)</span></div>
-                    <h2 class="text-3xl font-bold mb-3 text-purple-600">Junior Detectives Inc.</h2>
-                    <p class="text-gray-600 mb-6">Join a detective agency! Work in teams to find clues, crack codes, and solve a fun, camp-wide mystery.</p>
-                    <div class="space-y-4">
-                        <div class="bg-purple-50 p-4 rounded-lg">
-                            <h3 class="font-bold text-lg text-purple-800">Math: Divisi Pemecah Kode</h3>
-                            <p class="text-purple-700">(Crack secret patterns, number ciphers, and logic puzzles to unlock hidden clues)</p>
-                        </div>
-                        <div class="bg-purple-50 p-4 rounded-lg">
-                            <h3 class="font-bold text-lg text-purple-800">Coding: Bengkel Peralatan Mata-Mata</h3>
-                            <p class="text-purple-700">(Code your own simple spy gadgets, like an intruder alarm or a secret message animation)</p>
-                        </div>
-                        <div class="bg-purple-50 p-4 rounded-lg">
-                            <h3 class="font-bold text-lg text-purple-800">Memory: Ruang Pelatihan Observasi</h3>
-                            <p class="text-purple-700">(Train your eyes to memorize crime scene details, witness faces, and lists of evidence)</p>
-                        </div>
-                    </div>
-                </div>
-
+            <h2 class="text-3xl font-bold mb-3 text-cyan-600">
+              Junior Detectives Inc.
+            </h2>
+            <p class="text-gray-600 mb-6">
+              Join a fun detective agency! Work in teams to find clues, crack
+              codes, and solve a camp-wide mystery where everyone contributes.
+            </p>
+            <div class="space-y-4">
+              <div class="bg-cyan-50 p-4 rounded-lg">
+                <h3 class="font-bold text-lg text-cyan-800">Math:</h3>
+                <p class="text-cyan-700">Math Puzzles</p>
+              </div>
+              <div class="bg-cyan-50 p-4 rounded-lg">
+                <h3 class="font-bold text-lg text-cyan-800">Coding:</h3>
+                <p class="text-cyan-700">Gadget Coding</p>
+              </div>
+              <div class="bg-cyan-50 p-4 rounded-lg">
+                <h3 class="font-bold text-lg text-cyan-800">Memory:</h3>
+                <p class="text-cyan-700">Clue Memory</p>
+              </div>
             </div>
+          </div>
+
+          <div class="theme-card bg-white rounded-2xl shadow-lg p-8">
+            <div class="mb-4">
+              <span
+                class="text-sm font-semibold bg-pink-100 text-pink-700 py-1 px-3 rounded-full"
+                >The Content Creator Vibe</span
+              >
+            </div>
+            <h2 class="text-3xl font-bold mb-3 text-pink-600">
+              Creator Studio: Go Viral!
+            </h2>
+            <p class="text-gray-600 mb-6">
+              It takes a genius to go viral! Plan, produce, and launch a hit
+              "YouTube" channel using smart strategies and creative tech skills.
+            </p>
+            <div class="space-y-4">
+              <div class="bg-pink-50 p-4 rounded-lg">
+                <h3 class="font-bold text-lg text-pink-800">Math:</h3>
+                <p class="text-pink-700">Data Math</p>
+              </div>
+              <div class="bg-pink-50 p-4 rounded-lg">
+                <h3 class="font-bold text-lg text-pink-800">Coding:</h3>
+                <p class="text-pink-700">Creator Code</p>
+              </div>
+              <div class="bg-pink-50 p-4 rounded-lg">
+                <h3 class="font-bold text-lg text-pink-800">Memory:</h3>
+                <p class="text-pink-700">Script Memory</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="theme-card bg-white rounded-2xl shadow-lg p-8">
+            <div class="mb-4">
+              <span
+                class="text-sm font-semibold bg-teal-100 text-teal-700 py-1 px-3 rounded-full"
+                >The World Builder Vibe</span
+              >
+            </div>
+            <h2 class="text-3xl font-bold mb-3 text-teal-600">
+              Universe Architects
+            </h2>
+            <p class="text-gray-600 mb-6">
+              Only a true genius can create a universe. Design a world from
+              scratch, from its fundamental laws to its epic history.
+            </p>
+            <div class="space-y-4">
+              <div class="bg-teal-50 p-4 rounded-lg">
+                <h3 class="font-bold text-lg text-teal-800">Math:</h3>
+                <p class="text-teal-700">Shape Architects</p>
+              </div>
+              <div class="bg-teal-50 p-4 rounded-lg">
+                <h3 class="font-bold text-lg text-teal-800">Coding:</h3>
+                <p class="text-teal-700">World Coding</p>
+              </div>
+              <div class="bg-teal-50 p-4 rounded-lg">
+                <h3 class="font-bold text-lg text-teal-800">Memory:</h3>
+                <p class="text-teal-700">Lore Memory</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="theme-card bg-white rounded-2xl shadow-lg p-8">
+            <div class="mb-4">
+              <span
+                class="text-sm font-semibold bg-purple-100 text-purple-700 py-1 px-3 rounded-full"
+                >The Mystery Vibe</span
+              >
+            </div>
+            <h2 class="text-3xl font-bold mb-3 text-purple-600">
+              The Genius Detective Agency
+            </h2>
+            <p class="text-gray-600 mb-6">
+              Calling all young masterminds! Join an elite detective agency
+              where we solve the trickiest cases using pure brainpower.
+            </p>
+            <div class="space-y-4">
+              <div class="bg-purple-50 p-4 rounded-lg">
+                <h3 class="font-bold text-lg text-purple-800">Math:</h3>
+                <p class="text-purple-700">Logic Ciphers</p>
+              </div>
+              <div class="bg-purple-50 p-4 rounded-lg">
+                <h3 class="font-bold text-lg text-purple-800">Coding:</h3>
+                <p class="text-purple-700">Gadget Code</p>
+              </div>
+              <div class="bg-purple-50 p-4 rounded-lg">
+                <h3 class="font-bold text-lg text-purple-800">Memory:</h3>
+                <p class="text-purple-700">Clue Memory</p>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
 
     <script>
-        function openTab(tabName) {
-            let i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tab-content");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-                tabcontent[i].classList.remove("active");
-            }
-            tablinks = document.getElementsByClassName("tab-btn");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].classList.remove("active");
-            }
-            document.getElementById(tabName).style.display = "grid";
-            document.getElementById(tabName).classList.add("active");
-            
-            // Find the button that controls the opened tab and add the active class
-            const buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(button => {
-                if (button.getAttribute('onclick') === `openTab('${tabName}')`) {
-                    button.classList.add('active');
-                }
-            });
+      function openTab(tabName) {
+        let i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+          tabcontent[i].classList.remove("active");
         }
-        
-        // Initially open the first tab
-        document.addEventListener('DOMContentLoaded', (event) => {
-            openTab('champions');
-        });
-    </script>
-</body>
-</html>
+        tablinks = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].classList.remove("active");
+        }
+        document.getElementById(tabName).style.display = "grid";
+        document.getElementById(tabName).classList.add("active");
 
+        // Find the button that controls the opened tab and add the active class
+        const buttons = document.querySelectorAll(".tab-btn");
+        buttons.forEach((button) => {
+          if (button.getAttribute("onclick") === `openTab('${tabName}')`) {
+            button.classList.add("active");
+          }
+        });
+      }
+
+      // Initially open the first tab
+      document.addEventListener("DOMContentLoaded", (event) => {
+        openTab("champions");
+      });
+    </script>
+  </body>
+</html>
