@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MatheXplore Nusantara 2025</title>
+    <!-- Impor Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Impor Font Inter dari Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Menggunakan font Inter sebagai default */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa; /* Latar belakang netral */
+        }
+        /* Efek latar belakang gradien untuk hero */
+        #slide-1 {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        }
+        /* Styling untuk 'section' agar terasa seperti slide */
+        .slide-section {
+            min-height: 100vh;
+            padding-top: 100px; /* Offset untuk fixed navbar */
+            padding-bottom: 60px;
+        }
+        /* Menjadikan section pertama (hero) pas di layar */
+        #slide-1.slide-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased">
+
+    <!-- Navigasi Header -->
+    <header class="bg-white/90 backdrop-blur-md shadow-sm fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo / Judul Program -->
+                <div class="flex-shrink-0">
+                    <a href="#slide-1" class="text-2xl font-extrabold text-blue-700">
+                        MatheXplore
+                    </a>
+                </div>
+                <!-- Navigasi Desktop -->
+                <nav class="hidden md:flex md:items-center md:space-x-6 lg:space-x-8">
+                    <a href="#slide-1" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Overview</a>
+                    <a href="#slide-2" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Goals</a>
+                    <a href="#slide-3" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Framework</a>
+                    <a href="#slide-4" class="text-gray-600 hover:text-blue-600 font-medium transition-colors">Program Details</a>
+                </nav>
+                <!-- Tombol Menu Mobile -->
+                <div class="md:hidden">
+                    <button id="menu-toggle" class="text-gray-700 hover:text-blue-600 focus:outline-none">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Menu Dropdown Mobile -->
+        <nav id="nav-menu" class="md:hidden hidden flex-col space-y-2 px-4 pt-2 pb-4 bg-white shadow-lg absolute top-20 left-0 right-0">
+            <a href="#slide-1" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-blue-600">Overview</a>
+            <a href="#slide-2" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-blue-600">Goals</a>
+            <a href="#slide-3" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-blue-600">Framework</a>
+            <a href="#slide-4" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-blue-600">Program Details</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- SLIDE 1: Program Overview -->
+        <section id="slide-1" class="slide-section text-white text-center px-4">
+            <div class="max-w-4xl mx-auto">
+                <span class="inline-block bg-white/20 text-white text-sm font-semibold px-4 py-1 rounded-full backdrop-blur-sm">
+                    🌏 MatheXplore Nusantara 2025
+                </span>
+                <h1 class="text-4xl sm:text-5xl md:text-7xl font-extrabold mt-6 leading-tight">
+                    Exploring Indonesia through Numbers
+                </h1>
+                <p class="text-xl sm:text-2xl md:text-3xl font-light mt-6 max-w-3xl mx-auto opacity-90">
+                    Perjalanan menjelajahi Nusantara sambil memecahkan tantangan matematika dari kehidupan sehari-hari, budaya, dan alam Indonesia.
+                </p>
+
+                <!-- Info Detail -->
+                <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+                    <div class="bg-white/20 backdrop-blur-sm p-6 rounded-xl shadow-lg">
+                        <h3 class="text-xl font-bold mb-2">Durasi Program</h3>
+                        <p class="text-lg opacity-90">2 minggu intensif</p>
+                    </div>
+                    <div class="bg-white/20 backdrop-blur-sm p-6 rounded-xl shadow-lg">
+                        <h3 class="text-xl font-bold mb-2">Format Belajar</h3>
+                        <p class="text-lg opacity-90">Offline (3×100 mnt/tema)</p>
+                        <p class="text-lg opacity-90">Online (5×60 mnt/tema)</p>
+                    </div>
+                    <div class="bg-white/20 backdrop-blur-sm p-6 rounded-xl shadow-lg">
+                        <h3 class="text-xl font-bold mb-2">Tema Mingguan</h3>
+                        <p class="text-lg opacity-90">Wk 1: Sumatera & Jawa</p>
+                        <p class="text-lg opacity-90">Wk 2: Kalimantan, Sulawesi & Papua</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 2: Program Goals & Core Philosophy (ADDED BACK) -->
+        <section id="slide-2" class="slide-section bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+                <h2 class="text-4xl md:text-5xl font-extrabold text-center text-gray-900 mb-16">
+                    <span class="text-blue-600">💡</span> Tujuan & Filosofi Inti
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16">
+                    <!-- Kolom Tujuan Utama -->
+                    <div class="bg-gray-50 p-8 rounded-2xl shadow-lg border border-gray-200">
+                        <h3 class="text-3xl font-bold text-gray-800 mb-6">Tujuan Utama</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <svg class="w-6 h-6 text-green-500 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                <span class="text-lg text-gray-700">Menumbuhkan kecintaan pada matematika melalui pengalaman nyata.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-6 h-6 text-green-500 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                <span class="text-lg text-gray-700">Menghubungkan konsep angka dengan budaya, alam, dan kehidupan Nusantara.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-6 h-6 text-green-500 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                <span class="text-lg text-gray-700">Mengembangkan kemampuan berpikir logis, kritis, dan kreatif melalui konteks Indonesia.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-6 h-6 text-green-500 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                <span class="text-lg text-gray-700">Menumbuhkan growth mindset dan rasa ingin tahu dalam belajar.</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Kolom Pendekatan Inti -->
+                    <div class="bg-blue-50 p-8 rounded-2xl shadow-lg border border-blue-200">
+                        <h3 class="text-3xl font-bold text-blue-800 mb-6">Pendekatan Inti</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <svg class="w-6 h-6 text-blue-500 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"></path></svg>
+                                <span class="text-lg text-gray-700">Singapore Math CPA (Concrete – Pictorial – Abstract)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-6 h-6 text-blue-500 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>
+                                <span class="text-lg text-gray-700">Heuristics for Problem Solving</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-6 h-6 text-blue-500 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+                                <span class="text-lg text-gray-700">Contextual & Experiential Learning</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-6 h-6 text-blue-500 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20"><path d="M5 3a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 2h10v10H5V5z"></path><path d="M6 7h8v2H6V7z"></path></svg>
+                                <span class="text-lg text-gray-700">Mini Project Integration di akhir setiap tema</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 3: Strategic Framework (High-Level view for management) (ADDED BACK) -->
+        <section id="slide-3" class="slide-section bg-gray-50">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+                <h2 class="text-4xl md:text-5xl font-extrabold text-center text-gray-900 mb-16">
+                    <span class="text-blue-600">📊</span> Kerangka Strategis Program
+                </h2>
+                
+                <!-- Konten Gabungan dari Slide 3, 4, 5 lama -->
+                <div class="space-y-16">
+
+                    <!-- Bagian Pathways (Slide 3 lama) -->
+                    <article class="bg-white rounded-2xl shadow-xl p-8 border border-gray-200">
+                        <h3 class="text-3xl font-bold text-gray-800 mb-6 text-center">Program Pathways (High-Level)</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <!-- Card 1: Math Explorers -->
+                            <div class="bg-green-50 rounded-xl shadow-lg border border-green-200 p-6">
+                                <h3 class="text-2xl font-extrabold text-green-700">Math Explorers</h3>
+                                <p class="text-lg font-medium text-gray-700">5 – 7 tahun</p>
+                                <p class="text-lg italic text-green-600 font-medium my-4">“Discover Numbers Through Play and Adventure!”</p>
+                                <h5 class="font-bold text-gray-800 mb-2">Ciri Pembelajaran:</h5>
+                                <p class="text-gray-700 mb-4">Belajar melalui permainan, eksplorasi konkret, aktivitas sensorik.</p>
+                                <h5 class="font-bold text-gray-800 mb-2">Fokus Utama:</h5>
+                                <p class="text-gray-700">Bilangan, pola, ukuran, data sederhana.</p>
+                            </div>
+                            <!-- Card 2: Math Adventurers -->
+                            <div class="bg-yellow-50 rounded-xl shadow-lg border border-yellow-200 p-6">
+                                <h3 class="text-2xl font-extrabold text-yellow-700">Math Adventurers</h3>
+                                <p class="text-lg font-medium text-gray-700">8 – 10 tahun</p>
+                                <p class="text-lg italic text-yellow-600 font-medium my-4">“Solve Everyday Challenges Across the Islands!”</p>
+                                <h5 class="font-bold text-gray-800 mb-2">Ciri Pembelajaran:</h5>
+                                <p class="text-gray-700 mb-4">Problem-based learning dengan konteks kehidupan nyata.</p>
+                                <h5 class="font-bold text-gray-800 mb-2">Fokus Utama:</h5>
+                                <p class="text-gray-700">Waktu, sudut, KPK/FPB, rasio, grafik data.</p>
+                            </div>
+                            <!-- Card 3: Math Voyagers -->
+                            <div class="bg-red-50 rounded-xl shadow-lg border border-red-200 p-6">
+                                <h3 class="text-2xl font-extrabold text-red-700">Math Voyagers</h3>
+                                <p class="text-lg font-medium text-gray-700">10 – 15 tahun</p>
+                                <p class="text-lg italic text-red-600 font-medium my-4">“Navigate Challenges with Logic and Precision!”</p>
+                                <h5 class="font-bold text-gray-800 mb-2">Ciri Pembelajaran:</h5>
+                                <p class="text-gray-700 mb-4">Analisis dan pemecahan masalah multi-langkah berbasis data.</p>
+                                <h5 class="font-bold text-gray-800 mb-2">Fokus Utama:</h5>
+                                <p class="text-gray-700">FDP, diskon & keuntungan, rasio, peta, peluang.</p>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Bagian Structure & Themes (Slide 4 lama) -->
+                    <article class="bg-white rounded-2xl shadow-xl p-8 border border-gray-200">
+                        <h3 class="text-3xl font-bold text-gray-800 mb-8 text-center">Program Structure & Themes</h3>
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                            <!-- Kolom Struktur per Tema -->
+                            <div>
+                                <h4 class="text-2xl font-semibold text-gray-800 mb-4">Struktur per Tema</h4>
+                                <div class="shadow-lg rounded-xl overflow-hidden border border-gray-200">
+                                    <table class="w-full text-left">
+                                        <thead class="bg-gray-100 border-b border-gray-200">
+                                            <tr>
+                                                <th class="p-4 text-sm font-semibold text-gray-700 uppercase">Blok</th>
+                                                <th class="p-4 text-sm font-semibold text-gray-700 uppercase">Tujuan</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-gray-200">
+                                            <tr class="hover:bg-gray-50"><td class="p-4 font-semibold text-blue-600">Concept Build</td><td class="p-4 text-gray-700">Pengenalan konsep lewat eksplorasi budaya.</td></tr>
+                                            <tr class="hover:bg-gray-50"><td class="p-4 font-semibold text-blue-600">Skill Drill</td><td class="p-4 text-gray-700">Latihan keterampilan numerik secara menyenangkan.</td></tr>
+                                            <tr class="hover:bg-gray-50"><td class="p-4 font-semibold text-blue-600">Application</td><td class="p-4 text-gray-700">Penerapan konsep dalam konteks nyata.</td></tr>
+                                            <tr class="hover:bg-gray-50"><td class="p-4 font-semibold text-blue-600">Reasoning & Strategy</td><td class="p-4 text-gray-700">Menyusun strategi pemecahan masalah.</td></tr>
+                                            <tr class="hover:bg-gray-50"><td class="p-4 font-semibold text-blue-600">Finale Project</td><td class="p-4 text-gray-700">Integrasi konsep dalam proyek akhir.</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- Kolom Tema per Minggu -->
+                            <div class="bg-blue-50 p-6 rounded-xl shadow-inner border border-blue-200">
+                                <h4 class="text-2xl font-semibold text-blue-800 mb-4">Tema per Minggu</h4>
+                                <div class="space-y-4">
+                                    <div>
+                                        <h5 class="text-xl font-semibold text-gray-800 mb-2">Week 1: Sumatera & Jawa</h5>
+                                        <div class="flex flex-wrap gap-2"><span class="bg-white text-blue-700 px-3 py-1 rounded-full font-medium text-sm shadow-sm border border-blue-200">Batik Market</span><span class="bg-white text-blue-700 px-3 py-1 rounded-full font-medium text-sm shadow-sm border border-blue-200">Candi Town</span><span class="bg-white text-blue-700 px-3 py-1 rounded-full font-medium text-sm shadow-sm border border-blue-200">Spice Route</span></div>
+                                    </div>
+                                    <div>
+                                        <h5 class="text-xl font-semibold text-gray-800 mb-2">Week 2: Kalimantan, Sulawesi & Papua</h5>
+                                        <div class="flex flex-wrap gap-2"><span class="bg-white text-blue-700 px-3 py-1 rounded-full font-medium text-sm shadow-sm border border-blue-200">Rainforest Footprints</span><span class="bg-white text-blue-700 px-3 py-1 rounded-full font-medium text-sm shadow-sm border border-blue-200">River Journeys</span><span class="bg-white text-blue-700 px-3 py-1 rounded-full font-medium text-sm shadow-sm border border-blue-200">Sea Routes</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Bagian Outcomes & Highlights (Slide 5 lama) -->
+                    <article class="bg-white rounded-2xl shadow-xl p-8 border border-gray-200">
+                        <h3 class="text-3xl font-bold text-gray-800 mb-8 text-center">Program Outcomes & Highlights</h3>
+                        <!-- Learning Outcomes Table -->
+                        <div class="shadow-lg rounded-xl overflow-hidden border border-gray-200 mb-12">
+                            <table class="w-full text-left">
+                                <thead class="bg-blue-600 text-white">
+                                    <tr>
+                                        <th class="p-4 text-sm font-semibold uppercase">Level</th>
+                                        <th class="p-4 text-sm font-semibold uppercase">Numerasi</th>
+                                        <th class="p-4 text-sm font-semibold uppercase">Berpikir</th>
+                                        <th class="p-4 text-sm font-semibold uppercase">Sikap</th>
+                                    </tr>
+                                Dihapus: </thead>
+                                <tbody class="divide-y divide-gray-200">
+                                    <tr class="hover:bg-gray-50"><td class="p-4 font-semibold text-green-600">Explorers</td><td class="p-4 text-gray-700">Bilangan, pola, ukuran, grafik sederhana.</td><td class="p-4 text-gray-700">Mengamati, membandingkan.</td><td class="p-4 text-gray-700">Ingin tahu, percaya diri.</td></tr>
+                                    <tr class="hover:bg-gray-50"><td class="p-4 font-semibold text-yellow-600">Adventurers</td><td class="p-4 text-gray-700">Operasi dasar, grafik data, waktu & rasio.</td><td class="p-4 text-gray-700">Menalar, memecahkan masalah.</td><td class="p-4 text-gray-700">Kritis, teliti.</td></tr>
+                                    <tr class="hover:bg-gray-50"><td class="p-4 font-semibold text-red-600">Voyagers</td><td class="p-4 text-gray-700">FDP, peluang, optimisasi, data & rata-rata.</td><td class="p-4 text-gray-700">Analitis, logis.</td><td class="p-4 text-gray-700">Mandiri, gigih.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Highlights & Final Projects -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                            <!-- Final Projects -->
+                            <div class="bg-gray-50 p-6 rounded-xl shadow-inner border border-gray-200">
+                                <h4 class="text-2xl font-semibold text-gray-800 mb-4 text-center">Final Projects</h4>
+                                <div class="flex flex-wrap justify-center gap-3">
+                                    <span class="bg-green-100 text-green-800 font-semibold px-4 py-2 rounded-full">🧩 Explorer’s Discovery Map</span>
+                                    <span class="bg-yellow-100 text-yellow-800 font-semibold px-4 py-2 rounded-full">📘 Island Mission Logbook</span>
+                                    <span class="bg-red-100 text-red-800 font-semibold px-4 py-2 rounded-full">⚓ Voyager’s Blueprint</span>
+                                </div>
+                            </div>
+                            <!-- Program Highlights -->
+                            <div class="bg-gray-50 p-6 rounded-xl shadow-inner border border-gray-200">
+                                <h4 class="text-2xl font-semibold text-gray-800 mb-4 text-center">Program Highlights</h4>
+                                <ul class="space-y-2">
+                                    <li class="flex items-center text-gray-700"><span class="text-green-500 font-bold mr-2 text-xl">✅</span> Menggabungkan budaya Indonesia + numerasi global.</li>
+                                    <li class="flex items-center text-gray-700"><span class="text-green-500 font-bold mr-2 text-xl">✅</span> Aktivitas nyata dan proyek kontekstual.</li>
+                                    <li class="flex items-center text-gray-700"><span class="text-green-500 font-bold mr-2 text-xl">✅</span> Mengembangkan problem solving, reasoning, dan creativity.</li>
+                                    <li class="flex items-center text-gray-700"><span class="text-green-500 font-bold mr-2 text-xl">✅</span> Cocok untuk format online & offline dengan portofolio hasil belajar anak.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- SLIDE 4: Program Details (Yang baru) (ID CHANGED from 3 to 4) -->
+        <section id="slide-4" class="slide-section bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+                <h2 class="text-4xl md:text-5xl font-extrabold text-center text-gray-900 mb-16">
+                    <span class="text-blue-600">🧭</span> Detail Program MatheXplore Nusantara
+                </h2>
+                
+                <!-- Wrapper untuk program levels -->
+                <div class="space-y-16">
+
+                    <!-- LEVEL 1: Math Explorers -->
+                    <article class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
+                        <header class="bg-green-500 p-6 md:p-8">
+                            <h3 class="text-xl font-bold text-white">🧩 Math Explorers (Usia 5–7 Tahun)</h3>
+                            <p class="text-2xl md:text-3xl font-bold text-white mt-1 italic">“Discover Numbers Through Play and Adventure!”</p>
+                        </header>
+                        <div class="p-6 md:p-8">
+                            <!-- Info Box -->
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 text-center md:text-left">
+                                <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                                    <h5 class="font-bold text-green-800">Metode</h5>
+                                    <p class="text-gray-700">Roleplay & Hands-on Learning</p>
+                                </div>
+                                <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                                    <h5 class="font-bold text-green-800">Pendekatan</h5>
+                                    <p class="text-gray-700">Conceptual Stage (CPA Awal)</p>
+                                </div>
+                                <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                                    <h5 class="font-bold text-green-800">Project Akhir</h5>
+                                    <p class="text-gray-700">“Explorer’s Discovery Map”</p>
+                                </div>
+                            </div>
+
+                            <!-- Tema Details -->
+                            <h4 class="text-2xl font-bold text-gray-800 mb-6">Contoh Tema & Fokus Belajar</h4>
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                <!-- Tema 1: Week 1 -->
+                                <div class="bg-gray-50 border border-gray-200 rounded-xl p-6 hover:shadow-md transition-shadow">
+                                    <h5 class="text-xl font-bold text-gray-900 mb-2">“Counting Colors at the Batik Market” 🛍️</h5>
+                                    <p class="text-sm font-medium text-gray-500 mb-4">Week 1 – Sumatera & Jawa</p>
+                                    <p class="text-gray-700 mb-4">Pasar batik di Yogyakarta mendadak ramai! Setiap kios punya harga, pola, dan jenis kain berbeda. Para Explorers akan menghitung uang, menghitung jenis kain, dan mengenali pola batik sambil membantu pedagang menata lapaknya.</p>
+                                    <h6 class="font-semibold text-gray-800 mb-2">Lesson Focus (Singapore Math):</h6>
+                                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                        <li>Counting & Number Bonds (to 20)</li>
+                                        <li>Money & Simple Addition/Subtraction</li>
+                                        <li>Pattern & 2D Shape Recognition</li>
+                                    </ul>
+                                </div>
+                                <!-- Tema 2: Week 2 -->
+                                <div class="bg-gray-50 border border-gray-200 rounded-xl p-6 hover:shadow-md transition-shadow">
+                                    <h5 class="text-xl font-bold text-gray-900 mb-2">“Measuring Footprints in the Rainforest” 🐾</h5>
+                                    <p class="text-sm font-medium text-gray-500 mb-4">Week 2 – Kalimantan, Sulawesi & Papua</p>
+                                    <p class="text-gray-700 mb-4">Jejak-jejak hewan muncul di tepian sungai Kalimantan! Para Explorers akan mengukur panjang langkah, menghitung jumlah jejak, dan membuat grafik sederhana untuk menemukan hewan misterius di hutan hujan.</p>
+                                    <h6 class="font-semibold text-gray-800 mb-2">Lesson Focus (Singapore Math):</h6>
+                                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                        <li>Comparing Length (Non-standard Units)</li>
+                                        <li>Number Comparison</li>
+                                        <li>Picture Graphs & Simple Data</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <!-- Aktivitas -->
+                            <div class="mt-8 bg-gray-100 p-4 rounded-lg">
+                                <h5 class="font-bold text-lg text-gray-800">🎯 Aktivitas Utama:</h5>
+                                <p class="text-gray-700 mt-2">Jual-beli batik, menimbang buah, mengukur jejak & daun, mencatat hasil pengamatan.</p>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- LEVEL 2: Math Adventurers -->
+                    <article class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
+                        <header class="bg-yellow-500 p-6 md:p-8">
+                            <h3 class="text-xl font-bold text-white">🔎 Math Adventurers (Usia 8–10 Tahun)</h3>
+                            <p class="text-2xl md:text-3xl font-bold text-white mt-1 italic">“Solve Everyday Challenges Across the Islands!”</p>
+                        </header>
+                        <div class="p-6 md:p-8">
+                            <!-- Info Box -->
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 text-center md:text-left">
+                                <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                                    <h5 class="font-bold text-yellow-800">Metode</h5>
+                                    <p class="text-gray-700">Project-Based Learning · Problem Solving</p>
+                                </div>
+                                <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                                    <h5 class="font-bold text-yellow-800">Pendekatan</h5>
+                                    <p class="text-gray-700">Bridging Stage (Pictorial → Abstract)</p>
+                                </div>
+                                <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                                    <h5 class="font-bold text-yellow-800">Project Akhir</h5>
+                                    <p class="text-gray-700">“Island Mission Logbook”</p>
+                                </div>
+                            </div>
+
+                            <!-- Tema Details -->
+                            <h4 class="text-2xl font-bold text-gray-800 mb-6">Contoh Tema & Fokus Belajar</h4>
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                <!-- Tema 1: Week 1 -->
+                                <div class="bg-gray-50 border border-gray-200 rounded-xl p-6 hover:shadow-md transition-shadow">
+                                    <h5 class="text-xl font-bold text-gray-900 mb-2">“Keeping Time in Candi Town” ⏰</h5>
+                                    <p class="text-sm font-medium text-gray-500 mb-4">Week 1 – Sumatera & Jawa</p>
+                                    <p class="text-gray-700 mb-4">Di tengah hiruk-pikuk kota warisan budaya, para adventurers mempelajari cara membaca jam di menara tua, menghitung selisih waktu perjalanan kereta, dan menemukan bentuk sudut pada jam dinding raksasa.</p>
+                                    <h6 class="font-semibold text-gray-800 mb-2">Lesson Focus (Singapore Math):</h6>
+                                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                        <li>Reading Analog & Digital Clocks</li>
+                                        <li>Time Conversion (hours/minutes)</li>
+                                        <li>Angles in Everyday Objects</li>
+                                        <li>Pattern Recognition</li>
+                                    </ul>
+                                </div>
+                                <!-- Tema 2: Week 2 -->
+                                <div class="bg-gray-50 border border-gray-200 rounded-xl p-6 hover:shadow-md transition-shadow">
+                                    <h5 class="text-xl font-bold text-gray-900 mb-2">“Charting Journeys on the Great River” 🚤</h5>
+                                    <p class="text-sm font-medium text-gray-500 mb-4">Week 2 – Kalimantan, Sulawesi & Papua</p>
+                                    <p class="text-gray-700 mb-4">Kapal di Sungai Mahakam membawa hasil bumi ke pelabuhan. Adventurers membantu menghitung jadwal keberangkatan, mencari pola pada data arus sungai, dan membaca grafik populasi ikan di perairan timur.</p>
+                                    <h6 class="font-semibold text-gray-800 mb-2">Lesson Focus (Singapore Math):</h6>
+                                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                        <li>Factors & Multiples (KPK/FPB)</li>
+                                        <li>Ratio & Equal Sharing</li>
+                                        <li>Bar Graph Interpretation</li>
+                                        <li>Problem Solving with Tables & Models</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <!-- Aktivitas -->
+                            <div class="mt-8 bg-gray-100 p-4 rounded-lg">
+                                <h5 class="font-bold text-lg text-gray-800">🎯 Aktivitas Utama:</h5>
+                                <p class="text-gray-700 mt-2">Hitung waktu perjalanan, analisis jadwal kapal, buat grafik arus air & data hewan.</p>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- LEVEL 3: Math Voyagers -->
+                    <article class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
+                        <header class="bg-red-500 p-6 md:p-8">
+                            <h3 class="text-xl font-bold text-white">⚓ Math Voyagers (Usia 10–15 Tahun)</h3>
+                            <p class="text-2xl md:text-3xl font-bold text-white mt-1 italic">“Navigate Challenges with Logic and Precision!”</p>
+                        </header>
+                        <div class="p-6 md:p-8">
+                            <!-- Info Box -->
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 text-center md:text-left">
+                                <div class="bg-red-50 p-4 rounded-lg border border-red-200">
+                                    <h5 class="font-bold text-red-800">Metode</h5>
+                                    <p class="text-gray-700">Inquiry & Analytical Thinking</p>
+                                </div>
+                                <div class="bg-red-50 p-4 rounded-lg border border-red-200">
+                                    <h5 class="font-bold text-red-800">Pendekatan</h5>
+                                    <p class="text-gray-700">Advanced Abstract Reasoning</p>
+                                </div>
+                                <div class="bg-red-50 p-4 rounded-lg border border-red-200">
+                                    <h5 class="font-bold text-red-800">Project Akhir</h5>
+                                    <p class="text-gray-700">“Voyager’s Blueprint”</p>
+                                </div>
+                            </div>
+
+                            <!-- Tema Details -->
+                            <h4 class="text-2xl font-bold text-gray-800 mb-6">Contoh Tema & Fokus Belajar</h4>
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                <!-- Tema 1: Week 1 -->
+                                <div class="bg-gray-50 border border-gray-200 rounded-xl p-6 hover:shadow-md transition-shadow">
+                                    <h5 class="text-xl font-bold text-gray-900 mb-2">“Trading Numbers on the Spice Route” 💰</h5>
+                                    <p class="text-sm font-medium text-gray-500 mb-4">Week 1 – Sumatera & Jawa</p>
+                                    <p class="text-gray-700 mb-4">Dari pelabuhan Aceh hingga pasar batik Solo, perhitungan harga dan diskon menjadi kunci kesuksesan dagang. Voyagers menghitung persentase keuntungan, konversi pecahan, dan rata-rata hasil jualan di setiap kota.</p>
+                                    <h6 class="font-semibold text-gray-800 mb-2">Lesson Focus (Singapore Math):</h6>
+                                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                        <li>Fraction–Decimal–Percentage Conversion</li>
+                                        <li>Percentage Discount & Profit</li>
+                                        <li>Mean, Median, Mode</li>
+                                        <li>Multi-Step FDP Word Problems</li>
+                                    </ul>
+                                </div>
+                                <!-- Tema 2: Week 2 -->
+                                <div class="bg-gray-50 border border-gray-200 rounded-xl p-6 hover:shadow-md transition-shadow">
+                                    <h5 class="text-xl font-bold text-gray-900 mb-2">“Mapping the Eastern Sea Routes” 🗺️</h5>
+                                    <p class="text-sm font-medium text-gray-500 mb-4">Week 2 – Kalimantan, Sulawesi & Papua</p>
+                                    <p class="text-gray-700 mb-4">Dalam ekspedisi menuju Papua, badai dan jadwal pelayaran kapal saling bertumpuk. Para voyager harus menghitung jadwal dengan cermat, menentukan rasio muatan, membaca grafik pasang surut, dan memperkirakan peluang cuaca baik untuk berlayar.</p>
+                                    <h6 class="font-semibold text-gray-800 mb-2">Lesson Focus (Singapore Math):</h6>
+                                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                        <li>HCF & LCM in Context</li>
+                                        <li>Ratio & Proportion</li>
+                                        <li>Scale & Distance (Map Skills)</li>
+                                        <li>Probability & Optimization</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <!-- Aktivitas -->
+                            <div class="mt-8 bg-gray-100 p-4 rounded-lg">
+                                <h5 class="font-bold text-lg text-gray-800">🎯 Aktivitas Utama:</h5>
+                                <p class="text-gray-700 mt-2">Perhitungan untung-rugi, analisis data perdagangan, rencana rute laut berbasis grafik & skala peta.</p>
+                            </div>
+                        </div>
+                    </article>
+                
+                </div> <!-- /space-y-16 -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-12">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-2xl font-bold text-white mb-2">MatheXplore Nusantara 2025</p>
+            <p>&copy; 2025 Program. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript untuk menu mobile
+        const menuToggle = document.getElementById('menu-toggle');
+        const navMenu = document.getElementById('nav-menu');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('hidden');
+            navMenu.classList.toggle('flex');
+        });
+
+        // JavaScript untuk menutup menu mobile setelah link diklik
+        document.querySelectorAll('#nav-menu a').forEach(item => {
+            item.addEventListener('click', () => {
+                navMenu.classList.add('hidden');
+                navMenu.classList.remove('flex');
+            });
+        });
+        
+        // Menutup menu mobile jika diklik di luar area menu (opsional)
+        document.addEventListener('click', (event) => {
+            const isClickInsideMenu = navMenu.contains(event.target);
+            const isClickOnToggle = menuToggle.contains(event.target);
+
+            if (!isClickInsideMenu && !isClickOnToggle && !navMenu.classList.contains('hidden')) {
+                navMenu.classList.add('hidden');
+                navMenu.classList.remove('flex');
+            }
+        });
+
+    </script>
+</body>
+</html>
+
+
+
