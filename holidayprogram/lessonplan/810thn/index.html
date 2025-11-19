@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rancangan Program Liburan: Math Adventurers (8-10 Tahun)</title>
+    <!-- Memuat Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Menggunakan font Inter sebagai default */
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      /* Style kustom untuk border di dalam tabel agar lebih rapi */
+      table th,
+      table td {
+        border: 1px solid #e5e7eb; /* gray-200 */
+        padding: 1rem; /* p-4 */
+        vertical-align: top;
+      }
+      table th {
+        background-color: #f3f4f6; /* gray-100 */
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 text-gray-800">
+    <div class="max-w-7xl mx-auto p-4 md:p-10">
+      <!-- Judul Utama -->
+      <h1
+        class="text-3xl md:text-5xl font-extrabold text-indigo-700 mb-4 pb-2 border-b-4 border-indigo-300"
+      >
+        Rancangan Program Liburan: Math Adventurers (Usia 8-10 Tahun)
+      </h1>
+
+      <p class="text-xl text-gray-700 mb-8 font-medium">
+        Fokus: Penalaran, Analisis Data, dan Pemecahan Masalah Kreatif (Solve
+        Everyday Challenges).
+      </p>
+
+      <!-- Konsep Proyek Akhir -->
+      <section
+        class="mb-10 bg-white p-6 rounded-xl shadow-lg border-2 border-indigo-400"
+      >
+        <h2 class="text-2xl font-bold text-indigo-600 mb-4 flex items-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-8 w-8 mr-3 text-yellow-500"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 2a8 8 0 100 16 8 8 0 000-16zm-5 8a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          Konsep Proyek Akhir: "Adventurer's Logbook"
+        </h2>
+        <p class="mb-2 text-gray-700">
+          Logbook ini adalah **buku laporan/jurnal (A5 atau A4 dijilid)** yang
+          dibawa pulang oleh Adventurer.
+        </p>
+        <ul class="list-disc list-outside ml-6 text-gray-700">
+          <li>
+            **Isi Logbook:** Halaman-halaman dari *worksheet* di setiap sesi,
+            yang digunakan untuk merekam data, memecahkan masalah, dan merancang
+            proyek akhir.
+          </li>
+          <li>
+            **Output:** Setiap Logbook akan memiliki bagian akhir yang terisi
+            (misalnya: rencana perjalanan, grafik kargo) yang menjadi bukti
+            eksplorasi 3 sesi. Anak akan mempresentasikan isi logbook mereka di
+            akhir tema.
+          </li>
+          <li>
+            **Learning Kit Tambahan (untuk Logbook):** Akan disediakan lembar
+            data (misal: kartu kargo) yang bisa digunting dan ditempel untuk
+            melengkapi Logbook.
+          </li>
+        </ul>
+      </section>
+
+      <!-- Pemisah -->
+      <hr class="my-10 border-t-2 border-indigo-200" />
+
+      <!-- ============================================= -->
+      <!-- TEMA 1: TIMING THE ISLAND JOURNEYS -->
+      <!-- ============================================= -->
+      <section class="mb-10">
+        <h2 class="text-3xl font-bold text-purple-600 mb-6 flex items-center">
+          <span class="mr-3 text-4xl">🕰️</span> TEMA 1: Timing the Island
+          Journeys (Waktu & Sudut)
+        </h2>
+
+        <!-- Info Dasar -->
+        <div class="grid md:grid-cols-2 gap-4 mb-6">
+          <div
+            class="bg-white p-4 rounded-lg shadow-sm border border-purple-200"
+          >
+            <strong class="text-purple-700">Target Usia:</strong> 8-10 Tahun
+          </div>
+          <div
+            class="bg-white p-4 rounded-lg shadow-sm border border-purple-200"
+          >
+            <strong class="text-purple-700">Fokus Utama:</strong> Waktu (Analog,
+            Digital, Durasi, Konversi) & Sudut (pada Jam).
+          </div>
+        </div>
+
+        <!-- Cerita Pengantar -->
+        <div class="mb-8">
+          <h3 class="text-xl font-semibold text-gray-700 mb-2">
+            Cerita Pengantar (Narrative)
+          </h3>
+          <p
+            class="bg-purple-50 border-l-4 border-purple-400 p-4 italic text-gray-700 rounded-r-lg"
+          >
+            "Halo Adventurer! Namaku Kapten Wira. Aku adalah navigator kapal
+            layar tercepat di Indonesia Bagian Barat. Sayangnya, kompas dan jam
+            navigasiku rusak! Kita harus menjelajahi pulau-pulau di Sumatera,
+            Jawa, dan Kalimantan, tapi kita perlu memperbaiki sistem waktu agar
+            semua jadwal perjalanan tepat. Bisakah kalian bantu Kapten Wira
+            menghitung waktu, durasi, dan mempelajari rahasia pergerakan jarum
+            jam?"
+          </p>
+        </div>
+
+        <!-- Tabel Breakdown Tema 1 -->
+        <h3 class="text-2xl font-bold text-purple-600 mt-8 mb-4">
+          Breakdown Aktivitas & Lesson Plan (Tema 1)
+        </h3>
+        <div class="overflow-x-auto rounded-xl shadow-2xl">
+          <table class="min-w-full bg-white table-fixed">
+            <thead class="bg-purple-100">
+              <tr>
+                <th class="w-1/12 text-left text-purple-800">Sesi</th>
+                <th class="w-2/12 text-left text-purple-800">
+                  Fokus Pembelajaran
+                </th>
+                <th class="w-4/12 text-left text-purple-800">
+                  Breakdown Aktivitas (Lesson Plan & Slide)
+                </th>
+                <th class="w-3/12 text-left text-purple-800">
+                  Isi Worksheet (Adventurer's Logbook)
+                </th>
+                <th class="w-2/12 text-left text-purple-800">
+                  Kebutuhan Learning Kit
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Sesi 1 -->
+              <tr>
+                <td class="font-bold text-purple-700">Sesi 1</td>
+                <td class="font-semibold">
+                  Membaca Waktu Analog & Digital (AM/PM)
+                </td>
+                <td class="bg-pink-50">
+                  <strong class="text-gray-900"
+                    >1. Opening & Story (15 mnt):</strong
+                  >
+                  <p>
+                    • <strong>Ice Breaker: "Jam Alarm Kuno!"</strong> (Game
+                    mendengarkan: Anak harus bergerak cepat (misal: lompat 3x)
+                    saat guru menyebutkan waktu PM, dan bergerak lambat (misal:
+                    jalan di tempat 3x) saat guru menyebutkan waktu AM). Guru
+                    menggunakan jam analog mainan.
+                  </p>
+                  <p>
+                    • <strong>Slide:</strong> Gambar jam navigasi kapal yang
+                    rusak. Guru menunjukkan perbedaan jam analog & digital.
+                  </p>
+                  <br />
+                  <strong class="text-gray-900"
+                    >2. Aktivitas Fisik Utama: "Misi Perakitan Jam" (40 mnt)
+                    [CPA: Concrete]:</strong
+                  >
+                  <p>
+                    • Siswa merakit jam dari lempengan kardus (dari Kit),
+                    melabeli angka, dan memasang jarum (panjang/pendek).
+                  </p>
+                  <p>
+                    • <strong>Guru:</strong> Menanyakan waktu-waktu kritis
+                    (misal: 06:00 AM, 06:00 PM) dan meminta siswa memutar jarum
+                    jam rakitan mereka secara fisik.
+                  </p>
+                  <br />
+                  <strong class="text-gray-900"
+                    >3. Aktivitas Pencatatan (35 mnt) [CPA: Pictorial &
+                    Abstract]:</strong
+                  >
+                  <p>
+                    • Siswa mengerjakan halaman Logbook, menggambar jarum jam
+                    sesuai waktu digital yang ditentukan guru, dan sebaliknya
+                    (mencatat waktu digital dari jarum yang sudah digambar).
+                  </p>
+                  <br />
+                  <strong class="text-gray-900"
+                    >4. Project Integration (10 mnt):</strong
+                  >
+                  <p>
+                    • Guru: "Jam sudah terpasang. Sekarang, mari kita tandai
+                    'Waktu Keberangkatan' kita di Logbook!" Siswa mengisi slot
+                    waktu keberangkatan yang disepakati di Logbook.
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    • Halaman 1: Template Lempengan Jam (untuk digunting &
+                    dirakit).
+                  </p>
+                  <p>
+                    • Halaman 2: Latihan menggambar jarum jam (Analog) dari data
+                    Waktu Digital (08:30, 14:45, 23:10).
+                  </p>
+                </td>
+                <td>
+                  <ul class="list-disc list-outside ml-5">
+                    <li>Kardus/kertas tebal untuk badan jam (per siswa)</li>
+                    <li>Jarum jam dari kertas karton</li>
+                    <li>Paku payung/split pin (untuk poros jarum)</li>
+                    <li>Pensil & Lem</li>
+                  </ul>
+                </td>
+              </tr>
+              <!-- Sesi 2 -->
+              <tr>
+                <td class="font-bold text-purple-700">Sesi 2</td>
+                <td class="font-semibold">
+                  Menghitung Durasi & Konversi Waktu
+                </td>
+                <td class="bg-pink-50">
+                  <strong class="text-gray-900"
+                    >1. Opening & Story (15 mnt):</strong
+                  >
+                  <p>
+                    • <strong>Review Map:</strong> Membaca jam rakitan Sesi 1.
+                  </p>
+                  <p>
+                    • <strong>Story & Problem:</strong> Kapten Wira bilang:
+                    "Perjalanan dari Surabaya ke Labuan Bajo akan memakan waktu
+                    300 menit. Berapa jam itu?" (Masalah Konversi).
+                  </p>
+                  <p>
+                    • <strong>Slide:</strong> Gambar Kapal Layar dan Garis Waktu
+                    (*Timeline*).
+                  </p>
+                  <br />
+                  <strong class="text-gray-900"
+                    >2. Aktivitas Fisik Utama: "Durasi Petualangan" (40 mnt)
+                    [CPA: Pictorial]:</strong
+                  >
+                  <p>
+                    • **Durasi:** Siswa menggunakan garis bilangan
+                    (*Timeline/Bar Model*) di Logbook untuk menghitung durasi
+                    perjalanan (misal: dari 10:45 sampai 13:15). Siswa
+                    memvisualisasikan lompatan waktu: '15 menit ke 11:00' + '2
+                    jam ke 13:00' + '15 menit ke 13:15'.
+                  </p>
+                  <p>
+                    • **Konversi:** Siswa menghitung konversi (misal: 300 menit
+                    = 5 jam).
+                  </p>
+                  <br />
+                  <strong class="text-gray-900"
+                    >3. Aktivitas Pemecahan Masalah (35 mnt) [Problem
+                    Solving]:</strong
+                  >
+                  <p>
+                    • Siswa mengerjakan soal cerita kompleks di Logbook: "Kita
+                    harus tiba di Bali sebelum 17:00. Jika perjalanan butuh 3
+                    jam 45 menit, jam berapa paling lambat kita harus
+                    berangkat?"
+                  </p>
+                  <br />
+                  <strong class="text-gray-900"
+                    >4. Project Integration (10 mnt):</strong
+                  >
+                  <p>
+                    • Guru: "Sekarang, catat durasi perjalanan kita ke 3 pulau
+                    di Logbook!" (Mengisi 3 baris durasi perjalanan di Logbook).
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    • Halaman 3: Latihan menghitung durasi menggunakan
+                    *Timeline* (Garis Waktu).
+                  </p>
+                  <p>
+                    • Halaman 4: Soal Konversi Jam dan Menit (misal: 4 jam 20
+                    menit = ... menit).
+                  </p>
+                  <p>
+                    • Halaman 5: Soal cerita *Real-World* tentang waktu
+                    keberangkatan/kedatangan.
+                  </p>
+                </td>
+                <td>
+                  <ul class="list-disc list-outside ml-5">
+                    <li>
+                      Spidol/Pensil Warna (untuk menandai lompatan waktu di
+                      *Timeline*)
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+              <!-- Sesi 3 -->
+              <tr>
+                <td class="font-bold text-purple-700">Sesi 3</td>
+                <td class="font-semibold">
+                  Sudut pada Jam (Acute, Obtuse, Reflex)
+                </td>
+                <td class="bg-pink-50">
+                  <strong class="text-gray-900"
+                    >1. Opening & Story (15 mnt):</strong
+                  >
+                  <p>
+                    • <strong>Review:</strong> Memutar jam rakitan ke waktu
+                    tertentu.
+                  </p>
+                  <p>
+                    • <strong>Story & Problem:</strong> Kapten Wira: "Untuk
+                    membaca peta bintang, aku butuh kalian mengukur sudut
+                    pergerakan bintang (yang mirip dengan jarum jam!). Tahukah
+                    kalian, 1 langkah jam itu 30 derajat?"
+                  </p>
+                  <br />
+                  <strong class="text-gray-900"
+                    >2. Aktivitas Inti: "Detektif Sudut" (50 mnt) [CPA:
+                    Abstract]:</strong
+                  >
+                  <p>• Guru menjelaskan konsep `30 derajat` per angka.</p>
+                  <p>
+                    • Siswa menggunakan **Busur (Protractor)** (dari Kit) untuk
+                    mengukur sudut pada jam rakitan (misal: Pukul 02:00 = 60
+                    derajat; Pukul 04:30).
+                  </p>
+                  <p>
+                    • **Penalaran:** Anak harus menghitung pergerakan jarum
+                    menit (jarak antar angka) *dan* pergerakan jarum jam (di
+                    antara angka, misal: Pukul 01:30). Menganalisis sudut
+                    *Acute* (Lancip), *Obtuse* (Tumpul), *Reflex* (Refleks).
+                  </p>
+                  <br />
+                  <strong class="text-gray-900"
+                    >3. Proyek Akhir Tema 1: Menyusun Itinerary (35
+                    mnt):</strong
+                  >
+                  <p>
+                    • **Siswa:** Mengisi Halaman 6 Logbook secara penuh,
+                    merancang rencana perjalanan 1 hari eksplorasi mereka
+                    sendiri, termasuk waktu mulai, durasi, dan waktu selesai
+                    untuk setiap aktivitas.
+                  </p>
+                  <br />
+                  <strong class="text-gray-900">4. Closing (5 mnt):</strong>
+                  <p>• Presentasi singkat: "Petualangan Waktuku".</p>
+                </td>
+                <td>
+                  <p>
+                    • Halaman 6: Latihan menghitung besar sudut pergerakan jarum
+                    jam (termasuk sudut di antara angka).
+                  </p>
+                  <p>
+                    • Halaman 7: **Itinerary Plan Template** (Final Project).
+                  </p>
+                </td>
+                <td>
+                  <ul class="list-disc list-outside ml-5">
+                    <li>Busur (Protractor) per siswa</li>
+                    <li>Jam rakitan (dari Sesi 1)</li>
+                    <li>
+                      Kartu *Flashcard* Sudut (gambar Acute, Obtuse, Reflex)
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Proyek Akhir Tema 1 -->
+        <div
+          class="mt-8 bg-white p-6 rounded-xl shadow-lg border border-purple-300"
+        >
+          <h3 class="text-2xl font-bold text-purple-600 mb-4">
+            Output Proyek Akhir Tema 1: "Itinerary Log: My Western Journey"
+          </h3>
+          <p class="text-gray-700 p-4 bg-purple-50 rounded-lg">
+            <strong class="text-gray-900">Output:</strong> Halaman 7 dari
+            Adventurer's Logbook yang berisi Rencana Perjalanan 1 hari yang
+            lengkap dan terhitung durasinya (termasuk total waktu yang
+            dihabiskan untuk perjalanan).
+          </p>
+        </div>
+      </section>
+
+      <!-- Pemisah -->
+      <hr class="my-10 border-t-2 border-indigo-200" />
+
+      <!-- ============================================= -->
+      <!-- TEMA 2: CHARTING THE EASTERN PORTS -->
+      <!-- ============================================= -->
+      <section class="mb-10">
+        <h2 class="text-3xl font-bold text-teal-600 mb-6 flex items-center">
+          <span class="mr-3 text-4xl">⚓</span> TEMA 2: Charting the Eastern
+          Ports (FPB, KPK, Rasio & Data)
+        </h2>
+
+        <!-- Info Dasar -->
+        <div class="grid md:grid-cols-2 gap-4 mb-6">
+          <div class="bg-white p-4 rounded-lg shadow-sm border border-teal-200">
+            <strong class="text-teal-700">Target Usia:</strong> 8-10 Tahun
+          </div>
+          <div class="bg-white p-4 rounded-lg shadow-sm border border-teal-200">
+            <strong class="text-teal-700">Fokus Utama:</strong> FPB/KPK, Rasio &
+            Perbandingan, Visualisasi Data (Grafik Batang).
+          </div>
+        </div>
+
+        <!-- Cerita Pengantar -->
+        <div class="mb-8">
+          <h3 class="text-xl font-semibold text-gray-700 mb-2">
+            Cerita Pengantar (Narrative)
+          </h3>
+          <p
+            class="bg-teal-50 border-l-4 border-teal-400 p-4 italic text-gray-700 rounded-r-lg"
+          >
+            "Selamat datang di Indonesia Timur, Adventurer! Aku Nona Dara,
+            Manajer Pelabuhan Ternate. Pelabuhan ini sangat sibuk! Kita harus
+            mengatur jadwal kapal, menyeimbangkan muatan kargo rempah-rempah
+            (pala, cengkeh), dan membuat laporan data. Tantanganmu adalah
+            menggunakan KPK, FPB, dan Rasio untuk memastikan semua berjalan
+            efisien! Maukah kalian bantu Nona Dara mengatur pelabuhan?"
+          </p>
+        </div>
+
+        <!-- Tabel Breakdown Tema 2 -->
+        <h3 class="text-2xl font-bold text-teal-600 mt-8 mb-4">
+          Breakdown Aktivitas & Lesson Plan (Tema 2)
+        </h3>
+        <div class="overflow-x-auto rounded-xl shadow-2xl">
+          <table class="min-w-full bg-white table-fixed">
+            <thead class="bg-teal-100">
+              <tr>
+                <th class="w-1/12 text-left text-teal-800">Sesi</th>
+                <th class="w-2/12 text-left text-teal-800">
+                  Fokus Pembelajaran
+                </th>
+                <th class="w-4/12 text-left text-teal-800">
+                  Breakdown Aktivitas (Lesson Plan & Slide)
+                </th>
+                <th class="w-3/12 text-left text-teal-800">
+                  Isi Worksheet (Adventurer's Logbook)
+                </th>
+                <th class="w-2/12 text-left text-teal-800">
+                  Kebutuhan Learning Kit
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Sesi 1 -->
+              <tr>
+                <td class="font-bold text-teal-700">Sesi 1</td>
+                <td class="font-semibold">
+                  Faktor Persekutuan Terbesar & Kelipatan Persekutuan Terkecil
+                  (FPB/KPK)
+                </td>
+                <td class="bg-green-50">
+                  <strong class="text-gray-900"
+                    >1. Opening & Story (15 mnt):</strong
+                  >
+                  <p>
+                    •
+                    <strong>Ice Breaker: "Kelipatan Lompat!"</strong> (Anak-anak
+                    melompat sesuai kelipatan yang diucapkan guru, misal:
+                    kelipatan 3: 3, 6, 9...)
+                  </p>
+                  <p>
+                    • <strong>Story & Problem:</strong> Nona Dara: "Ada 2 kapal
+                    (Kapal A & B). Kapal A tiba setiap 4 hari. Kapal B tiba
+                    setiap 6 hari. Kapan mereka tiba bersamaan? (KPK)."
+                  </p>
+                  <br />
+                  <strong class="text-gray-900"
+                    >2. Aktivitas Fisik Utama: "Timeline Pelabuhan" (40 mnt)
+                    [CPA: Concrete & Pictorial]:</strong
+                  >
+                  <p>
+                    • Siswa menggunakan kartu bernomor 1-30 (dari Kit) untuk
+                    membuat Garis Waktu di lantai.
+                  </p>
+                  <p>
+                    • **KPK:** Siswa menandai tanggal kedatangan Kapal A
+                    (kelipatan 4) dan Kapal B (kelipatan 6). Mereka mencari
+                    tanggal yang ditandai 2 spidol (KPK).
+                  </p>
+                  <p>
+                    • **FPB:** Siswa mempraktikkan FPB untuk membagi barang
+                    (misal: 24 buah pala, 18 buah cengkeh, mau dibagi ke
+                    kontainer sama rata). Menganalisis *Factor Tree*.
+                  </p>
+                  <br />
+                  <strong class="text-gray-900"
+                    >3. Aktivitas Pencatatan (35 mnt) [Abstract]:</strong
+                  >
+                  <p>
+                    • Siswa mengerjakan halaman Logbook, mengisi soal-soal
+                    FPB/KPK dengan metode *Factor Tree* dan pembagian.
+                  </p>
+                  <br />
+                  <strong class="text-gray-900"
+                    >4. Project Integration (10 mnt):</strong
+                  >
+                  <p>
+                    • Siswa mengisi tabel "Jadwal Kapal" di Logbook, mencatat
+                    tanggal kedatangan kapal A dan B yang paling dekat bertemu
+                    kembali.
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    • Halaman 8: Latihan soal FPB/KPK (dengan metode *Factor
+                    Tree*).
+                  </p>
+                  <p>• Halaman 9: Soal cerita implementasi FPB (Pembagian).</p>
+                </td>
+                <td>
+                  <ul class="list-disc list-outside ml-5">
+                    <li>Kartu Bernomor (1-30) (untuk *Timeline*)</li>
+                    <li>Spidol warna (merah & biru)</li>
+                    <li>Lembar Kerja Pohon Faktor.</li>
+                  </ul>
+                </td>
+              </tr>
+              <!-- Sesi 2 -->
+              <tr>
+                <td class="font-bold text-teal-700">Sesi 2</td>
+                <td class="font-semibold">Rasio & Perbandingan</td>
+                <td class="bg-green-50">
+                  <strong class="text-gray-900"
+                    >1. Opening & Story (15 mnt):</strong
+                  >
+                  <p>
+                    • **Review:** Siswa membandingkan 2 tumpukan *linking cubes*
+                    (misal: 3 vs 5). Memperkenalkan konsep Rasio 3:5.
+                  </p>
+                  <p>
+                    • **Story & Problem:** Nona Dara: "Kontainer ini harus diisi
+                    Pala dan Cengkeh dengan rasio 2:5 agar kapal tidak miring!
+                    Bagaimana caranya?"
+                  </p>
+                  <br />
+                  <strong class="text-gray-900"
+                    >2. Aktivitas Fisik Utama: "Logistik Kargo" (50 mnt) [CPA:
+                    Concrete]:</strong
+                  >
+                  <p>
+                    • **Rasio:** Siswa menggunakan **Linking Cubes** (dari Kit)
+                    untuk menyusun tumpukan kargo (misal: 4 balok merah dan 10
+                    balok hijau = 2:5). Anak harus mencoba menyusun tumpukan
+                    yang berbeda namun rasionya sama (rasio ekuivalen: 6:15).
+                  </p>
+                  <p>
+                    • **Perbandingan:** Siswa membandingkan dua rasio kargo.
+                    Kapal A (3:4), Kapal B (4:5). Kapal mana yang punya muatan
+                    Pala (komponen pertama) lebih banyak secara persentase?
+                  </p>
+                  <br />
+                  <strong class="text-gray-900"
+                    >3. Aktivitas Pencatatan (25 mnt) [Pictorial &
+                    Abstract]:</strong
+                  >
+                  <p>
+                    • Siswa menggambar *Bar Model* di Logbook untuk
+                    memvisualisasikan rasio (misal: 2 kotak untuk pala, 5 kotak
+                    untuk cengkeh).
+                  </p>
+                  <br />
+                  <strong class="text-gray-900"
+                    >4. Project Integration (5 mnt):</strong
+                  >
+                  <p>
+                    • Siswa mengisi slot Logbook untuk 'Rasio Kargo Ideal' yang
+                    mereka temukan.
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    • Halaman 10: Latihan soal mencari Rasio Ekuivalen (Rasio
+                    Senilai).
+                  </p>
+                  <p>
+                    • Halaman 11: Template *Bar Model* untuk memvisualisasikan
+                    rasio (misal: 3:7) dan menemukan fraksi (3/10).
+                  </p>
+                </td>
+                <td>
+                  <ul class="list-disc list-outside ml-5">
+                    <li>Linking Cubes (Kubus warna) - 2 warna yang berbeda.</li>
+                    <li>Kardus kecil/kotak (untuk simulasi kontainer kapal)</li>
+                  </ul>
+                </td>
+              </tr>
+              <!-- Sesi 3 -->
+              <tr>
+                <td class="font-bold text-teal-700">Sesi 3</td>
+                <td class="font-semibold">Grafik Batang & Analisis Data</td>
+                <td class="bg-green-50">
+                  <strong class="text-gray-900"
+                    >1. Opening & Story (15 mnt):</strong
+                  >
+                  <p>• <strong>Review:</strong> Review data muatan Rasio.</p>
+                  <p>
+                    • <strong>Story & Problem:</strong> Nona Dara: "Laporan
+                    bulanan Pelabuhan butuh data visual! Kita harus membuat
+                    *Grafik Batang* untuk menunjukkan muatan paling sering di
+                    Pelabuhan Ternate!"
+                  </p>
+                  <br />
+                  <strong class="text-gray-900"
+                    >2. Aktivitas Inti: "Penyusunan Grafik Laporan" (50 mnt)
+                    [CPA: Pictorial & Abstract]:</strong
+                  >
+                  <p>
+                    • Guru menyajikan **Tabel Data Mentah** (misal: Gula 4 ton,
+                    Kopi 7 ton, Rempah 5 ton) dan menjelaskan sumbu X/Y grafik.
+                  </p>
+                  <p>
+                    • **Siswa:** Menggambar dan melabeli sumbu X (Jenis Kargo)
+                    dan Sumbu Y (Berat/Ton) pada *template* Grafik Batang di
+                    Logbook.
+                  </p>
+                  <p>
+                    • **Siswa:** Menggambar batang (bar) sesuai data. Ini
+                    melatih *precision drawing* dan *data recording*.
+                  </p>
+                  <br />
+                  <strong class="text-gray-900"
+                    >3. Proyek Akhir Tema 2: Analisis Logbook (30 mnt):</strong
+                  >
+                  <p>
+                    • Siswa menganalisis grafik yang baru mereka buat: "Kargo
+                    mana yang paling banyak? Berapa ton perbedaan antara Kopi
+                    dan Rempah?" (Mengerjakan soal interpretasi data di
+                    Logbook).
+                  </p>
+                  <br />
+                  <strong class="text-gray-900">4. Closing (5 mnt):</strong>
+                  <p>• Presentasi: "Laporan Pelabuhan Ternate".</p>
+                </td>
+                <td>
+                  <p>
+                    • Halaman 12: Template Grafik Batang kosong (dengan label
+                    Sumbu X/Y).
+                  </p>
+                  <p>
+                    • Halaman 13: Soal Interpretasi Data (berdasarkan grafik
+                    yang baru mereka buat).
+                  </p>
+                </td>
+                <td>
+                  <ul class="list-disc list-outside ml-5">
+                    <li>
+                      Penggaris & Pensil Warna/Spidol (untuk menggambar grafik)
+                    </li>
+                    <li>Tabel Data Simulai (dari Guru)</li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Proyek Akhir Tema 2 -->
+        <div
+          class="mt-8 bg-white p-6 rounded-xl shadow-lg border border-teal-300"
+        >
+          <h3 class="text-2xl font-bold text-teal-600 mb-4">
+            Output Proyek Akhir Tema 2: "Port Logbook: My Cargo Data Report"
+          </h3>
+          <p class="text-gray-700 p-4 bg-teal-50 rounded-lg">
+            <strong class="text-gray-900">Output:</strong> Halaman 12 & 13 dari
+            Adventurer's Logbook yang menampilkan *Grafik Batang* yang digambar
+            tangan berdasarkan data simulasi dan *Analisis Data* yang valid.
+          </p>
+        </div>
+      </section>
+    </div>
+    <!-- penutup container -->
+  </body>
+</html>
