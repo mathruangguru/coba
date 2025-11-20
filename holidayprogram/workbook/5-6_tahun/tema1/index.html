@@ -1,0 +1,1737 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Batik Market Counting Quest - Learning Kit</title>
+    <!-- Memuat Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap");
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f3f4f6; /* gray-100 */
+      }
+      /* Definisi ukuran A4 untuk tampilan di layar dan cetak */
+      .a4-page {
+        width: 210mm;
+        min-height: 297mm;
+        margin: 20px auto;
+        padding: 15mm 15mm; /* Menggunakan padding yang aman (15mm) */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        background: white;
+        border-radius: 8px;
+      }
+      /* Gaya spesifik untuk print */
+      @media print {
+        body {
+          background: white !important;
+        }
+        .a4-page {
+          width: 100%;
+          min-height: 100%;
+          margin: 0;
+          padding: 15mm;
+          box-shadow: none;
+          page-break-after: always;
+        }
+        .print-hidden {
+          display: none !important;
+        }
+        table,
+        th,
+        td {
+          border-color: #000 !important;
+        }
+      }
+      /* Gaya tabel */
+      .worksheet-table table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 1rem;
+      }
+      .worksheet-table th,
+      .worksheet-table td {
+        border: 1px solid #d1d5db;
+        padding: 10px;
+        text-align: center;
+      }
+      /* Peningkatan Padding Vertikal untuk Halaman 6 */
+      .worksheet-table .large-padding-row td {
+        padding-top: 20px;
+        padding-bottom: 20px;
+      }
+
+      /* Placeholder Box hanya untuk KOLOM JAWABAN KOSONG */
+      .placeholder-box {
+        background-color: #fef2f2; /* red-50 */
+        border: 2px dashed #f87171; /* red-400 */
+        min-height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        font-size: 0.875rem;
+        color: #b91c1c; /* red-700 */
+        margin: 5px 0;
+        padding: 5px;
+        font-weight: 600;
+        min-height: 50px;
+        padding: 10px;
+      }
+      .batik-image {
+        max-width: 100%;
+        height: auto;
+        max-height: 104px; /* Diperbesar sedikit dari 96px */
+        object-fit: contain;
+        /* Menghilangkan border/background placeholder dari gambar */
+      }
+      .math-input {
+        font-size: 2.5rem;
+        font-weight: 800; /* Extra bold for visibility */
+        color: #1f2937; /* gray-800 */
+      }
+      .instruction-icon {
+        font-size: 1.5rem;
+        font-weight: 900;
+        margin-right: 8px;
+        display: inline-block;
+      }
+      .ten-frame-container {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 4px;
+        width: 100%;
+        max-width: 250px;
+        margin: 0 auto;
+      }
+      .ten-frame-cell {
+        height: 40px;
+        border: 2px solid #3b82f6; /* blue-500 */
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-weight: 900;
+      }
+      .filled-cell {
+        background-color: #bfdbfe; /* blue-200 */
+        color: #1e40af; /* blue-800 */
+      }
+      .empty-cell {
+        background-color: #ffffff;
+        color: #3b82f6;
+      }
+      /* Gaya untuk kotak pola */
+      .pattern-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 40px;
+        width: 40px;
+        border-radius: 4px;
+        font-size: 2rem;
+        font-weight: 800;
+        margin: 0 4px; /* Memberi jarak antar kotak */
+      }
+      .pattern-empty {
+        border: 1px dashed #9ca3af; /* Abu-abu tipis untuk titik-titik */
+        background-color: #f9fafb; /* Abu-abu sangat muda */
+        color: transparent; /* Sembunyikan '...' */
+      }
+      .pattern-filled {
+        border: 2px solid transparent;
+      }
+      /* Jarak antar soal pola yang lebih rapat */
+      .pattern-spacing {
+        margin-bottom: 0.75rem;
+      }
+
+      /* Gaya Khusus untuk Visual Koin di Halaman 5 dan 6 */
+      .coin-visual-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 80px; /* Ukuran compact untuk Halaman 5 */
+        margin: 8px auto 0 auto; /* Margin top agar ada jarak dari gambar batik */
+      }
+      .coin-visual-table {
+        display: flex;
+        flex-direction: column; /* Susun kelompok 5 secara vertikal */
+        align-items: center;
+        width: 100%;
+        max-width: 120px; /* Melebarkan sedikit agar 5 koin muat rapi */
+        margin: 4px auto 8px auto;
+      }
+      /* Gaya untuk kelompok 5 koin (Baris) */
+      .coin-group {
+        display: flex;
+        flex-wrap: nowrap; /* Pastikan 5 koin berjejer lurus */
+        justify-content: center;
+        margin: 1px 0; /* Jarak antar baris 5 */
+      }
+      .coin-icon {
+        width: 10px; /* Disesuaikan agar lebih besar dan rapi */
+        height: 10px; /* Disesuaikan agar lebih besar dan rapi */
+        margin: 1px;
+        background-color: #facc15; /* yellow-400 */
+        border: 1px solid #b45309; /* amber-700 */
+        border-radius: 50%;
+      }
+      /* Gaya Khusus untuk Persamaan di Halaman 6 */
+      .equation-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 2rem;
+        font-weight: 800;
+        color: #1f2937;
+      }
+      .equation-line {
+        display: inline-block;
+        border-bottom: 4px solid #f87171; /* red-400 */
+        width: 50px; /* Panjang garis bawah */
+        margin-left: 8px;
+      }
+      /* Gaya untuk konten kit gunting (Gambar) */
+      .kit-item-box {
+        border: 3px dashed #10b981; /* Warna hijau untuk penanda gunting */
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background-color: #ecfdf5; /* green-50 */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .kit-image {
+        max-width: 90%;
+        height: auto;
+        object-fit: contain;
+      }
+      /* Gaya untuk 10-Frame Mat yang diperbesar di Halaman 11 */
+      .large-ten-frame-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* 2 Kolom vertikal */
+        gap: 15px; /* Jarak antar kolom dan baris */
+        width: 100%;
+        max-width: 300px; /* DIKECILKAN dari 400px menjadi 350px untuk margin cetak yang aman */
+        margin: 40px auto;
+      }
+      .large-ten-frame-cell {
+        /* Membuat sel menjadi persegi (square) */
+        width: 100%;
+        padding-bottom: 100%; /* Rasio 1:1 untuk membuat kotak persegi */
+        height: 0; /* Override tinggi agar padding mengontrol dimensi */
+
+        border: 4px solid #3b82f6; /* border lebih tebal */
+        border-radius: 6px;
+        background-color: #f0f8ff; /* Warna latar belakang */
+        box-sizing: border-box; /* Pastikan padding tidak menambah ukuran total */
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 p-4">
+    <!-- Tombol Cetak (Tersembunyi saat dicetak) -->
+    <div class="print-hidden max-w-7xl mx-auto mb-4 p-4 flex justify-end">
+      <button
+        onclick="window.print()"
+        class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-full shadow-lg transition duration-300"
+      >
+        N️ Cetak Semua Materi
+      </button>
+    </div>
+
+    <div class="max-w-7xl mx-auto">
+        
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6 print-hidden">
+            WORKSHEET & LEARNING KIT TEMA 1: BATIK MARKET COUNTING QUEST
+        </h1>
+
+        <!-- Halaman Pra-A: Angka 1-5 -->
+        <div class="a4-page">
+            <header class="text-center mb-6 border-b pb-2">
+                <h2 class="text-2xl font-bold text-teal-600">LATIHAN MENULIS - BAGIAN A</h2>
+                <p class="text-sm text-gray-500">Hitung koinnya, lalu tebalkan garis putus-putus ini!</p>
+            </header>
+
+            <div class="w-full">
+                <!-- Header Tabel -->
+                <div class="flex bg-teal-100 text-teal-900 font-bold p-3 rounded-t-lg border border-teal-200">
+                    <div class="w-1/2 text-center text-lg">JUMLAH KOIN</div>
+                    <div class="w-1/2 text-center text-lg">TEBALKAN ANGKA</div>
+                </div>
+
+                <!-- Baris 1 -->
+                <div class="flex items-stretch border-x border-b border-gray-300 bg-white">
+                    <div class="w-1/2 flex items-center justify-center p-4 border-r border-gray-200">
+                        <div class="coin-visual-container transform scale-150">
+                            <div class="coin-icon"></div>
+                        </div>
+                    </div>
+                    <div class="w-1/2 flex items-center justify-center p-2 space-x-4">
+                        <!-- Repetisi 3x -->
+                        <svg width="80" height="80" viewBox="0 0 100 100" class="border border-dashed border-gray-200 rounded bg-gray-50">
+                            <path d="M 50 20 L 50 80" fill="none" stroke="#9ca3af" stroke-width="3" stroke-dasharray="5,10" stroke-linecap="round" />
+                        </svg>
+                        <svg width="80" height="80" viewBox="0 0 100 100" class="border border-dashed border-gray-200 rounded bg-gray-50">
+                            <path d="M 50 20 L 50 80" fill="none" stroke="#9ca3af" stroke-width="3" stroke-dasharray="5,10" stroke-linecap="round" />
+                        </svg>
+                        <svg width="80" height="80" viewBox="0 0 100 100" class="border border-dashed border-gray-200 rounded bg-gray-50">
+                            <path d="M 50 20 L 50 80" fill="none" stroke="#9ca3af" stroke-width="3" stroke-dasharray="5,10" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Baris 2 -->
+                <div class="flex items-stretch border-x border-b border-gray-300 bg-gray-50">
+                    <div class="w-1/2 flex items-center justify-center p-4 border-r border-gray-200">
+                        <div class="coin-visual-container transform scale-150">
+                            <div class="coin-icon"></div><div class="coin-icon"></div>
+                        </div>
+                    </div>
+                    <div class="w-1/2 flex items-center justify-center p-2 space-x-4">
+                        <svg width="80" height="80" viewBox="0 0 100 100" class="border border-dashed border-gray-200 rounded bg-white">
+                            <path d="M 35 35 Q 65 10 65 35 Q 65 50 35 80 L 70 80" fill="none" stroke="#9ca3af" stroke-width="3" stroke-dasharray="5,10" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <svg width="80" height="80" viewBox="0 0 100 100" class="border border-dashed border-gray-200 rounded bg-white">
+                            <path d="M 35 35 Q 65 10 65 35 Q 65 50 35 80 L 70 80" fill="none" stroke="#9ca3af" stroke-width="3" stroke-dasharray="5,10" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <svg width="80" height="80" viewBox="0 0 100 100" class="border border-dashed border-gray-200 rounded bg-white">
+                            <path d="M 35 35 Q 65 10 65 35 Q 65 50 35 80 L 70 80" fill="none" stroke="#9ca3af" stroke-width="3" stroke-dasharray="5,10" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Baris 3 -->
+                <div class="flex items-stretch border-x border-b border-gray-300 bg-white">
+                    <div class="w-1/2 flex items-center justify-center p-4 border-r border-gray-200">
+                        <div class="coin-visual-container transform scale-150">
+                            <div class="coin-icon"></div><div class="coin-icon"></div><div class="coin-icon"></div>
+                        </div>
+                    </div>
+                    <div class="w-1/2 flex items-center justify-center p-2 space-x-4">
+                        <svg width="80" height="80" viewBox="0 0 100 100" class="border border-dashed border-gray-200 rounded bg-gray-50">
+                            <path d="M 35 25 Q 65 25 65 40 Q 65 50 50 50 M 50 50 Q 65 50 65 65 Q 65 80 35 80" fill="none" stroke="#9ca3af" stroke-width="3" stroke-dasharray="5,10" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <svg width="80" height="80" viewBox="0 0 100 100" class="border border-dashed border-gray-200 rounded bg-gray-50">
+                            <path d="M 35 25 Q 65 25 65 40 Q 65 50 50 50 M 50 50 Q 65 50 65 65 Q 65 80 35 80" fill="none" stroke="#9ca3af" stroke-width="3" stroke-dasharray="5,10" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <svg width="80" height="80" viewBox="0 0 100 100" class="border border-dashed border-gray-200 rounded bg-gray-50">
+                            <path d="M 35 25 Q 65 25 65 40 Q 65 50 50 50 M 50 50 Q 65 50 65 65 Q 65 80 35 80" fill="none" stroke="#9ca3af" stroke-width="3" stroke-dasharray="5,10" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Baris 4 -->
+                <div class="flex items-stretch border-x border-b border-gray-300 bg-gray-50">
+                    <div class="w-1/2 flex items-center justify-center p-4 border-r border-gray-200">
+                        <div class="coin-visual-container transform scale-150">
+                            <div class="coin-icon"></div><div class="coin-icon"></div><div class="coin-icon"></div>
+                            <div class="coin-icon"></div>
+                        </div>
+                    </div>
+                    <div class="w-1/2 flex items-center justify-center p-2 space-x-4">
+                        <svg width="80" height="80" viewBox="0 0 100 100" class="border border-dashed border-gray-200 rounded bg-white">
+                            <path d="M 65 20 L 30 60 L 75 60 M 65 20 L 65 80" fill="none" stroke="#9ca3af" stroke-width="3" stroke-dasharray="5,10" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <svg width="80" height="80" viewBox="0 0 100 100" class="border border-dashed border-gray-200 rounded bg-white">
+                            <path d="M 65 20 L 30 60 L 75 60 M 65 20 L 65 80" fill="none" stroke="#9ca3af" stroke-width="3" stroke-dasharray="5,10" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <svg width="80" height="80" viewBox="0 0 100 100" class="border border-dashed border-gray-200 rounded bg-white">
+                            <path d="M 65 20 L 30 60 L 75 60 M 65 20 L 65 80" fill="none" stroke="#9ca3af" stroke-width="3" stroke-dasharray="5,10" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Baris 5 -->
+                <div class="flex items-stretch border-x border-b border-gray-300 bg-white">
+                    <div class="w-1/2 flex items-center justify-center p-4 border-r border-gray-200">
+                        <div class="coin-visual-container transform scale-150">
+                            <div class="coin-icon"></div><div class="coin-icon"></div><div class="coin-icon"></div>
+                            <div class="coin-icon"></div><div class="coin-icon"></div>
+                        </div>
+                    </div>
+                    <div class="w-1/2 flex items-center justify-center p-2 space-x-4">
+                        <svg width="80" height="80" viewBox="0 0 100 100" class="border border-dashed border-gray-200 rounded bg-gray-50">
+                            <path d="M 65 25 L 40 25 L 35 50 Q 70 45 70 70 Q 70 85 40 85" fill="none" stroke="#9ca3af" stroke-width="3" stroke-dasharray="5,10" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <svg width="80" height="80" viewBox="0 0 100 100" class="border border-dashed border-gray-200 rounded bg-gray-50">
+                            <path d="M 65 25 L 40 25 L 35 50 Q 70 45 70 70 Q 70 85 40 85" fill="none" stroke="#9ca3af" stroke-width="3" stroke-dasharray="5,10" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <svg width="80" height="80" viewBox="0 0 100 100" class="border border-dashed border-gray-200 rounded bg-gray-50">
+                            <path d="M 65 25 L 40 25 L 35 50 Q 70 45 70 70 Q 70 85 40 85" fill="none" stroke="#9ca3af" stroke-width="3" stroke-dasharray="5,10" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <p class="text-center text-gray-400 text-sm mt-8 font-bold">Teruslah berlatih! Kamu hebat!</p>
+        </div>
+
+        <!-- Halaman Pra-B: Angka 6-10 -->
+        <div class="a4-page">
+            <header class="text-center mb-6 border-b pb-2">
+                <h2 class="text-2xl font-bold text-teal-600">LATIHAN MENULIS - BAGIAN B</h2>
+                <p class="text-sm text-gray-500">Hitung koinnya, lalu tebalkan garis putus-putus ini!</p>
+            </header>
+
+            <div class="w-full">
+                <!-- Header Tabel -->
+                <div class="flex bg-teal-100 text-teal-900 font-bold p-3 rounded-t-lg border border-teal-200">
+                    <div class="w-1/2 text-center text-lg">JUMLAH KOIN</div>
+                    <div class="w-1/2 text-center text-lg">TEBALKAN ANGKA</div>
+                </div>
+
+                <!-- Baris 6 -->
+                <div class="flex items-stretch border-x border-b border-gray-300 bg-white">
+                    <div class="w-1/2 flex items-center justify-center p-4 border-r border-gray-200">
+                        <div class="coin-visual-table transform scale-125">
+                            <div class="coin-group">
+                                <div class="coin-icon"></div><div class="coin-icon"></div><div class="coin-icon"></div>
+                                <div class="coin-icon"></div><div class="coin-icon"></div>
+                            </div>
+                            <div class="coin-group">
+                                <div class="coin-icon"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-1/2 flex items-center justify-center p-2 space-x-4">
+                        <svg width="80" height="80" viewBox="0 0 100 100" class="border border-dashed border-gray-200 rounded bg-gray-50">
+                            <path d="M 60 20 C 30 30 30 80 55 80 C 75 80 75 55 55 55 C 40 55 35 65 35 65" fill="none" stroke="#9ca3af" stroke-width="3" stroke-dasharray="5,10" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <svg width="80" height="80" viewBox="0 0 100 100" class="border border-dashed border-gray-200 rounded bg-gray-50">
+                            <path d="M 60 20 C 30 30 30 80 55 80 C 75 80 75 55 55 55 C 40 55 35 65 35 65" fill="none" stroke="#9ca3af" stroke-width="3" stroke-dasharray="5,10" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <svg width="80" height="80" viewBox="0 0 100 100" class="border border-dashed border-gray-200 rounded bg-gray-50">
+                            <path d="M 60 20 C 30 30 30 80 55 80 C 75 80 75 55 55 55 C 40 55 35 65 35 65" fill="none" stroke="#9ca3af" stroke-width="3" stroke-dasharray="5,10" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Baris 7 -->
+                <div class="flex items-stretch border-x border-b border-gray-300 bg-gray-50">
+                    <div class="w-1/2 flex items-center justify-center p-4 border-r border-gray-200">
+                        <div class="coin-visual-table transform scale-125">
+                            <div class="coin-group">
+                                <div class="coin-icon"></div><div class="coin-icon"></div><div class="coin-icon"></div>
+                                <div class="coin-icon"></div><div class="coin-icon"></div>
+                            </div>
+                            <div class="coin-group">
+                                <div class="coin-icon"></div><div class="coin-icon"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-1/2 flex items-center justify-center p-2 space-x-4">
+                        <svg width="80" height="80" viewBox="0 0 100 100" class="border border-dashed border-gray-200 rounded bg-white">
+                            <path d="M 30 25 L 70 25 L 45 80" fill="none" stroke="#9ca3af" stroke-width="3" stroke-dasharray="5,10" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <svg width="80" height="80" viewBox="0 0 100 100" class="border border-dashed border-gray-200 rounded bg-white">
+                            <path d="M 30 25 L 70 25 L 45 80" fill="none" stroke="#9ca3af" stroke-width="3" stroke-dasharray="5,10" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <svg width="80" height="80" viewBox="0 0 100 100" class="border border-dashed border-gray-200 rounded bg-white">
+                            <path d="M 30 25 L 70 25 L 45 80" fill="none" stroke="#9ca3af" stroke-width="3" stroke-dasharray="5,10" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Baris 8 -->
+                <div class="flex items-stretch border-x border-b border-gray-300 bg-white">
+                    <div class="w-1/2 flex items-center justify-center p-4 border-r border-gray-200">
+                        <div class="coin-visual-table transform scale-125">
+                            <div class="coin-group">
+                                <div class="coin-icon"></div><div class="coin-icon"></div><div class="coin-icon"></div>
+                                <div class="coin-icon"></div><div class="coin-icon"></div>
+                            </div>
+                            <div class="coin-group">
+                                <div class="coin-icon"></div><div class="coin-icon"></div><div class="coin-icon"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-1/2 flex items-center justify-center p-2 space-x-4">
+                        <svg width="80" height="80" viewBox="0 0 100 100" class="border border-dashed border-gray-200 rounded bg-gray-50">
+                            <path d="M 50 50 Q 70 50 70 35 Q 70 20 50 20 Q 30 20 30 35 Q 30 50 50 50 Q 70 50 70 65 Q 70 80 50 80 Q 30 80 30 65 Q 30 50 50 50" fill="none" stroke="#9ca3af" stroke-width="3" stroke-dasharray="5,10" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <svg width="80" height="80" viewBox="0 0 100 100" class="border border-dashed border-gray-200 rounded bg-gray-50">
+                            <path d="M 50 50 Q 70 50 70 35 Q 70 20 50 20 Q 30 20 30 35 Q 30 50 50 50 Q 70 50 70 65 Q 70 80 50 80 Q 30 80 30 65 Q 30 50 50 50" fill="none" stroke="#9ca3af" stroke-width="3" stroke-dasharray="5,10" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <svg width="80" height="80" viewBox="0 0 100 100" class="border border-dashed border-gray-200 rounded bg-gray-50">
+                            <path d="M 50 50 Q 70 50 70 35 Q 70 20 50 20 Q 30 20 30 35 Q 30 50 50 50 Q 70 50 70 65 Q 70 80 50 80 Q 30 80 30 65 Q 30 50 50 50" fill="none" stroke="#9ca3af" stroke-width="3" stroke-dasharray="5,10" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Baris 9 -->
+                <div class="flex items-stretch border-x border-b border-gray-300 bg-gray-50">
+                    <div class="w-1/2 flex items-center justify-center p-4 border-r border-gray-200">
+                        <div class="coin-visual-table transform scale-125">
+                            <div class="coin-group">
+                                <div class="coin-icon"></div><div class="coin-icon"></div><div class="coin-icon"></div>
+                                <div class="coin-icon"></div><div class="coin-icon"></div>
+                            </div>
+                            <div class="coin-group">
+                                <div class="coin-icon"></div><div class="coin-icon"></div><div class="coin-icon"></div>
+                                <div class="coin-icon"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-1/2 flex items-center justify-center p-2 space-x-4">
+                        <svg width="80" height="80" viewBox="0 0 100 100" class="border border-dashed border-gray-200 rounded bg-white">
+                            <path d="M 45 80 C 70 80 70 20 45 20 C 25 20 25 45 45 45 C 60 45 65 35 65 35" fill="none" stroke="#9ca3af" stroke-width="3" stroke-dasharray="5,10" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <svg width="80" height="80" viewBox="0 0 100 100" class="border border-dashed border-gray-200 rounded bg-white">
+                            <path d="M 45 80 C 70 80 70 20 45 20 C 25 20 25 45 45 45 C 60 45 65 35 65 35" fill="none" stroke="#9ca3af" stroke-width="3" stroke-dasharray="5,10" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <svg width="80" height="80" viewBox="0 0 100 100" class="border border-dashed border-gray-200 rounded bg-white">
+                            <path d="M 45 80 C 70 80 70 20 45 20 C 25 20 25 45 45 45 C 60 45 65 35 65 35" fill="none" stroke="#9ca3af" stroke-width="3" stroke-dasharray="5,10" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Baris 10 -->
+                <div class="flex items-stretch border-x border-b border-gray-300 bg-white">
+                    <div class="w-1/2 flex items-center justify-center p-4 border-r border-gray-200">
+                        <div class="coin-visual-table transform scale-125">
+                            <div class="coin-group">
+                                <div class="coin-icon"></div><div class="coin-icon"></div><div class="coin-icon"></div>
+                                <div class="coin-icon"></div><div class="coin-icon"></div>
+                            </div>
+                            <div class="coin-group">
+                                <div class="coin-icon"></div><div class="coin-icon"></div><div class="coin-icon"></div>
+                                <div class="coin-icon"></div><div class="coin-icon"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-1/2 flex items-center justify-center p-2 space-x-2">
+                        <svg width="120" height="80" viewBox="0 0 140 100" class="border border-dashed border-gray-200 rounded bg-gray-50">
+                            <path d="M 40 20 L 40 80" fill="none" stroke="#9ca3af" stroke-width="3" stroke-dasharray="5,10" stroke-linecap="round" />
+                            <path d="M 90 20 Q 70 20 70 50 Q 70 80 90 80 Q 110 80 110 50 Q 110 20 90 20" fill="none" stroke="#9ca3af" stroke-width="3" stroke-dasharray="5,10" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <svg width="120" height="80" viewBox="0 0 140 100" class="border border-dashed border-gray-200 rounded bg-gray-50">
+                            <path d="M 40 20 L 40 80" fill="none" stroke="#9ca3af" stroke-width="3" stroke-dasharray="5,10" stroke-linecap="round" />
+                            <path d="M 90 20 Q 70 20 70 50 Q 70 80 90 80 Q 110 80 110 50 Q 110 20 90 20" fill="none" stroke="#9ca3af" stroke-width="3" stroke-dasharray="5,10" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <p class="text-center text-gray-400 text-sm mt-8 font-bold">Bagus! Sekarang kamu siap berpetualang di Pasar Batik!</p>
+        </div>
+
+    <!-- ========================================================================================= -->
+    <!-- BAGIAN 1: WORKSHEET (Halaman 1-9) -->
+    <!-- Siswa mengisi dengan pensil. Tidak digunting. -->
+    <!-- ========================================================================================= -->
+    <div class="max-w-7xl mx-auto">
+      <h1
+        class="text-3xl font-bold text-center text-gray-800 mb-6 print-hidden"
+      >
+        WORKSHEET & LEARNING KIT TEMA 1: BATIK MARKET COUNTING QUEST
+      </h1>
+
+      <!-- Halaman 1: Misi Rapikan Toko (Counting) -->
+      <div class="a4-page">
+        <header class="text-center mb-6 border-b pb-2">
+          <h2 class="text-2xl font-bold text-orange-600">
+            WORKSHEET - HALAMAN 1
+          </h2>
+          <p class="text-sm text-gray-500">Tema 1: Counting Quest</p>
+        </header>
+
+        <h3 class="text-xl font-semibold mb-3">Sesi 1: HITUNG & CATAT</h3>
+        <p class="mb-4 italic font-bold text-sm">
+          Hitung kain yang kamu temukan, lalu catat angka di kotak kanan!
+        </p>
+
+        <div class="worksheet-table">
+          <table>
+            <thead class="bg-orange-100">
+              <tr>
+                <!-- Kolom Jenis Kain dan Gambar digabung -->
+                <th class="w-1/3 text-lg font-extrabold">
+                  JENIS KAIN & GAMBAR
+                </th>
+                <!-- Kolom Jumlah Kain dikosongkan -->
+                <th class="w-1/3 text-lg font-extrabold">JUMLAH KAIN</th>
+                <th class="w-1/3 text-lg font-extrabold">TULIS ANGKA</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <!-- Batik Baris: Gabungan Gambar dan Nama -->
+                <td class="flex flex-col items-center p-2">
+                  <img
+                    src="https://imgix3.ruangguru.com/assets/miscellaneous/png_txf3mr_3519.png"
+                    alt="Kain Batik Baris"
+                    class="batik-image h-auto max-h-24 w-auto border-none p-0"
+                    onerror="this.onerror=null; this.src='https://placehold.co/96x96/f87171/ffffff?text=Baris'; this.classList.add('p-2', 'border-2', 'border-dashed', 'border-red-400', 'bg-red-50');"
+                  />
+                  <span class="font-bold text-sm mt-1">Batik Baris</span>
+                </td>
+                <td></td>
+                <td><div class="placeholder-box"></div></td>
+              </tr>
+              <tr>
+                <!-- Batik Layang: Gabungan Gambar dan Nama -->
+                <td class="flex flex-col items-center p-2">
+                  <img
+                    src="https://imgix3.ruangguru.com/assets/miscellaneous/png_zkl1cj_1133.png"
+                    alt="Kain Batik Layang"
+                    class="batik-image h-auto max-h-24 w-auto border-none p-0"
+                    onerror="this.onerror=null; this.src='https://placehold.co/96x96/f87171/ffffff?text=Layang'; this.classList.add('p-2', 'border-2', 'border-dashed', 'border-red-400', 'bg-red-50');"
+                  />
+                  <span class="font-bold text-sm mt-1">Batik Layang</span>
+                </td>
+                <td></td>
+                <td><div class="placeholder-box"></div></td>
+              </tr>
+              <tr>
+                <!-- Batik Bunga: Gabungan Gambar dan Nama -->
+                <td class="flex flex-col items-center p-2">
+                  <img
+                    src="https://imgix3.ruangguru.com/assets/miscellaneous/png_kaxsyz_648.png"
+                    alt="Kain Batik Bunga"
+                    class="batik-image h-auto max-h-24 w-auto border-none p-0"
+                    onerror="this.onerror=null; this.src='https://placehold.co/96x96/f87171/ffffff?text=Bunga'; this.classList.add('p-2', 'border-2', 'border-dashed', 'border-red-400', 'bg-red-50');"
+                  />
+                  <span class="font-bold text-sm mt-1">Batik Bunga</span>
+                </td>
+                <td></td>
+                <td><div class="placeholder-box"></div></td>
+              </tr>
+              <tr>
+                <!-- Batik Kotak: Gabungan Gambar dan Nama -->
+                <td class="flex flex-col items-center p-2">
+                  <img
+                    src="https://imgix3.ruangguru.com/assets/miscellaneous/png_xfztbf_9706.png"
+                    alt="Kain Batik Kotak"
+                    class="batik-image h-auto max-h-24 w-auto border-none p-0"
+                    onerror="this.onerror=null; this.src='https://placehold.co/96x96/f87171/ffffff?text=Kotak'; this.classList.add('p-2', 'border-2', 'border-dashed', 'border-red-400', 'bg-red-50');"
+                  />
+                  <span class="font-bold text-sm mt-1">Batik Kotak</span>
+                </td>
+                <td></td>
+                <td><div class="placeholder-box"></div></td>
+              </tr>
+              <tr class="font-bold bg-gray-50">
+                <td>TOTAL SEMUA</td>
+                <td></td>
+                <td><div class="placeholder-box"></div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Halaman 2: Kotak Ajaib 10 (Number Bonds) - Part 1 (3 Soal) -->
+      <div class="a4-page">
+        <header class="text-center mb-6 border-b pb-2">
+          <h2 class="text-2xl font-bold text-orange-600">
+            WORKSHEET - HALAMAN 2
+          </h2>
+          <p class="text-sm text-gray-500">
+            Tema 1: Number Bonds (Pasangan 10) - Bagian 1
+          </p>
+        </header>
+
+        <h3 class="text-xl font-semibold mb-3">Sesi 1: KOTAK AJAIB 10</h3>
+        <p class="mb-6 italic font-bold text-sm">
+          Lihat gambar Kotak 10 di bawah. Berapa kotak yang diisi? Berapa kotak
+          yang kosong? Tulis angka di bagian bawah!
+        </p>
+
+        <div class="space-y-6">
+          <!-- Soal 1: 7 + 3 = 10 -->
+          <div
+            class="w-full p-4 border border-gray-300 rounded-lg bg-indigo-50 shadow-md"
+          >
+            <h4 class="font-bold text-lg text-left mb-3">1.</h4>
+            <div class="ten-frame-container">
+              <!-- 7 Isi -->
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <!-- 3 Kosong -->
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+            </div>
+            <div
+              class="text-center mt-4 text-3xl font-extrabold text-indigo-700"
+            >
+              7 +
+              <span class="text-red-600 border-b-4 border-red-600 px-4"
+                >____</span
+              >
+              = 10
+            </div>
+          </div>
+
+          <!-- Soal 2: 4 + 6 = 10 -->
+          <div
+            class="w-full p-4 border border-gray-300 rounded-lg bg-indigo-50 shadow-md"
+          >
+            <h4 class="font-bold text-lg text-left mb-3">2.</h4>
+            <div class="ten-frame-container">
+              <!-- 4 Isi -->
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <!-- 6 Kosong -->
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+            </div>
+            <div
+              class="text-center mt-4 text-3xl font-extrabold text-indigo-700"
+            >
+              4 +
+              <span class="text-red-600 border-b-4 border-red-600 px-4"
+                >____</span
+              >
+              = 10
+            </div>
+          </div>
+
+          <!-- Soal 3: 8 + 2 = 10 -->
+          <div
+            class="w-full p-4 border border-gray-300 rounded-lg bg-indigo-50 shadow-md"
+          >
+            <h4 class="font-bold text-lg text-left mb-3">3.</h4>
+            <div class="ten-frame-container">
+              <!-- 8 Isi -->
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <!-- 2 Kosong -->
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+            </div>
+            <div
+              class="text-center mt-4 text-3xl font-extrabold text-indigo-700"
+            >
+              8 +
+              <span class="text-red-600 border-b-4 border-red-600 px-4"
+                >____</span
+              >
+              = 10
+            </div>
+          </div>
+        </div>
+
+        <p class="text-xs text-gray-600 mt-6 text-center">
+          *(Siswa hanya perlu mengisi angka yang hilang di bagian bawah.)*
+        </p>
+      </div>
+
+      <!-- Halaman 3: Kotak Ajaib 10 (Number Bonds) - Part 2 (3 Soal) -->
+      <div class="a4-page">
+        <header class="text-center mb-6 border-b pb-2">
+          <h2 class="text-2xl font-bold text-orange-600">
+            WORKSHEET - HALAMAN 3
+          </h2>
+          <p class="text-sm text-gray-500">
+            Tema 1: Number Bonds (Pasangan 10) - Bagian 2
+          </p>
+        </header>
+
+        <h3 class="text-xl font-semibold mb-3">Sesi 1: KOTAK AJAIB 10</h3>
+        <p class="mb-6 italic font-bold text-sm">
+          Lanjutkan latihanmu! Tulis angka yang hilang untuk membuat 10!
+        </p>
+
+        <div class="space-y-6">
+          <!-- Soal 4: 5 + 5 = 10 -->
+          <div
+            class="w-full p-4 border border-gray-300 rounded-lg bg-indigo-50 shadow-md"
+          >
+            <h4 class="font-bold text-lg text-left mb-3">4.</h4>
+            <div class="ten-frame-container">
+              <!-- 5 Isi -->
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <!-- 5 Kosong -->
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+            </div>
+            <div
+              class="text-center mt-4 text-3xl font-extrabold text-indigo-700"
+            >
+              5 +
+              <span class="text-red-600 border-b-4 border-red-600 px-4"
+                >____</span
+              >
+              = 10
+            </div>
+          </div>
+
+          <!-- Soal 5: 1 + 9 = 10 -->
+          <div
+            class="w-full p-4 border border-gray-300 rounded-lg bg-indigo-50 shadow-md"
+          >
+            <h4 class="font-bold text-lg text-left mb-3">5.</h4>
+            <div class="ten-frame-container">
+              <!-- 1 Isi -->
+              <div class="ten-frame-cell filled-cell">●</div>
+              <!-- 9 Kosong -->
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+            </div>
+            <div
+              class="text-center mt-4 text-3xl font-extrabold text-indigo-700"
+            >
+              1 +
+              <span class="text-red-600 border-b-4 border-red-600 px-4"
+                >____</span
+              >
+              = 10
+            </div>
+          </div>
+
+          <!-- Soal 6: 9 + 1 = 10 -->
+          <div
+            class="w-full p-4 border border-gray-300 rounded-lg bg-indigo-50 shadow-md"
+          >
+            <h4 class="font-bold text-lg text-left mb-3">6.</h4>
+            <div class="ten-frame-container">
+              <!-- 9 Isi -->
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <!-- 1 Kosong -->
+              <div class="ten-frame-cell empty-cell"></div>
+            </div>
+            <div
+              class="text-center mt-4 text-3xl font-extrabold text-indigo-700"
+            >
+              9 +
+              <span class="text-red-600 border-b-4 border-red-600 px-4"
+                >____</span
+              >
+              = 10
+            </div>
+          </div>
+        </div>
+
+        <p class="text-xs text-gray-600 mt-6 text-center">
+          *(Latihan ini menguatkan konsep pasangan bilangan 10.)*
+        </p>
+      </div>
+
+      <!-- Halaman 4: Kotak Ajaib 10 (Number Bonds) - Part 3 (3 Soal) -->
+      <div class="a4-page">
+        <header class="text-center mb-6 border-b pb-2">
+          <h2 class="text-2xl font-bold text-orange-600">
+            WORKSHEET - HALAMAN 4
+          </h2>
+          <p class="text-sm text-gray-500">
+            Tema 1: Number Bonds (Pasangan 10) - Bagian 3
+          </p>
+        </header>
+
+        <h3 class="text-xl font-semibold mb-3">Sesi 1: KOTAK AJAIB 10</h3>
+        <p class="mb-6 italic font-bold text-sm">
+          Lanjutkan latihanmu! Tulis angka yang hilang untuk membuat 10!
+        </p>
+
+        <div class="space-y-6">
+          <!-- Soal 7: 2 + 8 = 10 -->
+          <div
+            class="w-full p-4 border border-gray-300 rounded-lg bg-indigo-50 shadow-md"
+          >
+            <h4 class="font-bold text-lg text-left mb-3">7.</h4>
+            <div class="ten-frame-container">
+              <!-- 2 Isi -->
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <!-- 8 Kosong -->
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+            </div>
+            <div
+              class="text-center mt-4 text-3xl font-extrabold text-indigo-700"
+            >
+              2 +
+              <span class="text-red-600 border-b-4 border-red-600 px-4"
+                >____</span
+              >
+              = 10
+            </div>
+          </div>
+
+          <!-- Soal 8: 3 + 7 = 10 -->
+          <div
+            class="w-full p-4 border border-gray-300 rounded-lg bg-indigo-50 shadow-md"
+          >
+            <h4 class="font-bold text-lg text-left mb-3">8.</h4>
+            <div class="ten-frame-container">
+              <!-- 3 Isi -->
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <!-- 7 Kosong -->
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+            </div>
+            <div
+              class="text-center mt-4 text-3xl font-extrabold text-indigo-700"
+            >
+              3 +
+              <span class="text-red-600 border-b-4 border-red-600 px-4"
+                >____</span
+              >
+              = 10
+            </div>
+          </div>
+
+          <!-- Soal 9: 6 + 4 = 10 -->
+          <div
+            class="w-full p-4 border border-gray-300 rounded-lg bg-indigo-50 shadow-md"
+          >
+            <h4 class="font-bold text-lg text-left mb-3">9.</h4>
+            <div class="ten-frame-container">
+              <!-- 6 Isi -->
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <div class="ten-frame-cell filled-cell">●</div>
+              <!-- 4 Kosong -->
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+              <div class="ten-frame-cell empty-cell"></div>
+            </div>
+            <div
+              class="text-center mt-4 text-3xl font-extrabold text-indigo-700"
+            >
+              6 +
+              <span class="text-red-600 border-b-4 border-red-600 px-4"
+                >____</span
+              >
+              = 10
+            </div>
+          </div>
+        </div>
+
+        <p class="text-xs text-gray-600 mt-6 text-center">
+          *(Latihan ini menguatkan konsep pasangan bilangan 10.)*
+        </p>
+      </div>
+
+      <!-- Halaman 5: Buku Kasir (Addition) -->
+      <div class="a4-page">
+        <header class="text-center mb-6 border-b pb-2">
+          <h2 class="text-2xl font-bold text-orange-600">
+            WORKSHEET - HALAMAN 5
+          </h2>
+          <p class="text-sm text-gray-500">Tema 1: Penjumlahan & Kasir</p>
+        </header>
+
+        <h3 class="text-xl font-semibold mb-3">Sesi 2: KASIR (TOTAL HARGA)</h3>
+        <p class="mb-4 italic font-bold text-sm">
+          Hitung total harga barang yang dibeli Pembeli. Tulis jawabannya di
+          kotak bawah!
+        </p>
+
+        <div class="worksheet-table space-y-8">
+          <!-- Skenario 1: 7 + 3 = 10 -->
+          <div class="p-4 border border-gray-300 rounded-lg bg-yellow-50">
+            <h4 class="font-semibold text-lg mb-4 text-left">SKENARIO 1:</h4>
+            <div class="flex items-center justify-center space-x-4">
+              <div class="text-center">
+                <!-- Gambar batik (Lebih Kecil) -->
+                <div class="w-16 h-16 mx-auto flex items-center justify-center">
+                  <img
+                    src="https://imgix3.ruangguru.com/assets/miscellaneous/png_txf3mr_3519.png"
+                    alt="Kain Baris"
+                    class="batik-image h-auto max-h-12 w-auto"
+                    onerror="this.onerror=null; this.src='https://placehold.co/50x50/f87171/ffffff?text=Baris'; this.classList.add('p-2', 'border-2', 'border-dashed', 'border-red-400', 'bg-red-50');"
+                  />
+                </div>
+                <!-- Visual Koin 7 (Dibuat lebih besar) -->
+                <div class="coin-visual-container">
+                  <div class="coin-icon"></div>
+                  <div class="coin-icon"></div>
+                  <div class="coin-icon"></div>
+                  <div class="coin-icon"></div>
+                  <div class="coin-icon"></div>
+                  <div class="coin-icon"></div>
+                  <div class="coin-icon"></div>
+                </div>
+              </div>
+              <span class="math-input">+</span>
+              <div class="text-center">
+                <!-- Gambar batik (Lebih Kecil) -->
+                <div class="w-16 h-16 mx-auto flex items-center justify-center">
+                  <img
+                    src="https://imgix3.ruangguru.com/assets/miscellaneous/png_kaxsyz_648.png"
+                    alt="Kain Bunga"
+                    class="batik-image h-auto max-h-12 w-auto"
+                    onerror="this.onerror=null; this.src='https://placehold.co/50x50/f87171/ffffff?text=Bunga'; this.classList.add('p-2', 'border-2', 'border-dashed', 'border-red-400', 'bg-red-50');"
+                  />
+                </div>
+                <!-- Visual Koin 3 (Dibuat lebih besar) -->
+                <div class="coin-visual-container">
+                  <div class="coin-icon"></div>
+                  <div class="coin-icon"></div>
+                  <div class="coin-icon"></div>
+                </div>
+              </div>
+              <span class="math-input">=</span>
+              <div class="text-center">
+                <!-- Placeholder tanpa teks "TOTAL?" -->
+                <div
+                  class="placeholder-box w-20 h-20 mx-auto border-4 border-dashed border-red-600"
+                ></div>
+              </div>
+            </div>
+            <div class="text-4xl text-center font-bold mt-4">
+              7 + 3 =
+              <span class="border-b-4 border-red-600 px-6 text-red-600"
+                >____</span
+              >
+            </div>
+          </div>
+
+          <!-- Skenario 2: 5 + 7 = 12 -->
+          <div class="p-4 border border-gray-300 rounded-lg bg-yellow-50">
+            <h4 class="font-semibold text-lg mb-4 text-left">SKENARIO 2:</h4>
+            <div class="flex items-center justify-center space-x-4">
+              <div class="text-center">
+                <!-- Gambar batik (Lebih Kecil) -->
+                <div class="w-16 h-16 mx-auto flex items-center justify-center">
+                  <img
+                    src="https://imgix3.ruangguru.com/assets/miscellaneous/png_zkl1cj_1133.png"
+                    alt="Kain Layang"
+                    class="batik-image h-auto max-h-12 w-auto"
+                    onerror="this.onerror=null; this.src='https://placehold.co/50x50/f87171/ffffff?text=Layang'; this.classList.add('p-2', 'border-2', 'border-dashed', 'border-red-400', 'bg-red-50');"
+                  />
+                </div>
+                <!-- Visual Koin 5 (Dibuat lebih besar) -->
+                <div class="coin-visual-container">
+                  <div class="coin-icon"></div>
+                  <div class="coin-icon"></div>
+                  <div class="coin-icon"></div>
+                  <div class="coin-icon"></div>
+                  <div class="coin-icon"></div>
+                </div>
+              </div>
+              <span class="math-input">+</span>
+              <div class="text-center">
+                <!-- Gambar batik (Lebih Kecil) -->
+                <div class="w-16 h-16 mx-auto flex items-center justify-center">
+                  <img
+                    src="https://imgix3.ruangguru.com/assets/miscellaneous/png_txf3mr_3519.png"
+                    alt="Kain Baris"
+                    class="batik-image h-auto max-h-12 w-auto"
+                    onerror="this.onerror=null; this.src='https://placehold.co/50x50/f87171/ffffff?text=Baris'; this.classList.add('p-2', 'border-2', 'border-dashed', 'border-red-400', 'bg-red-50');"
+                  />
+                </div>
+                <!-- Visual Koin 7 (Dibuat lebih besar) -->
+                <div class="coin-visual-container">
+                  <div class="coin-icon"></div>
+                  <div class="coin-icon"></div>
+                  <div class="coin-icon"></div>
+                  <div class="coin-icon"></div>
+                  <div class="coin-icon"></div>
+                  <div class="coin-icon"></div>
+                  <div class="coin-icon"></div>
+                </div>
+              </div>
+              <span class="math-input">=</span>
+              <div class="text-center">
+                <!-- Placeholder tanpa teks "TOTAL?" -->
+                <div
+                  class="placeholder-box w-20 h-20 mx-auto border-4 border-dashed border-red-600"
+                ></div>
+              </div>
+            </div>
+            <div class="text-4xl text-center font-bold mt-4">
+              5 + 7 =
+              <span class="border-b-4 border-red-600 px-6 text-red-600"
+                >____</span
+              >
+            </div>
+          </div>
+
+          <!-- Skenario 3: 3 + 3 = 6 -->
+          <div class="p-4 border border-gray-300 rounded-lg bg-yellow-50">
+            <h4 class="font-semibold text-lg mb-4 text-left">SKENARIO 3:</h4>
+            <div class="flex items-center justify-center space-x-4">
+              <div class="text-center">
+                <!-- Gambar batik (Lebih Kecil) -->
+                <div class="w-16 h-16 mx-auto flex items-center justify-center">
+                  <img
+                    src="https://imgix3.ruangguru.com/assets/miscellaneous/png_kaxsyz_648.png"
+                    alt="Kain Bunga"
+                    class="batik-image h-auto max-h-12 w-auto"
+                    onerror="this.onerror=null; this.src='https://placehold.co/50x50/f87171/ffffff?text=Bunga'; this.classList.add('p-2', 'border-2', 'border-dashed', 'border-red-400', 'bg-red-50');"
+                  />
+                </div>
+                <!-- Visual Koin 3 (Dibuat lebih besar) -->
+                <div class="coin-visual-container">
+                  <div class="coin-icon"></div>
+                  <div class="coin-icon"></div>
+                  <div class="coin-icon"></div>
+                </div>
+              </div>
+              <span class="math-input">+</span>
+              <div class="text-center">
+                <!-- Gambar batik (Lebih Kecil) -->
+                <div class="w-16 h-16 mx-auto flex items-center justify-center">
+                  <img
+                    src="https://imgix3.ruangguru.com/assets/miscellaneous/png_kaxsyz_648.png"
+                    alt="Kain Bunga"
+                    class="batik-image h-auto max-h-12 w-auto"
+                    onerror="this.onerror=null; this.src='https://placehold.co/50x50/f87171/ffffff?text=Bunga'; this.classList.add('p-2', 'border-2', 'border-dashed', 'border-red-400', 'bg-red-50');"
+                  />
+                </div>
+                <!-- Visual Koin 3 (Dibuat lebih besar) -->
+                <div class="coin-visual-container">
+                  <div class="coin-icon"></div>
+                  <div class="coin-icon"></div>
+                  <div class="coin-icon"></div>
+                </div>
+              </div>
+              <span class="math-input">=</span>
+              <div class="text-center">
+                <!-- Placeholder tanpa teks "TOTAL?" -->
+                <div
+                  class="placeholder-box w-20 h-20 mx-auto border-4 border-dashed border-red-600"
+                ></div>
+              </div>
+            </div>
+            <div class="text-4xl text-center font-bold mt-4">
+              3 + 3 =
+              <span class="border-b-4 border-red-600 px-6 text-red-600"
+                >____</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Halaman 6: Buku Kembalian (Subtraction) -->
+      <div class="a4-page">
+        <header class="text-center mb-6 border-b pb-2">
+          <h2 class="text-2xl font-bold text-orange-600">
+            WORKSHEET - HALAMAN 6
+          </h2>
+          <p class="text-sm text-gray-500">Tema 1: Pengurangan & Kembalian</p>
+        </header>
+
+        <h3 class="text-xl font-semibold mb-3">Sesi 2: HITUNG KEMBALIAN</h3>
+        <p class="mb-4 italic font-bold text-sm">
+          Pembeli sudah bayar! Berapa sisa uang yang harus dikembalikan? Isi
+          kotak kosong!
+        </p>
+
+        <div class="worksheet-table">
+          <table>
+            <thead class="bg-orange-100">
+              <tr>
+                <th class="w-[20%] text-lg font-extrabold">HARGA BARANG</th>
+                <th class="w-[20%] text-lg font-extrabold">UANG BAYAR</th>
+                <th class="w-[15%] text-lg font-extrabold">KEMBALIAN</th>
+                <th class="w-[45%] text-lg font-extrabold">PERSAMAAN</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="large-padding-row">
+                <!-- Harga Barang: 10 Koin -->
+                <td class="math-input text-xl">
+                  <!-- Visual Koin 10 (Kelompok 5-5) -->
+                  <div class="coin-visual-table">
+                    <div class="coin-group">
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                    </div>
+                    <div class="coin-group">
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                    </div>
+                  </div>
+                  10 Koin
+                </td>
+                <!-- Uang Bayar: 15 Koin -->
+                <td class="math-input text-xl">
+                  <!-- Visual Koin 15 (Kelompok 5-5-5) -->
+                  <div class="coin-visual-table">
+                    <div class="coin-group">
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                    </div>
+                    <div class="coin-group">
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                    </div>
+                    <div class="coin-group">
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                    </div>
+                  </div>
+                  15 Koin
+                </td>
+                <!-- Kolom KEMBALIAN diperkecil -->
+                <td><div class="placeholder-box"></div></td>
+                <!-- Kolom PERSAMAAN dibuat horizontal seperti gambar -->
+                <td class="equation-box">
+                  15 - 10 = <span class="equation-line"></span>
+                </td>
+              </tr>
+              <tr class="large-padding-row">
+                <!-- Harga Barang: 8 Koin -->
+                <td class="math-input text-xl">
+                  <!-- Visual Koin 8 (Kelompok 5 dan 3) -->
+                  <div class="coin-visual-table">
+                    <div class="coin-group">
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                    </div>
+                    <div class="coin-group">
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                    </div>
+                  </div>
+                  8 Koin
+                </td>
+                <!-- Uang Bayar: 10 Koin -->
+                <td class="math-input text-xl">
+                  <!-- Visual Koin 10 (Kelompok 5-5) -->
+                  <div class="coin-visual-table">
+                    <div class="coin-group">
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                    </div>
+                    <div class="coin-group">
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                    </div>
+                  </div>
+                  10 Koin
+                </td>
+                <!-- Kolom KEMBALIAN diperkecil -->
+                <td><div class="placeholder-box"></div></td>
+                <!-- Kolom PERSAMAAN dibuat horizontal seperti gambar -->
+                <td class="equation-box">
+                  10 - 8 = <span class="equation-line"></span>
+                </td>
+              </tr>
+              <tr class="large-padding-row">
+                <!-- Harga Barang: 12 Koin -->
+                <td class="math-input text-xl">
+                  <!-- Visual Koin 12 (Kelompok 5-5 dan 2) -->
+                  <div class="coin-visual-table">
+                    <div class="coin-group">
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                    </div>
+                    <div class="coin-group">
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                    </div>
+                    <div class="coin-group">
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                    </div>
+                  </div>
+                  12 Koin
+                </td>
+                <!-- Uang Bayar: 20 Koin -->
+                <td class="math-input text-xl">
+                  <!-- Visual Koin 20 (Kelompok 5-5-5-5) -->
+                  <div class="coin-visual-table">
+                    <div class="coin-group">
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                    </div>
+                    <div class="coin-group">
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                    </div>
+                    <div class="coin-group">
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                    </div>
+                    <div class="coin-group">
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                      <div class="coin-icon"></div>
+                    </div>
+                  </div>
+                  20 Koin
+                </td>
+                <!-- Kolom KEMBALIAN diperkecil -->
+                <td><div class="placeholder-box"></div></td>
+                <!-- Kolom PERSAMAAN dibuat horizontal seperti gambar -->
+                <td class="equation-box">
+                  20 - 12 = <span class="equation-line"></span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Halaman 7: Cari Bentuk Geometri (Shape Identification) - Part 1 (2 Motif) -->
+      <div class="a4-page">
+        <header class="text-center mb-6 border-b pb-2">
+          <h2 class="text-2xl font-bold text-orange-600">
+            WORKSHEET - HALAMAN 7
+          </h2>
+          <p class="text-sm text-gray-500">
+            Tema 1: Bentuk Geometri - Bagian 1
+          </p>
+        </header>
+
+        <h3 class="text-xl font-semibold mb-3">Sesi 3: CARI BENTUK</h3>
+        <p class="mb-4 italic font-bold text-sm">
+          Temukan bentuk di motif batik. Beri tanda Silang (X) sesuai instruksi!
+        </p>
+
+        <div class="space-y-6">
+          <div class="p-4 border border-gray-300 rounded-lg bg-green-50">
+            <h4 class="font-semibold text-lg mb-2">1. Motif Bunga:</h4>
+            <div
+              class="h-40 flex items-center justify-center border-2 border-gray-300 rounded-lg bg-white p-2"
+            >
+              <img
+                src="https://imgix3.ruangguru.com/assets/miscellaneous/png_kaxsyz_648.png"
+                alt="Motif Batik Bunga"
+                class="batik-image h-full max-h-40 w-auto mx-auto border-none p-0"
+              />
+            </div>
+            <ul class="list-none ml-4 mt-3 space-y-2">
+              <li class="font-bold text-lg">
+                <span class="instruction-icon text-red-700">X</span> Beri tanda
+                silang (X) pada semua bentuk Lingkaran!
+              </li>
+            </ul>
+          </div>
+
+          <div class="p-4 border border-gray-300 rounded-lg bg-green-50">
+            <h4 class="font-semibold text-lg mb-2">2. Motif Baris:</h4>
+            <!-- HAPUS placeholder-box, ganti dengan div display bersih -->
+            <div
+              class="h-40 flex items-center justify-center border-2 border-gray-300 rounded-lg bg-white p-2"
+            >
+              <img
+                src="https://imgix3.ruangguru.com/assets/miscellaneous/png_txf3mr_3519.png"
+                alt="Motif Batik Baris"
+                class="batik-image h-full max-h-40 w-auto mx-auto border-none p-0"
+              />
+            </div>
+            <ul class="list-none ml-4 mt-3 space-y-2">
+              <li class="font-bold text-lg">
+                <span class="instruction-icon text-red-700">X</span> Beri tanda
+                silang (X) pada semua bentuk Segitiga!
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Halaman 8: Cari Bentuk Geometri (Shape Identification) - Part 2 (2 Motif) -->
+      <div class="a4-page">
+        <header class="text-center mb-6 border-b pb-2">
+          <h2 class="text-2xl font-bold text-orange-600">
+            WORKSHEET - HALAMAN 8
+          </h2>
+          <p class="text-sm text-gray-500">
+            Tema 1: Bentuk Geometri - Bagian 2
+          </p>
+        </header>
+
+        <h3 class="text-xl font-semibold mb-3">Sesi 3: CARI BENTUK</h3>
+        <p class="mb-4 italic font-bold text-sm">
+          Temukan bentuk di motif batik. Beri tanda Silang (X) sesuai instruksi!
+        </p>
+
+        <div class="space-y-6">
+          <!-- Motif Truntum -->
+          <div class="p-4 border border-gray-300 rounded-lg bg-green-50">
+            <h4 class="font-semibold text-lg mb-2">3. Motif Kotak:</h4>
+            <!-- HAPUS placeholder-box, ganti dengan div display bersih -->
+            <div
+              class="h-40 flex items-center justify-center border-2 border-gray-300 rounded-lg bg-white p-2"
+            >
+              <img
+                src="https://imgix3.ruangguru.com/assets/miscellaneous/png_xfztbf_9706.png"
+                alt="Motif Batik Kotak"
+                class="batik-image h-full max-h-40 w-auto mx-auto border-none p-0"
+              />
+            </div>
+            <ul class="list-none ml-4 mt-3 space-y-2">
+              <li class="font-bold text-lg">
+                <span class="instruction-icon text-red-700">X</span> Beri tanda
+                silang (X) pada semua bentuk Persegi!
+              </li>
+            </ul>
+          </div>
+
+          <!-- Motif Mega Mendung -->
+          <div class="p-4 border border-gray-300 rounded-lg bg-green-50">
+            <h4 class="font-semibold text-lg mb-2">4. Motif Layang:</h4>
+            <!-- HAPUS placeholder-box, ganti dengan div display bersih -->
+            <div
+              class="h-40 flex items-center justify-center border-2 border-gray-300 rounded-lg bg-white p-2"
+            >
+              <img
+                src="https://imgix3.ruangguru.com/assets/miscellaneous/png_zkl1cj_1133.png"
+                alt="Motif Batik Layang"
+                class="batik-image h-full max-h-40 w-auto mx-auto border-none p-0"
+                onerror="this.onerror=null; this.src='https://placehold.co/150x150/f87171/ffffff?text=Layang'; this.classList.add('p-2', 'border-2', 'border-dashed', 'border-red-400', 'bg-red-50');"
+              />
+            </div>
+            <ul class="list-none ml-4 mt-3 space-y-2">
+              <li class="font-bold text-lg">
+                <span class="instruction-icon text-red-700">X</span> Beri tanda
+                silang (X) pada semua bentuk Segitiga!
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Halaman 9: Sketsa Pola Batik (Pattern Completion) -->
+      <div class="a4-page">
+        <header class="text-center mb-6 border-b pb-2">
+          <h2 class="text-2xl font-bold text-orange-600">
+            WORKSHEET - HALAMAN 9
+          </h2>
+          <p class="text-sm text-gray-500">Tema 1: Pola Berulang</p>
+        </header>
+
+        <h3 class="text-xl font-semibold mb-3">Sesi 3: LENGKAPI POLA</h3>
+        <p class="mb-4 italic font-bold text-sm">
+          Lengkapi pola di bawah ini. Cermati bentuk dan warna agar polanya sama
+          seperti di awal!
+        </p>
+
+        <div class="space-y-4">
+          <!-- Pola 1 (ABABAB Pattern - Shape) -->
+          <div
+            class="p-3 border border-gray-300 rounded-lg bg-blue-50 pattern-spacing"
+          >
+            <h4 class="font-bold text-lg mb-2">1.</h4>
+            <div class="flex space-x-0 justify-center items-center">
+              <div class="pattern-box pattern-filled text-blue-800">▲</div>
+              <div class="pattern-box pattern-filled text-red-800">●</div>
+              <div class="pattern-box pattern-filled text-blue-800">▲</div>
+              <div class="pattern-box pattern-filled text-red-800">●</div>
+              <div class="pattern-box pattern-filled text-blue-800">▲</div>
+              <div class="pattern-box pattern-empty">...</div>
+              <div class="pattern-box pattern-filled text-blue-800">▲</div>
+              <div class="pattern-box pattern-filled text-red-800">●</div>
+              <div class="pattern-box pattern-empty">...</div>
+            </div>
+          </div>
+
+          <!-- Pola 2 (ABCABC Pattern - Shape) -->
+          <div
+            class="p-3 border border-gray-300 rounded-lg bg-blue-50 pattern-spacing"
+          >
+            <h4 class="font-bold text-lg mb-2">2.</h4>
+            <div class="flex space-x-0 justify-center items-center">
+              <div class="pattern-box pattern-filled text-green-800">■</div>
+              <div class="pattern-box pattern-filled text-blue-800">▲</div>
+              <div class="pattern-box pattern-filled text-red-800">●</div>
+              <div class="pattern-box pattern-filled text-green-800">■</div>
+              <div class="pattern-box pattern-filled text-blue-800">▲</div>
+              <div class="pattern-box pattern-filled text-red-800">●</div>
+              <div class="pattern-box pattern-filled text-green-800">■</div>
+              <div class="pattern-box pattern-filled text-blue-800">▲</div>
+              <div class="pattern-box pattern-empty">...</div>
+            </div>
+          </div>
+
+          <!-- Pola 3 (AABB Pattern - Shape, Akhir) -->
+          <div
+            class="p-3 border border-gray-300 rounded-lg bg-blue-50 pattern-spacing"
+          >
+            <h4 class="font-bold text-lg mb-2">3.</h4>
+            <div class="flex space-x-0 justify-center items-center">
+              <div class="pattern-box pattern-filled text-red-800">▲</div>
+              <div class="pattern-box pattern-filled text-red-800">▲</div>
+              <div class="pattern-box pattern-filled text-green-800">■</div>
+              <div class="pattern-box pattern-filled text-green-800">■</div>
+              <div class="pattern-box pattern-filled text-red-800">▲</div>
+              <div class="pattern-box pattern-filled text-red-800">▲</div>
+              <div class="pattern-box pattern-filled text-green-800">■</div>
+              <div class="pattern-box pattern-filled text-green-800">■</div>
+              <div class="pattern-box pattern-empty">...</div>
+            </div>
+          </div>
+
+          <!-- Pola 4 (AAB Color/Shape: Merah-Merah-Biru) - Bentuk Ganti -->
+          <div
+            class="p-3 border border-gray-300 rounded-lg bg-blue-50 pattern-spacing"
+          >
+            <h4 class="font-bold text-lg mb-2">4.</h4>
+            <div class="flex space-x-0 justify-center items-center">
+              <div class="pattern-box pattern-filled bg-red-500 text-white">
+                ●
+              </div>
+              <div class="pattern-box pattern-filled bg-red-500 text-white">
+                ●
+              </div>
+              <div class="pattern-box pattern-filled bg-blue-700 text-white">
+                ▲
+              </div>
+              <div class="pattern-box pattern-filled bg-red-500 text-white">
+                ●
+              </div>
+              <div class="pattern-box pattern-filled bg-red-500 text-white">
+                ●
+              </div>
+              <div class="pattern-box pattern-filled bg-blue-700 text-white">
+                ▲
+              </div>
+              <div class="pattern-box pattern-filled bg-red-500 text-white">
+                ●
+              </div>
+              <div class="pattern-box pattern-empty">...</div>
+            </div>
+          </div>
+
+          <!-- Pola 5 (ABAB Color/Shape: Ganti Warna dan Bentuk) -->
+          <div
+            class="p-3 border border-gray-300 rounded-lg bg-blue-50 pattern-spacing"
+          >
+            <h4 class="font-bold text-lg mb-2">5.</h4>
+            <div class="flex space-x-0 justify-center items-center">
+              <div
+                class="pattern-box pattern-filled bg-yellow-400 text-gray-900"
+              >
+                ■
+              </div>
+              <div class="pattern-box pattern-filled bg-purple-700 text-white">
+                ▲
+              </div>
+              <div
+                class="pattern-box pattern-filled bg-yellow-400 text-gray-900"
+              >
+                ■
+              </div>
+              <div class="pattern-box pattern-filled bg-purple-700 text-white">
+                ▲
+              </div>
+              <div
+                class="pattern-box pattern-filled bg-yellow-400 text-gray-900"
+              >
+                ■
+              </div>
+              <div class="pattern-box pattern-filled bg-purple-700 text-white">
+                ▲
+              </div>
+              <div
+                class="pattern-box pattern-filled bg-yellow-400 text-gray-900"
+              >
+                ■
+              </div>
+              <div class="pattern-box pattern-filled bg-purple-700 text-white">
+                ▲
+              </div>
+              <div class="pattern-box pattern-empty">...</div>
+            </div>
+          </div>
+
+          <!-- Pola 6 (AABBCC - Longer Sequence) -->
+          <div
+            class="p-3 border border-gray-300 rounded-lg bg-blue-50 pattern-spacing"
+          >
+            <h4 class="font-bold text-lg mb-2">6.</h4>
+            <div class="flex space-x-0 justify-center items-center">
+              <div class="pattern-box pattern-filled text-red-800">▲</div>
+              <div class="pattern-box pattern-filled text-red-800">▲</div>
+              <div class="pattern-box pattern-filled text-blue-800">●</div>
+              <div class="pattern-box pattern-filled text-blue-800">●</div>
+              <div class="pattern-box pattern-filled text-green-800">■</div>
+              <div class="pattern-box pattern-filled text-green-800">■</div>
+              <div class="pattern-box pattern-filled text-red-800">▲</div>
+              <div class="pattern-box pattern-filled text-red-800">▲</div>
+              <div class="pattern-box pattern-empty">...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BAGIAN 2: LEMBAR KUNCI (WAJIB GUNTING) - Halaman 10 -->
+      <!-- ========================================================================================= -->
+      <div class="a4-page">
+        <header class="text-center mb-6 border-b pb-2">
+          <h2 class="text-2xl font-bold text-red-600">
+            PRINTED LEARNING KIT - HALAMAN 10
+          </h2>
+        </header>
+
+        <!-- Sesi 1: Koleksi Kain Batik yang mau disusun (Visual) -->
+        <h3 class="text-xl font-semibold mb-3 text-red-700">
+          Sesi 1: KOLEKSI KAIN BATIK
+        </h3>
+        <p class="mb-4 text-sm italic font-bold text-green-700">
+          ⭐ Gunting potongan **KAIN BATIK** di file PRINTED LEARNING KIT
+          terpisah untuk alat berhitung dan ditempel ke Map.
+        </p>
+        <div class="kit-item-box border-gray-400 bg-gray-50">
+          <img
+            src="https://imgix3.ruangguru.com/assets/miscellaneous/png_6ncume_7722.png"
+            alt="Kumpulan Kain Batik yang akan dihitung"
+            class="kit-image h-40 max-h-40 w-auto"
+            onerror="this.onerror=null; this.src='https://placehold.co/300x150/d1d5db/374151?text=Kumpulan+Kain+Batik+Sesi+1'; this.classList.remove('h-40'); this.classList.add('p-4');"
+          />
+          <p class="text-sm text-gray-700 mt-2">
+            Gambar ini hanya untuk referensi visual. Cari lembaran seperti
+            gambar berikut di PRINTED LEARNING KIT, lalu gunting tiap kainnya.
+          </p>
+        </div>
+
+        <hr class="my-6 border-gray-300" />
+
+        <!-- Sesi 2: Koin Mainan (WAJIB GUNTING) -->
+        <h3 class="text-xl font-semibold mb-3 text-red-700">Sesi 2: KOIN</h3>
+        <p class="mb-4 text-sm italic font-bold text-green-700">
+          ⭐ Gunting potongan **KOIN** di file PRINTED LEARNING KIT terpisah
+          untuk alat belajar di kelas.
+        </p>
+
+        <h3 class="text-xl font-semibold mb-3 text-red-700">
+          Sesi 3: POTONGAN BENTUK GEOMETRI
+        </h3>
+        <p class="mb-4 text-sm italic font-bold text-green-700">
+          ⭐ Gunting potongan **BENTUK GEOMETRI** di file PRINTED LEARNING KIT
+          terpisah untuk ditempel ke Map.
+        </p>
+        <div class="kit-item-box border-yellow-500 bg-yellow-100">
+          <!-- Gunakan gambar koin yang diminta -->
+          <img
+            src="https://imgix3.ruangguru.com/assets/miscellaneous/png_2t3get_6608.png"
+            alt="Visualisasi Koin Mainan"
+            class="kit-image h-36 w-auto"
+          />
+
+          <p class="text-sm text-gray-700 mt-2">
+            Gambar ini hanya untuk referensi visual. Cari lembaran seperti
+            gambar berikut di PRINTED LEARNING KIT, lalu gunting tiap koin dan
+            bentuk geometrinya.
+          </p>
+        </div>
+      </div>
+
+      <!-- ========================================================================================= -->
+      <!-- BAGIAN 3: ALAS KOTAK 10 (10-FRAME MAT) - Halaman 11 -->
+      <!-- Alat bantu visual, wajib cetak tebal/laminating -->
+      <!-- ========================================================================================= -->
+      <div class="a4-page">
+        <header class="text-center mb-6 border-b pb-2">
+          <h2 class="text-2xl font-bold text-purple-600">
+            10-FRAME MAT - HALAMAN 11
+          </h2>
+          <p class="text-sm text-gray-500">Alat Bantu Fisik untuk Sesi 1</p>
+        </header>
+
+        <div class="text-center mb-6">
+          <!-- Frame 10 Visual yang diperbesar (2 Kolom Vertikal) -->
+          <div class="large-ten-frame-container">
+            <div class="large-ten-frame-cell"></div>
+            <div class="large-ten-frame-cell"></div>
+            <div class="large-ten-frame-cell"></div>
+            <div class="large-ten-frame-cell"></div>
+            <div class="large-ten-frame-cell"></div>
+            <div class="large-ten-frame-cell"></div>
+            <div class="large-ten-frame-cell"></div>
+            <div class="large-ten-frame-cell"></div>
+            <div class="large-ten-frame-cell"></div>
+            <div class="large-ten-frame-cell"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
