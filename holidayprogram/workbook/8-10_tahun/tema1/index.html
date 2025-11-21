@@ -3,759 +3,827 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Master Time Explorer: Kalimantan Expedition</title>
+    <title>Logbook Ekspedisi: Kapten Wira</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Lexend:wght@400;600;800&display=swap");
-      @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Lexend:wght@400;600;800&family=Rye&display=swap");
+
+      :root {
+        --paper-bg: #fffdf5;
+        --ink-color: #1e293b;
+        --accent-blue: #1e3a8a;
+        --accent-red: #b91c1c;
+        --accent-gold: #d97706;
+      }
 
       body {
         font-family: "Lexend", sans-serif;
         background-color: #334155;
-        color: #1e3a8a;
+        color: var(--ink-color);
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
       }
 
-      h1, h2, h3, h4 {
-        font-family: "Comic Neue", cursive;
+      /* Font Khusus Tema Bajak Laut/Ekspedisi */
+      h1, h2, .log-title {
+        font-family: "Rye", serif; /* Font gaya vintage/judul buku */
+      }
+      
+      .handwritten {
+        font-family: "Patrick Hand", cursive; /* Font tulisan tangan kapten */
       }
 
-      /* A4 Page Setup */
+      /* A4 Page Setup - Logbook Style */
       .a4-page {
         width: 210mm;
         height: 297mm;
         margin: 20px auto;
-        padding: 15mm;
-        background: white;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        padding: 0; /* Padding diatur di inner content */
+        background-color: var(--paper-bg);
+        background-image: 
+          linear-gradient(#e5e7eb 1px, transparent 1px),
+          linear-gradient(90deg, #e5e7eb 1px, transparent 1px);
+        background-size: 20px 20px; /* Efek kertas milimeter/grid */
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         position: relative;
         overflow: hidden;
         page-break-after: always;
-        box-sizing: border-box;
         display: flex;
         flex-direction: column;
+        border: 1px solid #d1d5db;
       }
 
-      .wave-bg {
+      /* Binder/Stitched Effect */
+      .binder-holes {
         position: absolute;
+        left: 10px;
+        top: 0;
         bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 60px;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23e0f2fe' fill-opacity='1' d='M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,261.3C960,256,1056,224,1152,202.7C1248,181,1344,171,1392,165.3L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
-        background-size: cover;
-        opacity: 0.6;
-        z-index: 0;
+        width: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        z-index: 50;
+        border-right: 2px dashed #cbd5e1;
+      }
+      .hole {
+        width: 12px;
+        height: 12px;
+        background: #334155;
+        border-radius: 50%;
+        box-shadow: inset 1px 1px 3px rgba(0,0,0,0.5);
+      }
+
+      .page-content {
+        padding: 15mm 15mm 15mm 20mm; /* Extra padding kiri untuk binder */
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        z-index: 10;
+      }
+
+      /* Watermark Peta Pudar */
+      .map-watermark {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        opacity: 0.05;
         pointer-events: none;
+        z-index: 0;
       }
 
       @media print {
-        body { background: white !important; margin: 0; padding: 0; }
-        .a4-page { margin: 0; border: none; box-shadow: none; width: 210mm; height: 297mm; page-break-after: always; }
+        body { background: none; margin: 0; padding: 0; }
+        .a4-page { margin: 0; border: none; box-shadow: none; page-break-after: always; width: 210mm; height: 297mm; }
         .print-hidden { display: none !important; }
-        .bg-red-500 { background-color: #ef4444 !important; }
-        .bg-blue-900 { background-color: #1e3a8a !important; }
-        .bg-yellow-50 { background-color: #fefce8 !important; }
-        .bg-orange-50 { background-color: #fff7ed !important; }
-        .bg-green-50 { background-color: #f0fdf4 !important; }
-        .bg-emerald-100 { background-color: #d1fae5 !important; }
+        .binder-holes { display: none; } /* Hemat tinta, opsional */
+        .page-content { padding: 15mm; }
       }
 
-      /* --- COMPONENTS --- */
+      /* --- CHARACTER COMPONENTS --- */
+      /* Kapten Wira Avatar (CSS Shapes) */
+      .captain-avatar {
+        width: 80px;
+        height: 80px;
+        flex-shrink: 0;
+      }
       
-      .badge-worksheet {
-        background-color: #1e3a8a; 
-        color: white;
-        padding: 4px 12px;
-        border-radius: 99px;
-        font-size: 0.75rem;
-        font-weight: bold;
-        text-transform: uppercase;
+      .speech-bubble {
+        background: white;
+        border: 2px solid var(--accent-blue);
+        border-radius: 12px;
+        padding: 10px;
+        position: relative;
+        font-family: "Patrick Hand", cursive;
+        font-size: 1rem;
+        box-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+      }
+      .speech-bubble::after {
+        content: '';
+        position: absolute;
+        left: -10px;
+        top: 20px;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-right: 10px solid var(--accent-blue);
       }
 
-      .badge-kit {
-        background-color: #b91c1c; 
-        color: white;
-        padding: 4px 12px;
-        border-radius: 99px;
-        font-size: 0.75rem;
-        font-weight: bold;
-        text-transform: uppercase;
-        border: 2px dashed white;
+      /* --- WORKSHEET COMPONENTS --- */
+      .mission-header {
+        border-bottom: 3px double var(--accent-blue);
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
       }
 
-      /* Clock Styling */
+      .exercise-card {
+        background: white;
+        border: 1px solid #94a3b8;
+        border-radius: 8px;
+        padding: 8px;
+        box-shadow: 2px 2px 0px #cbd5e1;
+      }
+
+      /* Clock Styles (Sama tapi dipercantik) */
       .clock-face {
         position: relative;
         border-radius: 50%;
         background: white;
-        border: 3px solid #1e3a8a;
-        box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+        border: 4px solid var(--accent-blue);
+        box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
       }
-      .clock-face.small { width: 60px; height: 60px; }
-      .clock-face.medium { width: 95px; height: 95px; }
-      .clock-face.large { width: 150px; height: 150px; border-width: 4px; } 
+      .clock-face.medium { width: 90px; height: 90px; }
+      .clock-face.large { width: 150px; height: 150px; }
       
       .clock-num {
         position: absolute;
-        width: 18px;
-        height: 18px;
-        text-align: center;
+        font-family: "Rye", serif;
+        color: var(--accent-blue);
+        font-size: 0.7rem;
         font-weight: bold;
-        color: #1e3a8a;
-        font-size: 0.75rem; 
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        width: 16px; height: 16px;
+        display: flex; align-items: center; justify-content: center;
       }
-      .large .clock-num { font-size: 1rem; width: 24px; height: 24px; }
-      
-      /* Positions */
+      /* Clock Positions */
       .cn12 { top: 2%; left: 50%; transform: translateX(-50%); }
       .cn6  { bottom: 2%; left: 50%; transform: translateX(-50%); }
       .cn3  { right: 2%; top: 50%; transform: translateY(-50%); }
       .cn9  { left: 2%; top: 50%; transform: translateY(-50%); }
-      .cn1  { top: 9%; right: 21%; }
-      .cn2  { top: 21%; right: 9%; }
-      .cn4  { bottom: 21%; right: 9%; }
-      .cn5  { bottom: 9%; right: 21%; }
-      .cn7  { bottom: 9%; left: 21%; }
-      .cn8  { bottom: 21%; left: 9%; }
-      .cn10 { top: 21%; left: 9%; }
-      .cn11 { top: 9%; left: 21%; }
+      .cn1  { top: 10%; right: 22%; } .cn2 { top: 22%; right: 10%; }
+      .cn4  { bottom: 22%; right: 10%; } .cn5 { bottom: 10%; right: 22%; }
+      .cn7  { bottom: 10%; left: 22%; } .cn8 { bottom: 22%; left: 10%; }
+      .cn10 { top: 22%; left: 10%; } .cn11 { top: 10%; left: 22%; }
 
-      /* Exercise Box Styles */
-      .exercise-box {
-        border: 2px solid #bae6fd;
-        background-color: #f0f9ff;
-        border-radius: 10px;
-        padding: 8px;
+      /* Bar Model Container */
+      .bar-model-container {
         display: flex;
-        flex-direction: column;
+        width: 100%;
+        height: 40px;
+        margin-top: 5px;
+      }
+      .bar-segment {
+        border: 2px solid var(--accent-blue);
+        background: #eff6ff;
+        display: flex;
         align-items: center;
         justify-content: center;
-        page-break-inside: avoid;
-      }
-
-      .digital-display {
-        font-family: 'Courier New', Courier, monospace;
-        background: #0f172a;
-        color: #22c55e;
-        padding: 2px 10px;
-        border-radius: 6px;
-        font-weight: bold;
-        border: 3px solid #334155;
-        min-width: 80px;
-        text-align: center;
-        font-size: 1.1rem;
-        margin-top: 4px;
-      }
-      
-      .digital-display-empty {
-        background: white;
-        border: 2px dashed #94a3b8;
-        height: 30px;
-        width: 80px;
-        border-radius: 6px;
-        margin-top: 4px;
-      }
-
-      .am-pm-btn {
-        border: 2px solid #cbd5e1;
-        padding: 2px 8px;
-        border-radius: 99px;
-        font-weight: bold;
-        color: #94a3b8;
         font-size: 0.7rem;
-        background: white;
+        font-weight: bold;
       }
-      
-      .cover-page { border: 8px double #1e3a8a; text-align: center; justify-content: center; }
-      .cert-page { border: 8px double #1e3a8a; background: #fffbeb; text-align: center; justify-content: center; }
-      
-      /* Map Styles */
-      .route-line { fill: none; stroke: #ef4444; stroke-width: 3; stroke-dasharray: 6,3; }
-      .port-dot { fill: #ef4444; stroke: white; stroke-width: 3; }
-      .map-label { font-size: 12px; font-weight: bold; fill: #1e3a8a; font-family: 'Comic Neue'; }
-      .map-time { font-size: 10px; fill: #ef4444; font-weight: bold; background: white;}
-      .island-shape { fill: #ecfdf5; stroke: #059669; stroke-width: 2; } /* Emerald look for Kalimantan */
+      .timeline-line {
+        height: 2px;
+        background: var(--accent-blue);
+        position: relative;
+        margin: 20px 0;
+      }
+      .timeline-notch {
+        position: absolute;
+        width: 2px;
+        height: 10px;
+        background: var(--accent-blue);
+        top: -4px;
+      }
 
-      /* Angle Cards */
-      .angle-card { background: white; text-align: center; border: 2px solid #e2e8f0; border-radius: 12px; padding: 16px; }
+      /* Stamps */
+      .stamp {
+        position: absolute;
+        border: 4px solid rgba(185, 28, 28, 0.3);
+        color: rgba(185, 28, 28, 0.3);
+        font-family: "Rye", serif;
+        font-size: 3rem;
+        padding: 10px;
+        transform: rotate(-15deg);
+        pointer-events: none;
+        text-transform: uppercase;
+        font-weight: bold;
+      }
 
-      /* Kit Cuts */
-      .number-tile {
-        width: 100%; aspect-ratio: 1/1;
-        border: 2px dashed #94a3b8;
-        display: flex; align-items: center; justify-content: center;
-        font-size: 1.5rem; font-weight: 800; color: #1e3a8a;
-        background: #f8fafc; border-radius: 6px;
-      }
-      .cut-zone {
-        border: 3px dashed #94a3b8; background-color: #f8fafc;
-        border-radius: 8px; position: relative;
-        display: flex; justify-content: center; align-items: center;
-      }
     </style>
   </head>
-  <body class="p-8">
+  <body class="p-8 bg-gray-700">
 
-    <!-- Tombol Print -->
-    <div class="print-hidden max-w-4xl mx-auto mb-8 flex justify-between items-center bg-white p-4 rounded-lg shadow-lg">
+    <!-- Print Controls -->
+    <div class="print-hidden max-w-[210mm] mx-auto mb-6 flex justify-between items-center bg-white p-4 rounded-xl shadow-lg">
         <div>
-            <h2 class="font-bold text-lg text-blue-900">🖨️ Master Time: Kalimantan Expedition</h2>
-            <p class="text-sm text-gray-500">Lengkap dengan Kit Peta Proyek Akhir.</p>
+            <h2 class="font-bold text-xl text-blue-900 font-serif">⚓ Logbook Master Time</h2>
+            <p class="text-sm text-gray-500">Siapkan kertas A4. Warna background akan ikut tercetak (atau matikan 'Background Graphics' di setting print untuk hemat tinta).</p>
         </div>
-        <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full shadow flex items-center gap-2 transition-all hover:scale-105">
-            Cetak Sekarang
+        <button onclick="window.print()" class="bg-blue-900 hover:bg-blue-800 text-white font-bold py-2 px-6 rounded-lg shadow flex items-center gap-2 transition-transform hover:scale-105">
+            🖨️ Cetak Logbook
         </button>
     </div>
 
-    <!-- COVER PAGE (Sama) -->
-    <div class="a4-page cover-page bg-blue-50">
-        <div class="text-8xl mb-4">🧭</div>
-        <h1 class="text-5xl font-bold text-blue-900 mb-2 uppercase tracking-widest">Time Explorer</h1>
-        <h2 class="text-2xl text-blue-700 font-serif italic mb-8">Ekspedisi Kalimantan</h2>
-        
-        <div class="bg-white p-8 rounded-xl shadow-lg border-2 border-blue-200 w-2/3 mx-auto">
-            <div class="mb-6 text-left">
-                <label class="block text-sm font-bold text-blue-900 uppercase mb-1">Nama Kadet:</label>
-                <div class="border-b-2 border-blue-900 h-8 w-full"></div>
-            </div>
-            <div class="mb-6 text-left">
-                <label class="block text-sm font-bold text-blue-900 uppercase mb-1">Kelas:</label>
-                <div class="border-b-2 border-blue-900 h-8 w-full"></div>
-            </div>
-            <div class="mb-2 text-left">
-                <label class="block text-sm font-bold text-blue-900 uppercase mb-1">Sekolah:</label>
-                <div class="border-b-2 border-blue-900 h-8 w-full"></div>
-            </div>
-        </div>
-    </div>
+    <!-- SVG DEFINITIONS (For Reuse) -->
+    <svg style="display: none;">
+        <!-- Kapten Wira Face -->
+        <symbol id="captain-face" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="#fcd34d" stroke="#1e3a8a" stroke-width="3"/> <!-- Wajah -->
+            <path d="M 10 40 Q 50 5 90 40 L 90 25 Q 50 -10 10 25 Z" fill="#1e3a8a"/> <!-- Topi -->
+            <circle cx="50" cy="35" r="6" fill="#fbbf24"/> <!-- Emblem Topi -->
+            <circle cx="35" cy="55" r="4" fill="#1e3a8a"/> <!-- Mata Kiri -->
+            <circle cx="65" cy="55" r="4" fill="#1e3a8a"/> <!-- Mata Kanan -->
+            <path d="M 40 65 Q 50 75 60 65" fill="none" stroke="#1e3a8a" stroke-width="3" stroke-linecap="round"/> <!-- Kumis -->
+            <path d="M 35 75 Q 50 85 65 75" fill="none" stroke="#b91c1c" stroke-width="3" stroke-linecap="round"/> <!-- Mulut -->
+        </symbol>
+        <!-- Ship Icon -->
+        <symbol id="ship-icon" viewBox="0 0 100 100">
+            <path d="M 10 60 Q 50 90 90 60 L 80 40 L 20 40 Z" fill="#78350f"/>
+            <path d="M 50 10 L 50 40 L 80 40 Z" fill="#ef4444"/>
+            <path d="M 45 15 L 45 40 L 20 40 Z" fill="#ffffff" stroke="#000" stroke-width="1"/>
+        </symbol>
+    </svg>
 
-    <!-- HALAMAN 1-3: SESI 1 (Copy Paste dari versi sebelumnya agar lengkap) -->
-    <!-- SESI 1: PART A -->
+    <!-- ====================================================================== -->
+    <!-- COVER PAGE: RAHASIA NEGARA -->
+    <!-- ====================================================================== -->
     <div class="a4-page">
-        <div class="wave-bg"></div>
-        <div class="flex justify-between items-center mb-2 border-b-2 border-blue-200 pb-2 relative z-10">
-            <div><h2 class="text-xl font-bold text-blue-900">MISI A: GAMBAR JARUM JAM</h2><p class="text-blue-600 italic text-xs">Baca kotak digital, gambar jarumnya!</p></div>
-            <div class="flex flex-col items-end"><span class="text-2xl">🕒</span><span class="badge-worksheet">Hal 1</span></div>
+        <div class="binder-holes">
+            <div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div>
         </div>
-        <div class="grid grid-cols-2 gap-2 h-full pb-8 relative z-10">
-            <div class="exercise-box"><div class="clock-face medium mb-1"><div class="absolute top-1/2 left-1/2 w-2 h-2 bg-black rounded-full -translate-x-1/2 -translate-y-1/2 z-10"></div><div class="clock-num cn12">12</div><div class="clock-num cn3">3</div><div class="clock-num cn6">6</div><div class="clock-num cn9">9</div></div><div class="digital-display">08:30</div><div class="text-[10px] font-bold text-blue-500 mt-1">Pagi (AM)</div></div>
-            <div class="exercise-box"><div class="clock-face medium mb-1"><div class="absolute top-1/2 left-1/2 w-2 h-2 bg-black rounded-full -translate-x-1/2 -translate-y-1/2 z-10"></div><div class="clock-num cn12">12</div><div class="clock-num cn3">3</div><div class="clock-num cn6">6</div><div class="clock-num cn9">9</div></div><div class="digital-display">13:15</div><div class="text-[10px] font-bold text-orange-500 mt-1">Siang (PM)</div></div>
-            <div class="exercise-box"><div class="clock-face medium mb-1"><div class="absolute top-1/2 left-1/2 w-2 h-2 bg-black rounded-full -translate-x-1/2 -translate-y-1/2 z-10"></div><div class="clock-num cn12">12</div><div class="clock-num cn3">3</div><div class="clock-num cn6">6</div><div class="clock-num cn9">9</div></div><div class="digital-display">04:45</div><div class="text-[10px] font-bold text-orange-500 mt-1">Sore (PM)</div></div>
-            <div class="exercise-box"><div class="clock-face medium mb-1"><div class="absolute top-1/2 left-1/2 w-2 h-2 bg-black rounded-full -translate-x-1/2 -translate-y-1/2 z-10"></div><div class="clock-num cn12">12</div><div class="clock-num cn3">3</div><div class="clock-num cn6">6</div><div class="clock-num cn9">9</div></div><div class="digital-display">19:00</div><div class="text-[10px] font-bold text-purple-800 mt-1">Malam (PM)</div></div>
-            <div class="exercise-box"><div class="clock-face medium mb-1"><div class="absolute top-1/2 left-1/2 w-2 h-2 bg-black rounded-full -translate-x-1/2 -translate-y-1/2 z-10"></div><div class="clock-num cn12">12</div><div class="clock-num cn3">3</div><div class="clock-num cn6">6</div><div class="clock-num cn9">9</div></div><div class="digital-display">11:20</div><div class="text-[10px] font-bold text-blue-500 mt-1">Siang (AM)</div></div>
-            <div class="exercise-box"><div class="clock-face medium mb-1"><div class="absolute top-1/2 left-1/2 w-2 h-2 bg-black rounded-full -translate-x-1/2 -translate-y-1/2 z-10"></div><div class="clock-num cn12">12</div><div class="clock-num cn3">3</div><div class="clock-num cn6">6</div><div class="clock-num cn9">9</div></div><div class="digital-display">05:50</div><div class="text-[10px] font-bold text-blue-500 mt-1">Pagi (AM)</div></div>
-            <div class="exercise-box border-dashed border-blue-400 bg-white"><div class="clock-face medium mb-1"><div class="absolute top-1/2 left-1/2 w-2 h-2 bg-black rounded-full -translate-x-1/2 -translate-y-1/2 z-10"></div><div class="clock-num cn12">12</div><div class="clock-num cn3">3</div><div class="clock-num cn6">6</div><div class="clock-num cn9">9</div></div><div class="digital-display-empty"></div><div class="text-[10px] text-gray-400 mt-1 italic">Soal Guru</div></div>
-            <div class="exercise-box border-dashed border-blue-400 bg-white"><div class="clock-face medium mb-1"><div class="absolute top-1/2 left-1/2 w-2 h-2 bg-black rounded-full -translate-x-1/2 -translate-y-1/2 z-10"></div><div class="clock-num cn12">12</div><div class="clock-num cn3">3</div><div class="clock-num cn6">6</div><div class="clock-num cn9">9</div></div><div class="digital-display-empty"></div><div class="text-[10px] text-gray-400 mt-1 italic">Soal Guru</div></div>
-            <div class="exercise-box border-dashed border-blue-400 bg-white"><div class="clock-face medium mb-1"><div class="absolute top-1/2 left-1/2 w-2 h-2 bg-black rounded-full -translate-x-1/2 -translate-y-1/2 z-10"></div><div class="clock-num cn12">12</div><div class="clock-num cn3">3</div><div class="clock-num cn6">6</div><div class="clock-num cn9">9</div></div><div class="digital-display-empty"></div><div class="text-[10px] text-gray-400 mt-1 italic">Soal Guru</div></div>
-            <div class="exercise-box border-dashed border-blue-400 bg-white"><div class="clock-face medium mb-1"><div class="absolute top-1/2 left-1/2 w-2 h-2 bg-black rounded-full -translate-x-1/2 -translate-y-1/2 z-10"></div><div class="clock-num cn12">12</div><div class="clock-num cn3">3</div><div class="clock-num cn6">6</div><div class="clock-num cn9">9</div></div><div class="digital-display-empty"></div><div class="text-[10px] text-gray-400 mt-1 italic">Soal Guru</div></div>
-        </div>
-    </div>
-
-    <!-- SESI 1: PART B -->
-    <div class="a4-page">
-        <div class="wave-bg"></div>
-        <div class="flex justify-between items-center mb-4 border-b-2 border-blue-200 pb-2 relative z-10">
-            <div><h2 class="text-xl font-bold text-blue-900">MISI B: KONSEP AM & PM</h2><p class="text-blue-600 italic text-xs">Lingkari waktu yang tepat sesuai aktivitasnya!</p></div>
-            <div class="flex flex-col items-end"><span class="text-2xl">☀️/🌙</span><span class="badge-worksheet">Hal 2</span></div>
-        </div>
-        <div class="grid grid-cols-1 gap-4 h-full pb-8 relative z-10 content-start">
-            <div class="bg-white border-2 border-blue-100 p-3 rounded-xl flex items-center shadow-sm"><div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-xl mr-4">🍳</div><div class="flex-1"><div class="text-base font-bold text-blue-900">Sarapan Pagi</div><div class="text-xs text-gray-500 font-mono">Pukul 06:30</div></div><div class="flex gap-2"><div class="am-pm-btn text-base px-3 py-1 border-2">AM</div><div class="am-pm-btn text-base px-3 py-1 border-2">PM</div></div></div>
-            <div class="bg-white border-2 border-blue-100 p-3 rounded-xl flex items-center shadow-sm"><div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-xl mr-4">📚</div><div class="flex-1"><div class="text-base font-bold text-blue-900">Belajar di Sekolah</div><div class="text-xs text-gray-500 font-mono">Pukul 09:00</div></div><div class="flex gap-2"><div class="am-pm-btn text-base px-3 py-1 border-2">AM</div><div class="am-pm-btn text-base px-3 py-1 border-2">PM</div></div></div>
-            <!-- ... (soal lainnya disingkat untuk efisiensi) ... -->
-            <div class="bg-white border-2 border-blue-100 p-3 rounded-xl flex items-center shadow-sm"><div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-xl mr-4">🍱</div><div class="flex-1"><div class="text-base font-bold text-blue-900">Makan Siang</div><div class="text-xs text-gray-500 font-mono">Pukul 12:15</div></div><div class="flex gap-2"><div class="am-pm-btn text-base px-3 py-1 border-2">AM</div><div class="am-pm-btn text-base px-3 py-1 border-2">PM</div></div></div>
-            <div class="bg-white border-2 border-blue-100 p-3 rounded-xl flex items-center shadow-sm"><div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-xl mr-4">🎒</div><div class="flex-1"><div class="text-base font-bold text-blue-900">Pulang Sekolah</div><div class="text-xs text-gray-500 font-mono">Pukul 13:00</div></div><div class="flex gap-2"><div class="am-pm-btn text-base px-3 py-1 border-2">AM</div><div class="am-pm-btn text-base px-3 py-1 border-2">PM</div></div></div>
-            <div class="bg-white border-2 border-blue-100 p-3 rounded-xl flex items-center shadow-sm"><div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-xl mr-4">⚽</div><div class="flex-1"><div class="text-base font-bold text-blue-900">Main Bola Sore</div><div class="text-xs text-gray-500 font-mono">Pukul 16:00</div></div><div class="flex gap-2"><div class="am-pm-btn text-base px-3 py-1 border-2">AM</div><div class="am-pm-btn text-base px-3 py-1 border-2">PM</div></div></div>
-            <div class="bg-white border-2 border-blue-100 p-3 rounded-xl flex items-center shadow-sm"><div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-xl mr-4">🚿</div><div class="flex-1"><div class="text-base font-bold text-blue-900">Mandi Sore</div><div class="text-xs text-gray-500 font-mono">Pukul 17:30</div></div><div class="flex gap-2"><div class="am-pm-btn text-base px-3 py-1 border-2">AM</div><div class="am-pm-btn text-base px-3 py-1 border-2">PM</div></div></div>
-            <div class="bg-white border-2 border-blue-100 p-3 rounded-xl flex items-center shadow-sm"><div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-xl mr-4">📺</div><div class="flex-1"><div class="text-base font-bold text-blue-900">Nonton Kartun Malam</div><div class="text-xs text-gray-500 font-mono">Pukul 19:00</div></div><div class="flex gap-2"><div class="am-pm-btn text-base px-3 py-1 border-2">AM</div><div class="am-pm-btn text-base px-3 py-1 border-2">PM</div></div></div>
-            <div class="bg-white border-2 border-blue-100 p-3 rounded-xl flex items-center shadow-sm"><div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-xl mr-4">🦷</div><div class="flex-1"><div class="text-base font-bold text-blue-900">Gosok Gigi</div><div class="text-xs text-gray-500 font-mono">Pukul 20:30</div></div><div class="flex gap-2"><div class="am-pm-btn text-base px-3 py-1 border-2">AM</div><div class="am-pm-btn text-base px-3 py-1 border-2">PM</div></div></div>
-            <div class="bg-white border-2 border-blue-100 p-3 rounded-xl flex items-center shadow-sm"><div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-xl mr-4">🛌</div><div class="flex-1"><div class="text-base font-bold text-blue-900">Tidur Malam</div><div class="text-xs text-gray-500 font-mono">Pukul 21:00</div></div><div class="flex gap-2"><div class="am-pm-btn text-base px-3 py-1 border-2">AM</div><div class="am-pm-btn text-base px-3 py-1 border-2">PM</div></div></div>
-            <div class="bg-white border-2 border-blue-100 p-3 rounded-xl flex items-center shadow-sm"><div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-xl mr-4">🐓</div><div class="flex-1"><div class="text-base font-bold text-blue-900">Bangun Tidur</div><div class="text-xs text-gray-500 font-mono">Pukul 05:00</div></div><div class="flex gap-2"><div class="am-pm-btn text-base px-3 py-1 border-2">AM</div><div class="am-pm-btn text-base px-3 py-1 border-2">PM</div></div></div>
-        </div>
-    </div>
-
-    <!-- SESI 1: PART C -->
-    <div class="a4-page">
-        <div class="wave-bg"></div>
-        <div class="flex justify-between items-center mb-4 border-b-2 border-blue-200 pb-2 relative z-10">
-            <div><h2 class="text-xl font-bold text-blue-900">MISI C: MEMBACA JAM</h2><p class="text-blue-600 italic text-xs">Lihat jarum panjang & pendeknya, tulis angkanya!</p></div>
-            <div class="flex flex-col items-end"><span class="text-2xl">✏️</span><span class="badge-worksheet">Hal 3</span></div>
-        </div>
-        <div class="grid grid-cols-2 gap-4 h-full pb-8 relative z-10">
-            <div class="exercise-box"><div class="clock-face medium mb-2"><div class="absolute top-1/2 left-1/2 w-2 h-2 bg-black rounded-full -translate-x-1/2 -translate-y-1/2 z-10"></div><div class="clock-num cn12">12</div><div class="clock-num cn1">1</div><div class="clock-num cn2">2</div><div class="clock-num cn3">3</div><div class="clock-num cn4">4</div><div class="clock-num cn5">5</div><div class="clock-num cn6">6</div><div class="clock-num cn7">7</div><div class="clock-num cn8">8</div><div class="clock-num cn9">9</div><div class="clock-num cn10">10</div><div class="clock-num cn11">11</div><svg viewBox="0 0 100 100" class="absolute inset-0 w-full h-full"><line x1="50" y1="50" x2="50" y2="15" stroke="black" stroke-width="3"/><line x1="50" y1="50" x2="80" y2="50" stroke="red" stroke-width="4"/></svg></div><div class="border-2 border-gray-400 w-24 h-10 bg-white rounded shadow-inner"></div></div>
-            <!-- ... soal part c lainnya ... -->
-            <div class="exercise-box"><div class="clock-face medium mb-2"><div class="absolute top-1/2 left-1/2 w-2 h-2 bg-black rounded-full -translate-x-1/2 -translate-y-1/2 z-10"></div><div class="clock-num cn12">12</div><div class="clock-num cn1">1</div><div class="clock-num cn2">2</div><div class="clock-num cn3">3</div><div class="clock-num cn4">4</div><div class="clock-num cn5">5</div><div class="clock-num cn6">6</div><div class="clock-num cn7">7</div><div class="clock-num cn8">8</div><div class="clock-num cn9">9</div><div class="clock-num cn10">10</div><div class="clock-num cn11">11</div><svg viewBox="0 0 100 100" class="absolute inset-0 w-full h-full"><line x1="50" y1="50" x2="50" y2="85" stroke="black" stroke-width="3"/><line x1="50" y1="50" x2="50" y2="75" stroke="red" stroke-width="4"/></svg></div><div class="border-2 border-gray-400 w-24 h-10 bg-white rounded shadow-inner"></div></div>
-            <div class="exercise-box"><div class="clock-face medium mb-2"><div class="absolute top-1/2 left-1/2 w-2 h-2 bg-black rounded-full -translate-x-1/2 -translate-y-1/2 z-10"></div><div class="clock-num cn12">12</div><div class="clock-num cn1">1</div><div class="clock-num cn2">2</div><div class="clock-num cn3">3</div><div class="clock-num cn4">4</div><div class="clock-num cn5">5</div><div class="clock-num cn6">6</div><div class="clock-num cn7">7</div><div class="clock-num cn8">8</div><div class="clock-num cn9">9</div><div class="clock-num cn10">10</div><div class="clock-num cn11">11</div><svg viewBox="0 0 100 100" class="absolute inset-0 w-full h-full"><line x1="50" y1="50" x2="85" y2="50" stroke="black" stroke-width="3"/><line x1="50" y1="50" x2="20" y2="50" stroke="red" stroke-width="4"/></svg></div><div class="border-2 border-gray-400 w-24 h-10 bg-white rounded shadow-inner"></div></div>
-            <div class="exercise-box"><div class="clock-face medium mb-2"><div class="absolute top-1/2 left-1/2 w-2 h-2 bg-black rounded-full -translate-x-1/2 -translate-y-1/2 z-10"></div><div class="clock-num cn12">12</div><div class="clock-num cn1">1</div><div class="clock-num cn2">2</div><div class="clock-num cn3">3</div><div class="clock-num cn4">4</div><div class="clock-num cn5">5</div><div class="clock-num cn6">6</div><div class="clock-num cn7">7</div><div class="clock-num cn8">8</div><div class="clock-num cn9">9</div><div class="clock-num cn10">10</div><div class="clock-num cn11">11</div><svg viewBox="0 0 100 100" class="absolute inset-0 w-full h-full"><line x1="50" y1="50" x2="15" y2="50" stroke="black" stroke-width="3"/><line x1="50" y1="50" x2="65" y2="35" stroke="red" stroke-width="4"/></svg></div><div class="border-2 border-gray-400 w-24 h-10 bg-white rounded shadow-inner"></div></div>
-            <div class="exercise-box"><div class="clock-face medium mb-2"><div class="absolute top-1/2 left-1/2 w-2 h-2 bg-black rounded-full -translate-x-1/2 -translate-y-1/2 z-10"></div><div class="clock-num cn12">12</div><div class="clock-num cn1">1</div><div class="clock-num cn2">2</div><div class="clock-num cn3">3</div><div class="clock-num cn4">4</div><div class="clock-num cn5">5</div><div class="clock-num cn6">6</div><div class="clock-num cn7">7</div><div class="clock-num cn8">8</div><div class="clock-num cn9">9</div><div class="clock-num cn10">10</div><div class="clock-num cn11">11</div><svg viewBox="0 0 100 100" class="absolute inset-0 w-full h-full"><line x1="50" y1="50" x2="75" y2="35" stroke="black" stroke-width="3"/><line x1="50" y1="50" x2="30" y2="35" stroke="red" stroke-width="4"/></svg></div><div class="border-2 border-gray-400 w-24 h-10 bg-white rounded shadow-inner"></div></div>
-            <div class="exercise-box"><div class="clock-face medium mb-2"><div class="absolute top-1/2 left-1/2 w-2 h-2 bg-black rounded-full -translate-x-1/2 -translate-y-1/2 z-10"></div><div class="clock-num cn12">12</div><div class="clock-num cn1">1</div><div class="clock-num cn2">2</div><div class="clock-num cn3">3</div><div class="clock-num cn4">4</div><div class="clock-num cn5">5</div><div class="clock-num cn6">6</div><div class="clock-num cn7">7</div><div class="clock-num cn8">8</div><div class="clock-num cn9">9</div><div class="clock-num cn10">10</div><div class="clock-num cn11">11</div><svg viewBox="0 0 100 100" class="absolute inset-0 w-full h-full"><line x1="50" y1="50" x2="25" y2="25" stroke="black" stroke-width="3"/><line x1="50" y1="50" x2="50" y2="80" stroke="red" stroke-width="4" transform="rotate(-10,50,50)"/></svg></div><div class="border-2 border-gray-400 w-24 h-10 bg-white rounded shadow-inner"></div></div>
-            <div class="exercise-box"><div class="clock-face medium mb-2"><div class="absolute top-1/2 left-1/2 w-2 h-2 bg-black rounded-full -translate-x-1/2 -translate-y-1/2 z-10"></div><div class="clock-num cn12">12</div><div class="clock-num cn1">1</div><div class="clock-num cn2">2</div><div class="clock-num cn3">3</div><div class="clock-num cn4">4</div><div class="clock-num cn5">5</div><div class="clock-num cn6">6</div><div class="clock-num cn7">7</div><div class="clock-num cn8">8</div><div class="clock-num cn9">9</div><div class="clock-num cn10">10</div><div class="clock-num cn11">11</div><svg viewBox="0 0 100 100" class="absolute inset-0 w-full h-full"><line x1="50" y1="50" x2="50" y2="15" stroke="black" stroke-width="3"/><line x1="50" y1="50" x2="50" y2="25" stroke="red" stroke-width="4"/></svg></div><div class="border-2 border-gray-400 w-24 h-10 bg-white rounded shadow-inner"></div></div>
-            <div class="exercise-box"><div class="clock-face medium mb-2"><div class="absolute top-1/2 left-1/2 w-2 h-2 bg-black rounded-full -translate-x-1/2 -translate-y-1/2 z-10"></div><div class="clock-num cn12">12</div><div class="clock-num cn1">1</div><div class="clock-num cn2">2</div><div class="clock-num cn3">3</div><div class="clock-num cn4">4</div><div class="clock-num cn5">5</div><div class="clock-num cn6">6</div><div class="clock-num cn7">7</div><div class="clock-num cn8">8</div><div class="clock-num cn9">9</div><div class="clock-num cn10">10</div><div class="clock-num cn11">11</div><svg viewBox="0 0 100 100" class="absolute inset-0 w-full h-full"><line x1="50" y1="50" x2="75" y2="70" stroke="black" stroke-width="3"/><line x1="50" y1="50" x2="25" y2="65" stroke="red" stroke-width="4"/></svg></div><div class="border-2 border-gray-400 w-24 h-10 bg-white rounded shadow-inner"></div></div>
-            <div class="exercise-box"><div class="clock-face medium mb-2"><div class="absolute top-1/2 left-1/2 w-2 h-2 bg-black rounded-full -translate-x-1/2 -translate-y-1/2 z-10"></div><div class="clock-num cn12">12</div><div class="clock-num cn1">1</div><div class="clock-num cn2">2</div><div class="clock-num cn3">3</div><div class="clock-num cn4">4</div><div class="clock-num cn5">5</div><div class="clock-num cn6">6</div><div class="clock-num cn7">7</div><div class="clock-num cn8">8</div><div class="clock-num cn9">9</div><div class="clock-num cn10">10</div><div class="clock-num cn11">11</div><svg viewBox="0 0 100 100" class="absolute inset-0 w-full h-full"><line x1="50" y1="50" x2="25" y2="75" stroke="black" stroke-width="3"/><line x1="50" y1="50" x2="40" y2="25" stroke="red" stroke-width="4"/></svg></div><div class="border-2 border-gray-400 w-24 h-10 bg-white rounded shadow-inner"></div></div>
-            <div class="exercise-box"><div class="clock-face medium mb-2"><div class="absolute top-1/2 left-1/2 w-2 h-2 bg-black rounded-full -translate-x-1/2 -translate-y-1/2 z-10"></div><div class="clock-num cn12">12</div><div class="clock-num cn1">1</div><div class="clock-num cn2">2</div><div class="clock-num cn3">3</div><div class="clock-num cn4">4</div><div class="clock-num cn5">5</div><div class="clock-num cn6">6</div><div class="clock-num cn7">7</div><div class="clock-num cn8">8</div><div class="clock-num cn9">9</div><div class="clock-num cn10">10</div><div class="clock-num cn11">11</div><svg viewBox="0 0 100 100" class="absolute inset-0 w-full h-full"><line x1="50" y1="50" x2="70" y2="20" stroke="black" stroke-width="3"/><line x1="50" y1="50" x2="30" y2="70" stroke="red" stroke-width="4"/></svg></div><div class="border-2 border-gray-400 w-24 h-10 bg-white rounded shadow-inner"></div></div>
-        </div>
-    </div>
-
-    <!-- ===================================================================================== -->
-    <!-- SESI 2: PART A - DRILL MATEMATIKA WAKTU (HALAMAN 4 - REVISI) -->
-    <!-- ===================================================================================== -->
-    <div class="a4-page">
-        <div class="wave-bg"></div>
-        
-        <!-- Header Sesi 2 Part A -->
-        <div class="flex justify-between items-center mb-4 border-b-2 border-blue-200 pb-2 relative z-10">
-            <div>
-                <h2 class="text-xl font-bold text-blue-900">SESI 2: MATEMATIKA WAKTU</h2>
-                <p class="text-blue-600 italic text-xs">Latihan kecepatan menghitung waktu!</p>
-            </div>
-            <div class="flex flex-col items-end"><span class="text-2xl">🧮</span><span class="badge-worksheet">Hal 4</span></div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-6 h-full pb-8 relative z-10 content-start">
-            <!-- Konversi -->
-            <div class="col-span-2">
-                <h3 class="font-bold text-blue-900 mb-2 bg-blue-100 p-1 rounded px-2 inline-block">A. Konversi Waktu (1 Jam = 60 Menit)</h3>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="border p-2 rounded bg-white text-sm">2 Jam = ............ Menit</div>
-                    <div class="border p-2 rounded bg-white text-sm">120 Menit = ............ Jam</div>
-                    <div class="border p-2 rounded bg-white text-sm">3 Jam = ............ Menit</div>
-                    <div class="border p-2 rounded bg-white text-sm">180 Menit = ............ Jam</div>
-                    <div class="border p-2 rounded bg-white text-sm">1 Jam 30 Menit = ............ Menit</div>
-                    <div class="border p-2 rounded bg-white text-sm">90 Menit = ...... Jam ...... Menit</div>
-                    <div class="border p-2 rounded bg-white text-sm">2 Jam 15 Menit = ............ Menit</div>
-                    <div class="border p-2 rounded bg-white text-sm">150 Menit = ...... Jam ...... Menit</div>
-                </div>
-            </div>
-
-            <!-- Penjumlahan -->
-            <div class="col-span-2">
-                <h3 class="font-bold text-blue-900 mb-2 bg-blue-100 p-1 rounded px-2 inline-block">B. Berapa Lama Lagi? (Penjumlahan)</h3>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="bg-white border p-3 rounded text-sm shadow-sm">
-                        <div class="font-bold mb-1">08:00 + 2 Jam</div>
-                        <div class="text-right text-gray-400 font-mono text-lg">..... : .....</div>
-                    </div>
-                    <div class="bg-white border p-3 rounded text-sm shadow-sm">
-                        <div class="font-bold mb-1">09:30 + 1 Jam</div>
-                        <div class="text-right text-gray-400 font-mono text-lg">..... : .....</div>
-                    </div>
-                    <div class="bg-white border p-3 rounded text-sm shadow-sm">
-                        <div class="font-bold mb-1">10:15 + 30 Menit</div>
-                        <div class="text-right text-gray-400 font-mono text-lg">..... : .....</div>
-                    </div>
-                    <div class="bg-white border p-3 rounded text-sm shadow-sm">
-                        <div class="font-bold mb-1">11:45 + 45 Menit</div>
-                        <div class="text-right text-gray-400 font-mono text-lg">..... : .....</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Selisih -->
-            <div class="col-span-2">
-                <h3 class="font-bold text-blue-900 mb-2 bg-blue-100 p-1 rounded px-2 inline-block">C. Hitung Selisih Waktu</h3>
-                <div class="space-y-2">
-                    <div class="flex items-center justify-between border-b border-dashed border-gray-300 pb-1">
-                        <span class="text-sm">Dari 07:00 sampai 09:00</span>
-                        <span class="font-bold text-blue-800">..... Jam</span>
-                    </div>
-                    <div class="flex items-center justify-between border-b border-dashed border-gray-300 pb-1">
-                        <span class="text-sm">Dari 13:30 sampai 14:00</span>
-                        <span class="font-bold text-blue-800">..... Menit</span>
-                    </div>
-                    <div class="flex items-center justify-between border-b border-dashed border-gray-300 pb-1">
-                        <span class="text-sm">Dari 08:15 sampai 10:15</span>
-                        <span class="font-bold text-blue-800">..... Jam</span>
-                    </div>
-                    <div class="flex items-center justify-between border-b border-dashed border-gray-300 pb-1">
-                        <span class="text-sm">Dari 15:00 sampai 16:30</span>
-                        <span class="font-bold text-blue-800">..... Jam ..... Menit</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ===================================================================================== -->
-    <!-- SESI 2: PART B (SOAL CERITA) - HALAMAN 5 -->
-    <!-- ===================================================================================== -->
-    <div class="a4-page">
-        <div class="wave-bg"></div>
-        <div class="flex justify-between items-center mb-4 border-b-2 border-blue-200 pb-2 relative z-10">
-            <div>
-                <h2 class="text-xl font-bold text-blue-900">MISI B: LOGBOOK KAPTEN (SOAL CERITA)</h2>
-                <p class="text-blue-600 italic text-xs">Persiapan sebelum berangkat ke Kalimantan!</p>
-            </div>
-            <div class="flex flex-col items-end"><span class="text-2xl">⚓</span><span class="badge-worksheet">Hal 5</span></div>
-        </div>
-        <div class="grid grid-cols-1 gap-4 h-full pb-8 relative z-10 content-start">
-            <!-- Soal 1 -->
-            <div class="bg-white border-l-4 border-blue-500 p-4 shadow-sm rounded-r-lg">
-                <h4 class="font-bold text-blue-900 mb-1 flex items-center"><span class="text-xl mr-2">📦</span> Packing Barang</h4>
-                <p class="text-sm text-gray-700 mb-2">
-                    Kapten mulai mengemas barang pukul <b>06:30</b>. Ia butuh waktu <b>1 Jam 15 Menit</b> untuk selesai. 
-                    Pukul berapa Kapten selesai packing?
-                </p>
-                <div class="flex items-center justify-end gap-2"><span class="text-sm font-bold text-gray-500">Jawab:</span><div class="border-2 border-gray-300 w-24 h-8 rounded bg-gray-50"></div></div>
-            </div>
-            <!-- Soal 2 -->
-            <div class="bg-white border-l-4 border-orange-500 p-4 shadow-sm rounded-r-lg">
-                <h4 class="font-bold text-orange-900 mb-1 flex items-center"><span class="text-xl mr-2">🚌</span> Perjalanan ke Bandara</h4>
-                <p class="text-sm text-gray-700 mb-2">
-                    Kapten berangkat dari rumah pukul <b>08:00</b>. Perjalanan ke bandara memakan waktu <b>45 Menit</b>.
-                    Pukul berapa Kapten tiba di bandara?
-                </p>
-                <div class="flex items-center justify-end gap-2"><span class="text-sm font-bold text-gray-500">Jawab:</span><div class="border-2 border-gray-300 w-24 h-8 rounded bg-gray-50"></div></div>
-            </div>
-            <!-- Soal 3 -->
-            <div class="bg-white border-l-4 border-green-500 p-4 shadow-sm rounded-r-lg">
-                <h4 class="font-bold text-green-900 mb-1 flex items-center"><span class="text-xl mr-2">✈️</span> Menunggu Pesawat</h4>
-                <p class="text-sm text-gray-700 mb-2">
-                    Pesawat akan terbang pukul <b>10:30</b>. Kapten harus check-in <b>2 Jam</b> sebelum keberangkatan.
-                    Pukul berapa Kapten harus check-in?
-                </p>
-                <div class="flex items-center justify-end gap-2"><span class="text-sm font-bold text-gray-500">Jawab:</span><div class="border-2 border-gray-300 w-24 h-8 rounded bg-gray-50"></div></div>
-            </div>
-            <!-- Soal 4 -->
-            <div class="bg-white border-l-4 border-purple-500 p-4 shadow-sm rounded-r-lg">
-                <h4 class="font-bold text-purple-900 mb-1 flex items-center"><span class="text-xl mr-2">🗺️</span> Durasi Terbang</h4>
-                <p class="text-sm text-gray-700 mb-2">
-                    Penerbangan dari Jakarta ke Pontianak memakan waktu <b>1 Jam 30 Menit</b>.
-                    Jika pesawat berangkat pukul 10:30, pukul berapa sampai di Pontianak?
-                </p>
-                <div class="flex items-center justify-end gap-2"><span class="text-sm font-bold text-gray-500">Jawab:</span><div class="border-2 border-gray-300 w-24 h-8 rounded bg-gray-50"></div></div>
-            </div>
-            <!-- Soal 5 -->
-            <div class="bg-white border-l-4 border-red-500 p-4 shadow-sm rounded-r-lg">
-                <h4 class="font-bold text-red-900 mb-1 flex items-center"><span class="text-xl mr-2">⛽</span> Total Waktu</h4>
-                <p class="text-sm text-gray-700 mb-2">
-                    Di Pontianak, Kapten menyewa mobil selama <b>3 Jam</b> untuk keliling kota, lalu makan siang selama <b>45 Menit</b>.
-                    Berapa total waktu yang dihabiskan Kapten? (Dalam Jam & Menit)
-                </p>
-                <div class="flex items-center justify-end gap-2"><span class="text-sm font-bold text-gray-500">Jawab:</span><div class="border-2 border-gray-300 w-24 h-8 rounded bg-gray-50"></div></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- SESI 3: SUDUT (HALAMAN 6) -->
-    <div class="a4-page">
-        <div class="wave-bg"></div>
-        <div class="flex justify-between items-center mb-6 border-b-2 border-blue-200 pb-2 relative z-10">
-            <div><h2 class="text-xl font-bold text-blue-900">SESI 3: SUDUT & RENCANA</h2><p class="text-blue-600 italic text-xs">Visualisasi Sudut Besar</p></div>
-            <div class="flex flex-col items-end"><span class="text-2xl">📐</span><span class="badge-worksheet">Hal 6</span></div>
-        </div>
-        <div class="flex items-center gap-4 mb-6 relative z-10 bg-yellow-50 p-4 rounded-xl border-2 border-yellow-200 shadow-sm">
-            <div class="text-3xl">💡</div>
-            <div class="text-sm text-yellow-900 flex-1"><b>Ingat Rumus Kapten:</b><br>Jarak 1 angka = <b>30&deg;</b>. <br>Jarak 3 angka (Misal 12 ke 3) = 90&deg; (Siku-siku).</div>
-        </div>
-        <div class="flex-1 flex flex-col gap-4 relative z-10 pb-4">
-            <div class="flex-1 angle-card flex items-center justify-between border-green-300 bg-green-50">
-                <div class="text-left"><h3 class="text-2xl font-bold text-green-800">SUDUT LANCIP</h3><p class="text-sm text-green-700 font-bold mt-1">Kurang dari 90&deg;</p><p class="text-xs text-gray-500 mt-1">Contoh: Jam 1 (30&deg;)</p></div>
-                <div class="clock-face large bg-white"><div class="absolute top-1/2 left-1/2 w-3 h-3 bg-black rounded-full -translate-x-1/2 -translate-y-1/2 z-10"></div><div class="clock-num cn12">12</div><div class="clock-num cn1">1</div><div class="clock-num cn3">3</div><svg viewBox="0 0 100 100" class="absolute inset-0 w-full h-full"><path d="M 50 50 L 50 10" stroke="black" stroke-width="3" fill="none"/><path d="M 50 50 L 75 20" stroke="black" stroke-width="3" fill="none"/><path d="M 50 30 A 20 20 0 0 1 60 35" stroke="red" stroke-width="2" fill="none" stroke-dasharray="4"/></svg></div>
-            </div>
-            <div class="flex-1 angle-card flex items-center justify-between border-orange-300 bg-orange-50">
-                <div class="text-left"><h3 class="text-2xl font-bold text-orange-800">SUDUT TUMPUL</h3><p class="text-sm text-orange-700 font-bold mt-1">Antara 90&deg; - 180&deg;</p><p class="text-xs text-gray-500 mt-1">Contoh: Jam 4 (120&deg;)</p></div>
-                <div class="clock-face large bg-white"><div class="absolute top-1/2 left-1/2 w-3 h-3 bg-black rounded-full -translate-x-1/2 -translate-y-1/2 z-10"></div><div class="clock-num cn12">12</div><div class="clock-num cn3">3</div><div class="clock-num cn4">4</div><div class="clock-num cn6">6</div><svg viewBox="0 0 100 100" class="absolute inset-0 w-full h-full"><path d="M 50 50 L 50 10" stroke="black" stroke-width="3" fill="none"/><path d="M 50 50 L 85 75" stroke="black" stroke-width="3" fill="none"/><path d="M 50 30 A 20 20 0 0 1 70 60" stroke="red" stroke-width="2" fill="none" stroke-dasharray="4"/></svg></div>
-            </div>
-            <div class="flex-1 angle-card flex items-center justify-between border-purple-300 bg-purple-50">
-                <div class="text-left"><h3 class="text-2xl font-bold text-purple-800">SUDUT REFLEKS</h3><p class="text-sm text-purple-700 font-bold mt-1">Lebih dari 180&deg;</p><p class="text-xs text-gray-500 mt-1">Contoh: Jam 7 (210&deg;)</p></div>
-                <div class="clock-face large bg-white"><div class="absolute top-1/2 left-1/2 w-3 h-3 bg-black rounded-full -translate-x-1/2 -translate-y-1/2 z-10"></div><div class="clock-num cn12">12</div><div class="clock-num cn6">6</div><div class="clock-num cn7">7</div><svg viewBox="0 0 100 100" class="absolute inset-0 w-full h-full"><path d="M 50 50 L 50 10" stroke="black" stroke-width="3" fill="none"/><path d="M 50 50 L 25 85" stroke="black" stroke-width="3" fill="none"/><path d="M 50 25 A 25 25 0 1 1 35 75" stroke="red" stroke-width="2" fill="none" stroke-dasharray="4"/></svg></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- SESI 3: PART C (RENCANA PERJALANAN) - HALAMAN 7 -->
-    <div class="a4-page">
-        <div class="wave-bg"></div>
-        <div class="flex justify-between items-center mb-4 border-b-2 border-blue-200 pb-2 relative z-10">
-            <div>
-                <h2 class="text-xl font-bold text-blue-900">SESI 3: ITINERARY LENGKAP</h2>
-                <p class="text-blue-600 italic text-xs">Rencanakan ekspedisi Kalimantanmu! Data ini untuk mengisi Peta.</p>
-            </div>
-            <div class="flex flex-col items-end"><span class="text-2xl">📅</span><span class="badge-worksheet">Hal 7</span></div>
-        </div>
-
-        <!-- TABEL UTAMA -->
-        <div class="border-2 border-blue-900 rounded-lg overflow-hidden relative z-10 shadow-md mb-8 flex-1">
-            <div class="flex bg-blue-900 text-white font-bold text-xs py-3 text-center">
-                <div class="w-16 border-r border-blue-700">MULAI</div>
-                <div class="w-12 border-r border-blue-700">IKON</div>
-                <div class="flex-1 border-r border-blue-700">AKTIVITAS / RUTE</div>
-                <div class="w-20 border-r border-blue-700">DURASI</div>
-                <div class="w-16">SELESAI</div>
-            </div>
-            <!-- Row 1 -->
-            <div class="bg-blue-50 flex items-center border-b border-gray-200 py-3">
-                <div class="w-16 text-center text-xs font-mono font-bold">HARI 1</div>
-                <div class="w-12 flex justify-center text-xl">🛫</div>
-                <div class="flex-1 px-4 text-sm font-bold text-blue-900">Tiba di Pontianak</div>
-                <div class="w-20 text-center text-xs font-bold text-gray-400">-</div>
-                <div class="w-16 text-center text-xs font-mono">08:00</div>
-            </div>
-            <!-- Row 2 (Isian) -->
-            <div class="bg-white flex items-center border-b border-gray-200 py-3">
-                <div class="w-16 text-center text-xs font-mono text-gray-500">08:00</div>
-                <div class="w-12 flex justify-center text-xl">🚗</div>
-                <div class="flex-1 px-4 text-sm">Perjalanan ke Palangkaraya</div>
-                <div class="w-20 text-center"><div class="border-b-2 border-dashed border-red-400 w-14 mx-auto"></div></div>
-                <div class="w-16 text-center"><div class="border-b-2 border-dashed border-gray-400 w-12 mx-auto"></div></div>
-            </div>
-            <!-- Row 3 (Isian) -->
-            <div class="bg-white flex items-center border-b border-gray-200 py-3">
-                <div class="w-16 text-center"><div class="border-b-2 border-dashed border-gray-400 w-12 mx-auto"></div></div>
-                <div class="w-12 flex justify-center text-xl">⛺</div>
-                <div class="flex-1 px-4 text-sm">Istirahat di Palangkaraya</div>
-                <div class="w-20 text-center"><div class="border-b-2 border-dashed border-gray-400 w-14 mx-auto"></div></div>
-                <div class="w-16 text-center"><div class="border-b-2 border-dashed border-gray-400 w-12 mx-auto"></div></div>
-            </div>
-            <!-- Row 4 -->
-            <div class="bg-blue-50 flex items-center border-b border-gray-200 py-3">
-                <div class="w-16 text-center text-xs font-mono font-bold">HARI 2</div>
-                <div class="w-12 flex justify-center text-xl">☀️</div>
-                <div class="flex-1 px-4 text-sm font-bold text-blue-900">Mulai Petualangan</div>
-                <div class="w-20 text-center text-xs font-bold text-gray-400">-</div>
-                <div class="w-16 text-center text-xs font-mono">06:00</div>
-            </div>
-            <!-- Row 5 (Isian) -->
-            <div class="bg-white flex items-center border-b border-gray-200 py-3">
-                <div class="w-16 text-center text-xs font-mono text-gray-500">06:00</div>
-                <div class="w-12 flex justify-center text-xl">🚤</div>
-                <div class="flex-1 px-4 text-sm">Perjalanan ke Banjarmasin</div>
-                <div class="w-20 text-center"><div class="border-b-2 border-dashed border-red-400 w-14 mx-auto"></div></div>
-                <div class="w-16 text-center"><div class="border-b-2 border-dashed border-gray-400 w-12 mx-auto"></div></div>
-            </div>
-            <!-- Row 6 (Isian) -->
-            <div class="bg-white flex items-center border-b border-gray-200 py-3">
-                <div class="w-16 text-center"><div class="border-b-2 border-dashed border-gray-400 w-12 mx-auto"></div></div>
-                <div class="w-12 flex justify-center text-xl">🐊</div>
-                <div class="flex-1 px-4 text-sm">Eksplorasi Sungai Martapura</div>
-                <div class="w-20 text-center"><div class="border-b-2 border-dashed border-gray-400 w-14 mx-auto"></div></div>
-                <div class="w-16 text-center"><div class="border-b-2 border-dashed border-gray-400 w-12 mx-auto"></div></div>
-            </div>
-             <!-- Row 7 -->
-             <div class="bg-blue-50 flex items-center border-b border-gray-200 py-3">
-                <div class="w-16 text-center text-xs font-mono font-bold">HARI 3</div>
-                <div class="w-12 flex justify-center text-xl">🌤️</div>
-                <div class="flex-1 px-4 text-sm font-bold text-blue-900">Menuju Timur</div>
-                <div class="w-20 text-center text-xs font-bold text-gray-400">-</div>
-                <div class="w-16 text-center text-xs font-mono">07:00</div>
-            </div>
-            <!-- Row 8 (Isian) -->
-            <div class="bg-white flex items-center border-b border-gray-200 py-3">
-                <div class="w-16 text-center text-xs font-mono text-gray-500">07:00</div>
-                <div class="w-12 flex justify-center text-xl">🚌</div>
-                <div class="flex-1 px-4 text-sm">Perjalanan ke Balikpapan</div>
-                <div class="w-20 text-center"><div class="border-b-2 border-dashed border-red-400 w-14 mx-auto"></div></div>
-                <div class="w-16 text-center"><div class="border-b-2 border-dashed border-gray-400 w-12 mx-auto"></div></div>
-            </div>
-            <!-- Row 9 (Empty) -->
-            <div class="bg-white flex items-center border-b border-gray-200 py-3">
-                <div class="w-16 text-center"><div class="border-b-2 border-dashed border-gray-400 w-12 mx-auto"></div></div>
-                <div class="w-12 flex justify-center text-xl">🏁</div>
-                <div class="flex-1 px-4 text-sm">Tiba di Tujuan Akhir</div>
-                <div class="w-20 text-center text-xs font-bold text-gray-400">-</div>
-                <div class="w-16 text-center"><div class="border-b-2 border-dashed border-gray-400 w-12 mx-auto"></div></div>
-            </div>
-        </div>
-        <p class="text-xs italic text-gray-500 text-center">*Durasi yang digaris merah wajib disalin ke Peta Kalimantan.</p>
-    </div>
-
-    <!-- HALAMAN 8: STUDI KASUS (NEW) -->
-    <div class="a4-page">
-        <div class="wave-bg"></div>
-        <div class="flex justify-between items-center mb-6 border-b-2 border-blue-200 pb-2 relative z-10">
-            <div>
-                <h2 class="text-xl font-bold text-blue-900">MISI LOGIKA & MASALAH</h2>
-                <p class="text-blue-600 italic text-xs">Pecahkan kasus nyata di Kalimantan!</p>
-            </div>
-            <div class="flex flex-col items-end"><span class="text-2xl">🧩</span><span class="badge-worksheet">Hal 8</span></div>
-        </div>
-
-        <div class="grid grid-cols-1 gap-6 relative z-10">
-            <!-- Case 1 -->
-            <div class="bg-emerald-100 border-2 border-emerald-300 p-4 rounded-xl">
-                <h4 class="font-bold text-emerald-900 mb-2 flex items-center"><span class="text-xl mr-2">🐒</span> Kasus 1: Orang Utan Tanjung Puting</h4>
-                <p class="text-sm text-gray-800 mb-3 text-justify">
-                    Kapten ingin melihat Orang Utan makan (feeding time) pukul <b>09:00 Pagi</b>. 
-                    Perjalanan menyusuri sungai membutuhkan waktu <b>2 Jam 15 Menit</b>. 
-                    Pukul berapakah paling lambat Kapten harus berangkat agar tidak terlambat?
-                </p>
-                <div class="border-t border-emerald-300 pt-2 flex justify-between items-center">
-                    <span class="text-xs font-bold text-emerald-700">Solusi:</span>
-                    <div class="border-2 border-emerald-500 bg-white px-4 py-1 rounded w-32 h-8"></div>
-                </div>
-            </div>
-
-            <!-- Case 2 -->
-            <div class="bg-orange-50 border-2 border-orange-200 p-4 rounded-xl">
-                <h4 class="font-bold text-orange-900 mb-2 flex items-center"><span class="text-xl mr-2">🛶</span> Kasus 2: Pasar Terapung</h4>
-                <p class="text-sm text-gray-800 mb-3 text-justify">
-                    Pasar Terapung Lok Baintan hanya buka dari pukul <b>05:00</b> sampai <b>09:30</b> pagi. 
-                    Berapa lama durasi pasar tersebut buka? (Nyatakan dalam Jam dan Menit).
-                </p>
-                <div class="border-t border-orange-300 pt-2 flex justify-between items-center">
-                    <span class="text-xs font-bold text-orange-700">Solusi:</span>
-                    <div class="border-2 border-orange-500 bg-white px-4 py-1 rounded w-32 h-8"></div>
-                </div>
-            </div>
-
-            <!-- Case 3 -->
-            <div class="bg-blue-50 border-2 border-blue-200 p-4 rounded-xl">
-                <h4 class="font-bold text-blue-900 mb-2 flex items-center"><span class="text-xl mr-2">🌉</span> Kasus 3: Jembatan Mahakam</h4>
-                <p class="text-sm text-gray-800 mb-3 text-justify">
-                    Kapal melintasi bawah Jembatan Mahakam pada pukul <b>14:20</b>. 
-                    Kapal berlayar ke hulu selama <b>3 Jam 50 Menit</b> sebelum berhenti di desa budaya. 
-                    Pukul berapa kapal sampai di desa tersebut?
-                </p>
-                <div class="border-t border-blue-300 pt-2 flex justify-between items-center">
-                    <span class="text-xs font-bold text-blue-700">Solusi:</span>
-                    <div class="border-2 border-blue-500 bg-white px-4 py-1 rounded w-32 h-8"></div>
-                </div>
-            </div>
-
-            <!-- Case 4 -->
-            <div class="bg-purple-50 border-2 border-purple-200 p-4 rounded-xl">
-                <h4 class="font-bold text-purple-900 mb-2 flex items-center"><span class="text-xl mr-2">💎</span> Kasus 4: Pendulangan Intan</h4>
-                <p class="text-sm text-gray-800 mb-3 text-justify">
-                    Para pendulang bekerja mulai pukul 07:00. Mereka bekerja selama 8 Jam sehari, tetapi ada istirahat 1 Jam di tengah hari. 
-                    Pukul berapa mereka selesai bekerja?
-                </p>
-                <div class="border-t border-purple-300 pt-2 flex justify-between items-center">
-                    <span class="text-xs font-bold text-purple-700">Solusi:</span>
-                    <div class="border-2 border-purple-500 bg-white px-4 py-1 rounded w-32 h-8"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- SERTIFIKAT HALAMAN 9 -->
-    <div class="a4-page cert-page">
-        <div class="h-full w-full border-4 border-dashed border-yellow-600 p-8 flex flex-col items-center justify-center relative">
-            <!-- Corner Decors -->
-            <div class="absolute top-4 left-4 text-4xl">⚜️</div>
-            <div class="absolute top-4 right-4 text-4xl">⚜️</div>
-            <div class="absolute bottom-4 left-4 text-4xl">⚜️</div>
-            <div class="absolute bottom-4 right-4 text-4xl">⚜️</div>
-
-            <div class="mb-6 text-center">
-                <h1 class="text-6xl font-bold text-blue-900 mb-2" style="font-family: 'Cinzel', serif;">SERTIFIKAT</h1>
-                <h2 class="text-2xl text-yellow-700 font-bold tracking-widest uppercase">Kelulusan Misi Waktu</h2>
-            </div>
-
-            <div class="text-8xl mb-6 animate-bounce">🏅</div>
-
-            <p class="text-lg text-gray-600 mb-4 font-serif">Diberikan dengan bangga kepada:</p>
+        <div class="page-content justify-center items-center text-center border-4 border-double border-blue-900 m-4">
+            <div class="absolute top-10 right-10 border-4 border-red-700 text-red-700 p-2 font-bold text-xl rotate-12 opacity-70" style="font-family: 'Rye'">TOP SECRET</div>
             
-            <div class="w-3/4 border-b-4 border-blue-900 mb-8">
-                <p class="text-4xl text-center font-bold text-blue-900 font-serif mb-2 p-2"></p>
+            <div class="mb-8">
+                <svg class="w-32 h-32 mx-auto drop-shadow-lg"><use href="#ship-icon"/></svg>
             </div>
 
-            <p class="text-gray-700 text-center max-w-lg mb-12 text-lg leading-relaxed">
-                Telah berhasil menaklukkan seluruh tantangan di <b>Kalimantan</b>:
-                <br>Membaca Jam, Menghitung Durasi, dan Merencanakan Ekspedisi dengan presisi tinggi.
-            </p>
+            <h1 class="text-5xl text-blue-900 mb-2 uppercase tracking-widest">LOGBOOK EKSPEDISI</h1>
+            <h2 class="text-3xl text-amber-700 mb-8 italic">"Misi Borneo: Penyelamat Waktu"</h2>
 
-            <div class="flex justify-around w-full mt-8">
-                 <div class="text-center">
-                    <div class="text-sm font-bold text-gray-500 uppercase mb-12">Mengetahui,</div>
-                    <div class="border-b-2 border-black w-48 mx-auto mb-2"></div>
-                    <div class="font-bold text-blue-900">MASTER KAPTEN (GURU)</div>
-                 </div>
-                 <div class="text-center">
-                    <div class="text-sm font-bold text-gray-500 uppercase mb-12">Penerima,</div>
-                    <div class="border-b-2 border-black w-48 mx-auto mb-2"></div>
-                    <div class="font-bold text-blue-900">KADET PENJELAJAH</div>
-                 </div>
-            </div>
-            
-            <div class="mt-12 text-xs text-gray-400 font-mono">
-                Kode Lisensi: TIME-EXP-BORNEO-001
-            </div>
-        </div>
-    </div>
-
-    <!-- KIT PAGE 1: JAM (Disesuaikan Ukuran Jarum) -->
-    <div class="a4-page flex flex-col bg-red-50 border-l-8 border-red-500">
-        <header class="flex justify-between items-end border-b-2 border-red-300 pb-2 mb-4">
-            <h1 class="text-xl font-bold text-red-800 uppercase">✂️ KIT #1: Perakitan Jam</h1>
-            <span class="badge-kit">GUNTING</span>
-        </header>
-        <div class="mb-8">
-            <p class="text-center font-bold text-red-800 mb-2 text-sm">ANGKA JAM</p>
-            <div class="grid grid-cols-4 gap-4 px-4">
-                <div class="number-tile">12</div><div class="number-tile">1</div><div class="number-tile">2</div><div class="number-tile">3</div>
-                <div class="number-tile">4</div><div class="number-tile">5</div><div class="number-tile">6</div><div class="number-tile">7</div>
-                <div class="number-tile">8</div><div class="number-tile">9</div><div class="number-tile">10</div><div class="number-tile">11</div>
-            </div>
-        </div>
-        <div class="mt-auto mb-10">
-             <p class="text-center font-bold text-red-800 mb-2 text-sm">JARUM JAM</p>
-             <div class="flex justify-center gap-6">
-                <!-- Jarum Pendek (4cm) -->
-                <div class="cut-zone w-26 h-60 flex-col border-red-300 bg-white shadow-sm"><span class="absolute top-1 left-1 text-lg">✂️</span><div class="relative h-32 w-8 flex flex-col justify-end items-center"><div class="absolute bottom-2 w-3 h-3 bg-white border-2 border-black rounded-full z-10"></div><div class="w-4 h-20 bg-red-600 border-2 border-red-800 rounded-t-full rounded-b-lg flex items-center justify-center shadow-sm"></div></div><span class="text-xs font-bold text-red-800 mt-1">PENDEK (4cm)</span></div>
-                <!-- Jarum Panjang (6cm) -->
-                <div class="cut-zone w-26 h-60 flex-col border-blue-300 bg-white shadow-sm"><span class="absolute top-1 left-1 text-lg">✂️</span><div class="relative h-32 w-8 flex flex-col justify-end items-center"><div class="absolute bottom-2 w-3 h-3 bg-white border-2 border-black rounded-full z-10"></div><div class="w-4 h-[6cm] bg-blue-600 border-2 border-blue-800 rounded-t-full rounded-b-lg flex items-center justify-center shadow-sm"></div></div><span class="text-xs font-bold text-blue-800 mt-1">PANJANG (6cm)</span></div>
-             </div>
-        </div>
-    </div>
-
-    <!-- KIT PAGE 2: PETA KALIMANTAN (NEW) -->
-    <div class="a4-page bg-red-50 border-l-8 border-red-500 flex flex-col">
-        <header class="flex justify-between items-end border-b-2 border-red-300 pb-2 mb-4">
-            <h1 class="text-xl font-bold text-red-800 uppercase">✂️ KIT #2: PETA PROYEK AKHIR</h1>
-            <span class="badge-kit">GUNTING & TEMPEL</span>
-        </header>
-        
-        <div class="flex-1 flex flex-col items-center justify-center p-4 border-4 border-dashed border-gray-400 bg-white m-4 rounded-xl relative">
-            <span class="absolute top-2 left-2 text-gray-400 text-sm font-bold">Gunting mengikuti garis putus-putus luar -></span>
-            <h3 class="text-2xl font-bold text-blue-900 mb-4 text-center uppercase tracking-widest">Ekspedisi Borneo</h3>
-            
-            <svg viewBox="0 0 500 400" class="w-full h-full">
-                <!-- Kalimantan Shape (Simplified Polygon) -->
-                <path d="M 50,250 L 80,150 L 180,100 L 250,50 L 350,80 L 450,150 L 450,250 L 400,300 L 350,350 L 250,380 L 150,350 L 100,320 Z" fill="#ecfdf5" stroke="#059669" stroke-width="3" />
+            <div class="bg-white/80 p-8 rounded-xl shadow-lg border-2 border-blue-900 w-3/4 mx-auto transform rotate-1">
+                <div class="flex items-center gap-4 mb-6">
+                    <svg class="w-16 h-16 flex-shrink-0"><use href="#captain-face"/></svg>
+                    <div class="text-left">
+                        <p class="handwritten text-xl text-blue-800">"Selamat datang di tim, Kadet! Buku ini adalah nyawamu. Catat semua koordinat waktu di sini."</p>
+                        <p class="text-xs font-bold mt-1">- Kapten Wira</p>
+                    </div>
+                </div>
                 
-                <!-- Cities -->
-                <!-- Pontianak (West) -->
-                <circle cx="80" cy="200" r="8" fill="#b91c1c" stroke="white" stroke-width="2" />
-                <text x="80" y="225" text-anchor="middle" font-weight="bold" fill="#1e3a8a" font-size="12">PONTIANAK</text>
+                <div class="space-y-4 text-left font-mono">
+                    <div>
+                        <label class="block text-xs font-bold text-blue-900 uppercase">Nama Kadet (Code Name):</label>
+                        <div class="border-b-2 border-blue-900 h-8 w-full bg-yellow-50/50"></div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-blue-900 uppercase">Nomor Divisi (Kelas):</label>
+                        <div class="border-b-2 border-blue-900 h-8 w-full bg-yellow-50/50"></div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-blue-900 uppercase">Markas Besar (Sekolah):</label>
+                        <div class="border-b-2 border-blue-900 h-8 w-full bg-yellow-50/50"></div>
+                    </div>
+                </div>
+            </div>
 
-                <!-- Palangkaraya (Central) -->
-                <circle cx="220" cy="280" r="8" fill="#b91c1c" stroke="white" stroke-width="2" />
-                <text x="220" y="305" text-anchor="middle" font-weight="bold" fill="#1e3a8a" font-size="12">PALANGKARAYA</text>
+            <div class="mt-12 text-sm font-mono text-gray-500">
+                DOKUMEN NEGARA SANGAT RAHASIA<br>
+                JANGAN SAMPAI JATUH KE TANGAN BAJAK LAUT WAKTU
+            </div>
+        </div>
+    </div>
 
-                <!-- Banjarmasin (South) -->
-                <circle cx="300" cy="330" r="8" fill="#b91c1c" stroke="white" stroke-width="2" />
-                <text x="300" y="355" text-anchor="middle" font-weight="bold" fill="#1e3a8a" font-size="12">BANJARMASIN</text>
+    <!-- ====================================================================== -->
+    <!-- SESI 1: INTRO & JAM RUSAK -->
+    <!-- ====================================================================== -->
+    <div class="a4-page">
+        <div class="binder-holes"><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div></div>
+        <div class="page-content">
+            <!-- Story Header -->
+            <div class="mission-header">
+                <div>
+                    <h2 class="text-2xl text-blue-900 uppercase">Misi 1: Darurat Navigasi!</h2>
+                    <div class="flex items-center gap-2 text-sm text-red-600 font-bold mt-1">
+                        <span class="animate-pulse">●</span> STATUS: KRITIS
+                    </div>
+                </div>
+                <div class="text-right font-mono text-xs text-gray-500">
+                    HARI KE-1<br>LOKASI: LAUT JAWA
+                </div>
+            </div>
 
-                <!-- Balikpapan (East) -->
-                <circle cx="400" cy="220" r="8" fill="#b91c1c" stroke="white" stroke-width="2" />
-                <text x="420" y="225" text-anchor="start" font-weight="bold" fill="#1e3a8a" font-size="12">BALIKPAPAN</text>
+            <!-- Captain Dialogue -->
+            <div class="flex gap-4 mb-6 items-start">
+                <svg class="captain-avatar drop-shadow-md"><use href="#captain-face"/></svg>
+                <div class="speech-bubble flex-1 bg-yellow-50">
+                    "Gawat Kadet! Ombak besar menghantam kapal! <b>Jam Navigasi Utama kita PECAH!</b> Kita buta arah! Cepat rakit ulang jamnya (Gunakan KIT 1) dan laporkan pembacaan waktu di panel ini!"
+                </div>
+            </div>
 
-                <!-- Routes & Duration Boxes -->
+            <!-- Exercise Grid -->
+            <div class="bg-white/60 p-4 rounded-xl border border-blue-200 flex-1">
+                <h3 class="font-bold text-blue-900 mb-3 border-b border-dashed border-blue-300 pb-1">PANEL KONTROL UTAMA (Gambar Jarumnya!)</h3>
                 
-                <!-- Route 1: Pontianak -> Palangkaraya -->
-                <path d="M 80 200 Q 150 220 220 280" fill="none" stroke="#ef4444" stroke-width="3" stroke-dasharray="5,5" />
-                <rect x="120" y="220" width="80" height="25" rx="4" fill="white" stroke="#ef4444" stroke-width="2" stroke-dasharray="2,2"/>
-                <text x="160" y="237" text-anchor="middle" font-size="10" fill="#9ca3af">... Jam ... Mnt</text>
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Soal 1 -->
+                    <div class="exercise-card flex items-center justify-between">
+                        <div class="clock-face medium">
+                            <div class="absolute top-1/2 left-1/2 w-2 h-2 bg-blue-900 rounded-full -translate-x-1/2 -translate-y-1/2 z-10"></div>
+                            <div class="clock-num cn12">12</div><div class="clock-num cn3">3</div><div class="clock-num cn6">6</div><div class="clock-num cn9">9</div>
+                        </div>
+                        <div class="text-center ml-2">
+                            <div class="bg-gray-800 text-green-400 font-mono p-1 rounded mb-1 border-2 border-gray-600 shadow-inner text-lg">08:30</div>
+                            <span class="text-xs font-bold text-blue-600 bg-blue-100 px-2 rounded-full">AM (Pagi)</span>
+                        </div>
+                    </div>
+                     <!-- Soal 2 -->
+                     <div class="exercise-card flex items-center justify-between">
+                        <div class="clock-face medium">
+                            <div class="absolute top-1/2 left-1/2 w-2 h-2 bg-blue-900 rounded-full -translate-x-1/2 -translate-y-1/2 z-10"></div>
+                            <div class="clock-num cn12">12</div><div class="clock-num cn3">3</div><div class="clock-num cn6">6</div><div class="clock-num cn9">9</div>
+                        </div>
+                        <div class="text-center ml-2">
+                            <div class="bg-gray-800 text-green-400 font-mono p-1 rounded mb-1 border-2 border-gray-600 shadow-inner text-lg">13:15</div>
+                            <span class="text-xs font-bold text-orange-600 bg-orange-100 px-2 rounded-full">PM (Siang)</span>
+                        </div>
+                    </div>
+                    <!-- Soal 3 -->
+                    <div class="exercise-card flex items-center justify-between">
+                        <div class="clock-face medium">
+                            <div class="absolute top-1/2 left-1/2 w-2 h-2 bg-blue-900 rounded-full -translate-x-1/2 -translate-y-1/2 z-10"></div>
+                            <div class="clock-num cn12">12</div><div class="clock-num cn3">3</div><div class="clock-num cn6">6</div><div class="clock-num cn9">9</div>
+                        </div>
+                        <div class="text-center ml-2">
+                            <div class="bg-gray-800 text-green-400 font-mono p-1 rounded mb-1 border-2 border-gray-600 shadow-inner text-lg">16:45</div>
+                            <span class="text-xs font-bold text-orange-600 bg-orange-100 px-2 rounded-full">PM (Sore)</span>
+                        </div>
+                    </div>
+                    <!-- Soal 4 -->
+                    <div class="exercise-card flex items-center justify-between">
+                        <div class="clock-face medium">
+                            <div class="absolute top-1/2 left-1/2 w-2 h-2 bg-blue-900 rounded-full -translate-x-1/2 -translate-y-1/2 z-10"></div>
+                            <div class="clock-num cn12">12</div><div class="clock-num cn3">3</div><div class="clock-num cn6">6</div><div class="clock-num cn9">9</div>
+                        </div>
+                        <div class="text-center ml-2">
+                            <div class="bg-gray-800 text-green-400 font-mono p-1 rounded mb-1 border-2 border-gray-600 shadow-inner text-lg">19:00</div>
+                            <span class="text-xs font-bold text-purple-600 bg-purple-100 px-2 rounded-full">PM (Malam)</span>
+                        </div>
+                    </div>
+                    <!-- Soal 5 Guru -->
+                    <div class="exercise-card flex items-center justify-between border-dashed border-blue-400 bg-blue-50/30">
+                        <div class="clock-face medium">
+                            <div class="absolute top-1/2 left-1/2 w-2 h-2 bg-blue-900 rounded-full -translate-x-1/2 -translate-y-1/2 z-10"></div>
+                            <div class="clock-num cn12">12</div><div class="clock-num cn3">3</div><div class="clock-num cn6">6</div><div class="clock-num cn9">9</div>
+                        </div>
+                        <div class="text-center ml-2 flex flex-col items-center">
+                            <div class="h-8 w-20 border-2 border-gray-400 bg-white rounded mb-1"></div>
+                            <span class="text-[10px] italic text-gray-500">Soal Guru</span>
+                        </div>
+                    </div>
+                     <!-- Soal 6 Guru -->
+                     <div class="exercise-card flex items-center justify-between border-dashed border-blue-400 bg-blue-50/30">
+                        <div class="clock-face medium">
+                            <div class="absolute top-1/2 left-1/2 w-2 h-2 bg-blue-900 rounded-full -translate-x-1/2 -translate-y-1/2 z-10"></div>
+                            <div class="clock-num cn12">12</div><div class="clock-num cn3">3</div><div class="clock-num cn6">6</div><div class="clock-num cn9">9</div>
+                        </div>
+                        <div class="text-center ml-2 flex flex-col items-center">
+                            <div class="h-8 w-20 border-2 border-gray-400 bg-white rounded mb-1"></div>
+                            <span class="text-[10px] italic text-gray-500">Soal Guru</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                <!-- Route 2: Palangkaraya -> Banjarmasin -->
-                <path d="M 220 280 Q 260 300 300 330" fill="none" stroke="#ef4444" stroke-width="3" stroke-dasharray="5,5" />
-                <rect x="240" y="300" width="80" height="25" rx="4" fill="white" stroke="#ef4444" stroke-width="2" stroke-dasharray="2,2"/>
-                <text x="280" y="317" text-anchor="middle" font-size="10" fill="#9ca3af">... Jam ... Mnt</text>
+    <!-- ====================================================================== -->
+    <!-- SESI 2: AM/PM DETECTIVE -->
+    <!-- ====================================================================== -->
+    <div class="a4-page">
+        <div class="binder-holes"><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div></div>
+        <div class="page-content">
+            <div class="mission-header">
+                <div>
+                    <h2 class="text-2xl text-blue-900 uppercase">Misi 2: Protokol Waktu (AM/PM)</h2>
+                </div>
+                <div class="text-right font-mono text-xs text-gray-500">HALAMAN 2</div>
+            </div>
 
-                <!-- Route 3: Banjarmasin -> Balikpapan -->
-                <path d="M 300 330 Q 350 280 400 220" fill="none" stroke="#ef4444" stroke-width="3" stroke-dasharray="5,5" />
-                <rect x="340" y="260" width="80" height="25" rx="4" fill="white" stroke="#ef4444" stroke-width="2" stroke-dasharray="2,2"/>
-                <text x="380" y="277" text-anchor="middle" font-size="10" fill="#9ca3af">... Jam ... Mnt</text>
+             <!-- Captain Dialogue -->
+             <div class="flex gap-4 mb-4 items-center flex-row-reverse">
+                <svg class="captain-avatar drop-shadow-md" style="transform: scaleX(-1);"><use href="#captain-face"/></svg>
+                <div class="speech-bubble flex-1 bg-yellow-50 text-right">
+                    "Jam sudah dirakit, tapi sistemnya bingung! Kapan pagi? Kapan malam? <b>Bantu sistem membedakan AM (00:00-11:59) dan PM (12:00-23:59)!</b>"
+                </div>
+            </div>
 
-            </svg>
-            
-            <p class="text-center text-sm text-gray-500 mt-4 w-2/3">
-                <b>Instruksi:</b> Salin durasi perjalanan dari Tabel Itinerary (Halaman 7) ke dalam kotak-kotak kosong di peta ini. Lalu tempel di Logbook-mu!
-            </p>
+            <div class="bg-white p-1 rounded-lg border border-gray-300">
+                <table class="w-full text-sm">
+                    <thead class="bg-blue-900 text-white">
+                        <tr>
+                            <th class="p-2 text-left rounded-tl-lg">KEGIATAN KRU KAPAL</th>
+                            <th class="p-2">WAKTU</th>
+                            <th class="p-2 rounded-tr-lg">KODE (Lingkari)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr class="bg-blue-50">
+                            <td class="p-3 flex items-center gap-2"><span class="text-xl">🌅</span> Bangun Tidur & Sarapan</td>
+                            <td class="p-3 text-center font-mono font-bold">06:30</td>
+                            <td class="p-3 text-center">
+                                <span class="border-2 border-blue-900 px-2 py-1 rounded-full font-bold mr-2">AM</span>
+                                <span class="text-gray-400">PM</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 flex items-center gap-2"><span class="text-xl">📚</span> Belajar Navigasi di Kelas</td>
+                            <td class="p-3 text-center font-mono font-bold">09:00</td>
+                            <td class="p-3 text-center">
+                                <span class="border px-2 py-1 rounded-full mr-2">AM</span>
+                                <span class="border px-2 py-1 rounded-full">PM</span>
+                            </td>
+                        </tr>
+                        <tr class="bg-blue-50">
+                            <td class="p-3 flex items-center gap-2"><span class="text-xl">🍲</span> Makan Siang di Kantin</td>
+                            <td class="p-3 text-center font-mono font-bold">12:15</td>
+                            <td class="p-3 text-center">
+                                <span class="border px-2 py-1 rounded-full mr-2">AM</span>
+                                <span class="border px-2 py-1 rounded-full">PM</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 flex items-center gap-2"><span class="text-xl">⚽</span> Olahraga Sore di Dek</td>
+                            <td class="p-3 text-center font-mono font-bold">04:00</td>
+                            <td class="p-3 text-center">
+                                <span class="border px-2 py-1 rounded-full mr-2">AM</span>
+                                <span class="border px-2 py-1 rounded-full">PM</span>
+                            </td>
+                        </tr>
+                        <tr class="bg-blue-50">
+                            <td class="p-3 flex items-center gap-2"><span class="text-xl">📺</span> Nonton Film di Kabin</td>
+                            <td class="p-3 text-center font-mono font-bold">07:00</td>
+                            <td class="p-3 text-center">
+                                <span class="border px-2 py-1 rounded-full mr-2">AM</span>
+                                <span class="border px-2 py-1 rounded-full">PM</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 flex items-center gap-2"><span class="text-xl">🛌</span> Tidur Malam</td>
+                            <td class="p-3 text-center font-mono font-bold">09:30</td>
+                            <td class="p-3 text-center">
+                                <span class="border px-2 py-1 rounded-full mr-2">AM</span>
+                                <span class="border px-2 py-1 rounded-full">PM</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-8 border-2 border-dashed border-gray-400 p-4 rounded-xl bg-yellow-50 text-center">
+                <h3 class="font-bold text-amber-800 mb-2 font-serif">★ TIME DETECTIVE CHALLENGE ★</h3>
+                <p class="text-sm mb-4">Gambar soal dari teman sebangkumu!</p>
+                <div class="flex justify-center gap-8">
+                    <div class="bg-white p-2 border shadow text-left">
+                        <p class="text-xs text-gray-500">Soal Teman 1:</p>
+                        <div class="clock-face medium mb-2"></div>
+                        <div class="border-b border-black h-6 w-full"></div>
+                    </div>
+                    <div class="bg-white p-2 border shadow text-left">
+                        <p class="text-xs text-gray-500">Soal Teman 2:</p>
+                        <div class="clock-face medium mb-2"></div>
+                        <div class="border-b border-black h-6 w-full"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====================================================================== -->
+    <!-- SESI 2: MATH & DURATION (Timeline Model) -->
+    <!-- ====================================================================== -->
+    <div class="a4-page">
+        <div class="binder-holes"><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div></div>
+        <div class="page-content">
+            <div class="mission-header">
+                <div>
+                    <h2 class="text-2xl text-blue-900 uppercase">Misi 3: Kalkulasi Bahan Bakar</h2>
+                    <p class="handwritten text-blue-700">"Menghitung Durasi Perjalanan"</p>
+                </div>
+                <div class="text-right font-mono text-xs text-gray-500">HARI KE-2<br>MENUJU BORNEO</div>
+            </div>
+
+            <div class="flex gap-4 mb-6 items-start">
+                <svg class="captain-avatar drop-shadow-md"><use href="#captain-face"/></svg>
+                <div class="speech-bubble flex-1 bg-yellow-50">
+                    "Lapor! Perjalanan dari Pontianak ke Palangkaraya butuh waktu <b>300 Menit</b>! Berapa jam itu? Kita harus membagi waktu agar bahan bakar cukup. Gunakan <i>Timeline Bar</i> untuk menghitung!"
+                </div>
+            </div>
+
+            <!-- Example Box (Concept) -->
+            <div class="bg-green-50 border-2 border-green-200 p-4 rounded-xl mb-6 shadow-sm">
+                <h4 class="font-bold text-green-800 mb-2">📟 DATA KAPTEN: Konversi Waktu</h4>
+                <div class="flex items-center gap-4">
+                    <div class="text-3xl font-mono font-bold text-green-700">300 Menit</div>
+                    <div class="text-xl">➡️</div>
+                    <div class="flex-1">
+                        <div class="bar-model-container">
+                            <div class="bar-segment flex-1 border-r-0 rounded-l-md">60m<br>(1 Jam)</div>
+                            <div class="bar-segment flex-1 border-r-0">60m<br>(1 Jam)</div>
+                            <div class="bar-segment flex-1 border-r-0">60m<br>(1 Jam)</div>
+                            <div class="bar-segment flex-1 border-r-0">60m<br>(1 Jam)</div>
+                            <div class="bar-segment flex-1 rounded-r-md">60m<br>(1 Jam)</div>
+                        </div>
+                        <div class="text-center font-bold text-green-800 mt-1">= 5 JAM</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Soal Timeline 1 -->
+            <div class="mb-6 relative">
+                <h4 class="font-bold text-blue-900 mb-1">🕹️ Kasus 1: Berapa Lama Perjalanannya?</h4>
+                <div class="bg-white border border-gray-300 p-4 rounded-lg shadow-inner">
+                    <p class="text-sm mb-4">Mulai: <b>10:45</b> &nbsp;&nbsp; Sampai: <b>13:15</b></p>
+                    
+                    <!-- Timeline Visual -->
+                    <div class="relative h-16 mt-2">
+                        <div class="absolute top-1/2 left-0 right-0 h-1 bg-gray-300 -translate-y-1/2"></div>
+                        <!-- Start -->
+                        <div class="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-4 bg-blue-600 rounded-full z-10"></div>
+                        <div class="absolute left-0 top-10 text-xs font-bold">10:45</div>
+                        
+                        <!-- End -->
+                        <div class="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 bg-red-600 rounded-full z-10"></div>
+                        <div class="absolute right-0 top-10 text-xs font-bold">13:15</div>
+
+                        <!-- Jumps (To be drawn by student) -->
+                        <div class="absolute left-10 top-0 text-xs text-gray-400 italic text-center w-full">
+                            (Gambar lompatan waktumu di sini!)
+                        </div>
+                    </div>
+                    <div class="flex justify-end items-center gap-2 mt-2">
+                        <span class="font-bold text-sm">Total Durasi:</span>
+                        <div class="border-b-2 border-black w-24 bg-yellow-100 h-6"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Soal Logika (Drill) -->
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-white border p-3 rounded shadow-sm">
+                    <p class="text-xs text-gray-500">Konversi Cepat:</p>
+                    <p class="font-bold text-lg mb-1">90 Menit = ?</p>
+                    <div class="text-right text-blue-600">....... Jam ....... Menit</div>
+                </div>
+                <div class="bg-white border p-3 rounded shadow-sm">
+                    <p class="text-xs text-gray-500">Konversi Cepat:</p>
+                    <p class="font-bold text-lg mb-1">150 Menit = ?</p>
+                    <div class="text-right text-blue-600">....... Jam ....... Menit</div>
+                </div>
+                <div class="bg-white border p-3 rounded shadow-sm">
+                    <p class="text-xs text-gray-500">Penjumlahan:</p>
+                    <p class="font-bold text-lg mb-1">08:00 + 2 Jam 30 Menit</p>
+                    <div class="text-right text-blue-600">Pukul: ...............</div>
+                </div>
+                <div class="bg-white border p-3 rounded shadow-sm">
+                    <p class="text-xs text-gray-500">Mundur Waktu:</p>
+                    <p class="font-bold text-lg mb-1">Tiba 17:00, Durasi 2 Jam</p>
+                    <div class="text-right text-blue-600">Berangkat: ...............</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ====================================================================== -->
+    <!-- SESI 3: ANGLES & ITINERARY -->
+    <!-- ====================================================================== -->
+    <div class="a4-page">
+        <div class="binder-holes"><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div></div>
+        <div class="page-content">
+            <div class="mission-header">
+                <div>
+                    <h2 class="text-2xl text-blue-900 uppercase">Misi 4: Navigasi Bintang</h2>
+                    <p class="handwritten text-blue-700">"Sudut & Peta Harta Karun"</p>
+                </div>
+                <div class="text-right font-mono text-xs text-gray-500">HARI KE-3<br>KALIMANTAN</div>
+            </div>
+
+             <!-- Captain Dialogue -->
+             <div class="flex gap-4 mb-6 items-start">
+                <svg class="captain-avatar drop-shadow-md"><use href="#captain-face"/></svg>
+                <div class="speech-bubble flex-1 bg-indigo-900 text-white border-indigo-700">
+                    "Malam hari di hutan Kalimantan gelap gulita! Kita pakai rasi bintang. Lihat, posisi bintang membentuk SUDUT di jam kita. <b>Ingat: 1 Langkah Angka = 30 Derajat!</b>"
+                </div>
+            </div>
+
+            <!-- Angle Visuals -->
+            <div class="flex justify-between gap-2 mb-6">
+                <div class="bg-green-50 border border-green-300 rounded p-2 text-center w-1/3">
+                    <div class="font-bold text-green-800 text-sm">LANCIP (Acute)</div>
+                    <div class="text-xs mb-1">&lt; 90&deg; (Kecil)</div>
+                    <div class="clock-face small mx-auto"><div class="absolute top-1/2 left-1/2 w-1 h-1 bg-black rounded-full z-10"></div><div class="absolute top-2 left-1/2 w-0.5 h-6 bg-black"></div><div class="absolute top-3 right-4 w-0.5 h-6 bg-red-600 origin-bottom rotate-45 transform translate-y-full"></div></div>
+                    <div class="mt-1 text-xs font-mono">Contoh: Jam 1, 2</div>
+                </div>
+                <div class="bg-yellow-50 border border-yellow-300 rounded p-2 text-center w-1/3">
+                    <div class="font-bold text-yellow-800 text-sm">TUMPUL (Obtuse)</div>
+                    <div class="text-xs mb-1">90&deg; - 180&deg; (Lebar)</div>
+                    <div class="clock-face small mx-auto"><div class="absolute top-1/2 left-1/2 w-1 h-1 bg-black rounded-full z-10"></div><div class="absolute top-2 left-1/2 w-0.5 h-6 bg-black"></div><div class="absolute top-10 right-3 w-0.5 h-6 bg-red-600 origin-top -rotate-[135deg]"></div></div>
+                    <div class="mt-1 text-xs font-mono">Contoh: Jam 4, 5</div>
+                </div>
+                <div class="bg-purple-50 border border-purple-300 rounded p-2 text-center w-1/3">
+                    <div class="font-bold text-purple-800 text-sm">REFLEKS</div>
+                    <div class="text-xs mb-1">&gt; 180&deg; (Memutar)</div>
+                    <div class="clock-face small mx-auto"><div class="absolute top-1/2 left-1/2 w-1 h-1 bg-black rounded-full z-10"></div><div class="absolute top-2 left-1/2 w-0.5 h-6 bg-black"></div><div class="absolute top-6 left-3 w-0.5 h-6 bg-red-600 origin-top rotate-[210deg]"></div></div>
+                    <div class="mt-1 text-xs font-mono">Contoh: Jam 7, 8</div>
+                </div>
+            </div>
+
+            <!-- Itinerary Plan -->
+            <div class="bg-white border-2 border-blue-900 p-4 rounded-lg shadow-lg flex-1 relative">
+                <div class="absolute -top-3 left-4 bg-blue-900 text-white px-4 py-1 font-bold text-sm uppercase tracking-wider">Rencana Ekspedisi (Itinerary)</div>
+                
+                <p class="text-sm text-gray-600 mt-2 mb-4 italic">"Isi durasi ini untuk melengkapi Peta Kalimantan di halaman KIT!"</p>
+
+                <table class="w-full text-sm border-collapse">
+                    <thead class="bg-gray-100 border-b-2 border-gray-300">
+                        <tr>
+                            <th class="text-left p-2">Rute Perjalanan</th>
+                            <th class="text-center p-2">Waktu Mulai</th>
+                            <th class="text-center p-2 text-red-600">DURASI (Hitung!)</th>
+                            <th class="text-center p-2">Sampai</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-gray-200">
+                            <td class="p-3"><b>Pontianak ➡️ Palangkaraya</b><br><span class="text-xs text-gray-500">Naik Mobil Jeep</span></td>
+                            <td class="p-3 text-center font-mono">08:00</td>
+                            <td class="p-3 text-center bg-red-50 border-x border-red-200">
+                                <div class="h-8 border-b border-dashed border-red-400"></div>
+                            </td>
+                            <td class="p-3 text-center font-mono">13:00</td>
+                        </tr>
+                        <tr class="border-b border-gray-200">
+                            <td class="p-3"><b>Palangkaraya ➡️ Banjarmasin</b><br><span class="text-xs text-gray-500">Naik Perahu Klotok</span></td>
+                            <td class="p-3 text-center font-mono">14:00</td>
+                            <td class="p-3 text-center bg-red-50 border-x border-red-200">
+                                <div class="h-8 border-b border-dashed border-red-400"></div>
+                            </td>
+                            <td class="p-3 text-center font-mono">16:20</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3"><b>Banjarmasin ➡️ Balikpapan</b><br><span class="text-xs text-gray-500">Bis Antar Kota</span></td>
+                            <td class="p-3 text-center font-mono">07:00</td>
+                            <td class="p-3 text-center bg-red-50 border-x border-red-200">
+                                <div class="h-8 border-b border-dashed border-red-400"></div>
+                            </td>
+                            <td class="p-3 text-center font-mono">10:10</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="mt-4 text-right">
+                    <div class="inline-block border-2 border-blue-900 p-2 rotate-3">
+                        <div class="text-xs font-bold text-blue-900">TANDA TANGAN KAPTEN:</div>
+                        <div class="h-8 w-32 border-b border-black"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====================================================================== -->
+    <!-- KIT 1: JAM RAKITAN -->
+    <!-- ====================================================================== -->
+    <div class="a4-page bg-yellow-50">
+        <div class="page-content border-4 border-dashed border-gray-400 m-4">
+            <div class="flex justify-between items-center border-b-2 border-gray-400 pb-2 mb-4">
+                <h1 class="text-xl font-bold text-gray-700 uppercase flex items-center gap-2">✂️ KIT 1: Sparepart Jam</h1>
+                <div class="bg-gray-700 text-white px-3 py-1 rounded text-xs font-bold">GUNTING DI SINI</div>
+            </div>
+
+            <div class="flex-1 flex flex-col items-center justify-center gap-8">
+                <!-- Clock Body -->
+                 <div class="relative w-64 h-64 rounded-full border-8 border-blue-900 bg-white flex items-center justify-center shadow-xl">
+                    <div class="w-2 h-2 bg-black rounded-full"></div>
+                    <div class="absolute top-2 left-1/2 -translate-x-1/2 font-bold text-gray-300 text-xs">TOP</div>
+                    <div class="text-gray-200 font-bold text-4xl opacity-20 rotate-45">TIME EXPLORER</div>
+                 </div>
+
+                 <!-- Numbers -->
+                 <div class="w-full bg-gray-200 p-4 rounded-lg border-2 border-dashed border-gray-400">
+                    <p class="text-center text-xs font-bold text-gray-500 mb-2">ANGKA JAM (Potong & Tempel)</p>
+                    <div class="grid grid-cols-6 gap-4">
+                        <div class="bg-white border-2 border-blue-900 w-10 h-10 flex items-center justify-center font-serif font-bold text-xl rounded-full">12</div>
+                        <div class="bg-white border-2 border-blue-900 w-10 h-10 flex items-center justify-center font-serif font-bold text-xl rounded-full">1</div>
+                        <div class="bg-white border-2 border-blue-900 w-10 h-10 flex items-center justify-center font-serif font-bold text-xl rounded-full">2</div>
+                        <div class="bg-white border-2 border-blue-900 w-10 h-10 flex items-center justify-center font-serif font-bold text-xl rounded-full">3</div>
+                        <div class="bg-white border-2 border-blue-900 w-10 h-10 flex items-center justify-center font-serif font-bold text-xl rounded-full">4</div>
+                        <div class="bg-white border-2 border-blue-900 w-10 h-10 flex items-center justify-center font-serif font-bold text-xl rounded-full">5</div>
+                        <div class="bg-white border-2 border-blue-900 w-10 h-10 flex items-center justify-center font-serif font-bold text-xl rounded-full">6</div>
+                        <div class="bg-white border-2 border-blue-900 w-10 h-10 flex items-center justify-center font-serif font-bold text-xl rounded-full">7</div>
+                        <div class="bg-white border-2 border-blue-900 w-10 h-10 flex items-center justify-center font-serif font-bold text-xl rounded-full">8</div>
+                        <div class="bg-white border-2 border-blue-900 w-10 h-10 flex items-center justify-center font-serif font-bold text-xl rounded-full">9</div>
+                        <div class="bg-white border-2 border-blue-900 w-10 h-10 flex items-center justify-center font-serif font-bold text-xl rounded-full">10</div>
+                        <div class="bg-white border-2 border-blue-900 w-10 h-10 flex items-center justify-center font-serif font-bold text-xl rounded-full">11</div>
+                    </div>
+                 </div>
+
+                 <!-- Hands -->
+                 <div class="flex gap-8">
+                    <div class="flex flex-col items-center p-4 border-2 border-dashed border-red-400 rounded bg-white">
+                        <div class="w-4 h-24 bg-red-600 rounded-full border-2 border-black relative shadow-lg">
+                            <div class="absolute bottom-2 left-1/2 -translate-x-1/2 w-2 h-2 bg-white rounded-full"></div>
+                        </div>
+                        <span class="text-xs font-bold mt-2">JARUM PENDEK (JAM)</span>
+                    </div>
+                    <div class="flex flex-col items-center p-4 border-2 border-dashed border-blue-400 rounded bg-white">
+                        <div class="w-3 h-32 bg-blue-600 rounded-full border-2 border-black relative shadow-lg">
+                            <div class="absolute bottom-2 left-1/2 -translate-x-1/2 w-2 h-2 bg-white rounded-full"></div>
+                        </div>
+                        <span class="text-xs font-bold mt-2">JARUM PANJANG (MENIT)</span>
+                    </div>
+                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====================================================================== -->
+    <!-- KIT 2: PETA (MAP) -->
+    <!-- ====================================================================== -->
+    <div class="a4-page bg-amber-50">
+        <div class="page-content m-2">
+             <div class="flex justify-between items-center border-b-2 border-amber-700 pb-2 mb-2">
+                <h1 class="text-xl font-bold text-amber-900 uppercase flex items-center gap-2">🗺️ KIT 2: Peta Borneo</h1>
+                <div class="bg-amber-800 text-white px-3 py-1 rounded text-xs font-bold">TEMPEL DI DINDING</div>
+            </div>
+
+            <div class="relative flex-1 border-4 border-double border-amber-800 bg-[#e3f2fd] rounded-xl overflow-hidden p-4">
+                <!-- Water Texture -->
+                <div class="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgdmlld0JveD0iMCAwIDIwIDIwIiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMSI+PHBhdGggZD0iTTAgMTBRNSAxNSAxMCAxMFQyMCAxMCIgLz48L3N2Zz4=')]"></div>
+
+                <h2 class="absolute top-4 right-4 text-3xl font-serif text-amber-900 font-bold opacity-80 z-10">PULAU KALIMANTAN</h2>
+                <div class="absolute top-12 right-4 text-sm font-mono bg-white/80 p-1 border border-black z-10">SKALA 1 : WAKTU</div>
+
+                <svg viewBox="0 0 500 600" class="w-full h-full relative z-0">
+                     <!-- Kalimantan Shape (Simplified) -->
+                    <path d="M 50,350 L 80,250 L 180,200 L 250,100 L 350,130 L 450,250 L 450,350 L 400,450 L 350,500 L 250,530 L 150,500 L 100,420 Z" fill="#dcfce7" stroke="#166534" stroke-width="4" />
+                    
+                    <!-- Cities -->
+                    <!-- Pontianak -->
+                    <circle cx="80" cy="300" r="10" fill="#b91c1c" stroke="white" stroke-width="2" />
+                    <text x="80" y="330" text-anchor="middle" font-weight="bold" fill="#1e3a8a" font-size="14" style="text-shadow: 1px 1px 0 #fff">PONTIANAK</text>
+                    <text x="80" y="345" text-anchor="middle" font-size="10" fill="#000">(Start)</text>
+
+                     <!-- Palangkaraya -->
+                     <circle cx="250" cy="400" r="10" fill="#b91c1c" stroke="white" stroke-width="2" />
+                     <text x="250" y="430" text-anchor="middle" font-weight="bold" fill="#1e3a8a" font-size="14" style="text-shadow: 1px 1px 0 #fff">PALANGKARAYA</text>
+
+                     <!-- Banjarmasin -->
+                     <circle cx="320" cy="480" r="10" fill="#b91c1c" stroke="white" stroke-width="2" />
+                     <text x="320" y="510" text-anchor="middle" font-weight="bold" fill="#1e3a8a" font-size="14" style="text-shadow: 1px 1px 0 #fff">BANJARMASIN</text>
+
+                      <!-- Balikpapan -->
+                    <circle cx="420" cy="320" r="10" fill="#b91c1c" stroke="white" stroke-width="2" />
+                    <text x="420" y="350" text-anchor="middle" font-weight="bold" fill="#1e3a8a" font-size="14" style="text-shadow: 1px 1px 0 #fff">BALIKPAPAN</text>
+
+                    <!-- Routes -->
+                    <path d="M 80 300 Q 165 320 250 400" fill="none" stroke="#b91c1c" stroke-width="4" stroke-dasharray="8,4" />
+                    <path d="M 250 400 Q 285 450 320 480" fill="none" stroke="#b91c1c" stroke-width="4" stroke-dasharray="8,4" />
+                    <path d="M 320 480 Q 380 400 420 320" fill="none" stroke="#b91c1c" stroke-width="4" stroke-dasharray="8,4" />
+
+                    <!-- Input Boxes on Map -->
+                    <!-- Box 1 -->
+                    <rect x="130" y="330" width="100" height="35" rx="5" fill="white" stroke="#b91c1c" stroke-width="2"/>
+                    <text x="180" y="352" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">..... JAM</text>
+
+                     <!-- Box 2 -->
+                     <rect x="260" y="440" width="100" height="35" rx="5" fill="white" stroke="#b91c1c" stroke-width="2"/>
+                     <text x="310" y="462" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">..... JAM</text>
+
+                      <!-- Box 3 -->
+                    <rect x="370" y="380" width="100" height="35" rx="5" fill="white" stroke="#b91c1c" stroke-width="2"/>
+                    <text x="420" y="402" text-anchor="middle" font-size="12" font-weight="bold" fill="#9ca3af">..... JAM</text>
+                </svg>
+
+                <div class="absolute bottom-4 left-4 bg-white/90 p-2 rounded border border-amber-800 max-w-xs">
+                    <p class="text-xs font-bold text-amber-900">PERINTAH KAPTEN:</p>
+                    <p class="text-xs italic">"Salin hasil perhitungan durasi dari Itinerary ke kotak putih di peta ini!"</p>
+                </div>
+            </div>
         </div>
     </div>
 
