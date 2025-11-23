@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Worksheet Pelabuhan Ternate: Nona Dara</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Lexend:wght@400;600;800&family=Rye&display=swap");
+
+      :root {
+        --paper-bg: #fffdf5;
+        --ink-color: #1e293b;
+        --spice-brown: #78350f;
+        --spice-orange: #ea580c;
+        --spice-green: #15803d;
+        --ocean-blue: #0e7490;
+      }
+
+      body {
+        font-family: "Lexend", sans-serif;
+        background-color: #334155;
+        color: var(--ink-color);
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      /* Font Tema */
+      h1, h2, h3, .log-title { font-family: "Rye", serif; }
+      .handwritten { font-family: "Patrick Hand", cursive; }
+
+      /* A4 Page Setup */
+      .a4-page {
+        width: 210mm;
+        height: 297mm;
+        margin: 20px auto;
+        padding: 0;
+        background-color: var(--paper-bg);
+        background-image: 
+          linear-gradient(#d6d3d1 1px, transparent 1px),
+          linear-gradient(90deg, #d6d3d1 1px, transparent 1px);
+        background-size: 20px 20px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        position: relative;
+        overflow: hidden;
+        page-break-after: always;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #a8a29e;
+      }
+
+      /* Binder Effect */
+      .binder-holes {
+        position: absolute; left: 10px; top: 0; bottom: 0; width: 30px;
+        display: flex; flex-direction: column; justify-content: space-evenly; z-index: 50;
+        border-right: 2px dashed #a8a29e;
+      }
+      .hole {
+        width: 12px; height: 12px; background: #334155; border-radius: 50%;
+        box-shadow: inset 1px 1px 3px rgba(0,0,0,0.5);
+      }
+
+      .page-content {
+        padding: 15mm 15mm 15mm 20mm;
+        height: 100%;
+        display: flex; flex-direction: column; position: relative; z-index: 10;
+      }
+
+      @media print {
+        body { background: none; margin: 0; padding: 0; }
+        .a4-page { margin: 0; border: none; box-shadow: none; width: 210mm; height: 297mm; }
+        .print-hidden { display: none !important; }
+        .binder-holes { display: none; }
+        .page-content { padding: 15mm; }
+      }
+
+      /* Avatar & Speech Bubble */
+      .nona-avatar { width: 80px; height: 80px; flex-shrink: 0; }
+      .speech-bubble {
+        background: white; border: 2px solid var(--spice-orange); border-radius: 12px; padding: 10px;
+        position: relative; font-family: "Patrick Hand", cursive; font-size: 1rem;
+        box-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+      }
+      .speech-bubble::after {
+        content: ''; position: absolute; left: -10px; top: 20px;
+        border-top: 10px solid transparent; border-bottom: 10px solid transparent;
+        border-right: 10px solid var(--spice-orange);
+      }
+
+      .mission-header {
+        border-bottom: 3px double var(--spice-brown); padding-bottom: 10px; margin-bottom: 15px;
+        display: flex; justify-content: space-between; align-items: flex-end;
+      }
+
+      /* Component Styles */
+      .calendar-grid {
+        display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px;
+        border: 2px solid var(--spice-brown); background: var(--spice-brown);
+      }
+      .calendar-day {
+        background: white; aspect-ratio: 1/1; display: flex; 
+        align-items: start; justify-content: start; padding: 2px;
+        font-size: 0.7rem; font-weight: bold; position: relative;
+      }
+      
+      .bar-model {
+        display: flex; border: 2px solid black; height: 24px;
+      }
+      .bar-part {
+        flex: 1; border-right: 1px solid black; display: flex; align-items: center; justify-content: center;
+      }
+      .bar-part:last-child { border-right: none; }
+
+      .factor-circle {
+        width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--spice-brown);
+        background: white; display: flex; align-items: center; justify-content: center; font-weight: bold;
+      }
+
+    </style>
+  </head>
+  <body class="p-8 bg-gray-700">
+
+    <!-- Print Controls -->
+    <div class="print-hidden max-w-[210mm] mx-auto mb-6 flex justify-between items-center bg-white p-4 rounded-xl shadow-lg">
+        <div>
+            <h2 class="font-bold text-xl text-orange-800 font-serif">⚓ Worksheet Pelabuhan Ternate</h2>
+            <p class="text-sm text-gray-500">Gunakan selama pembelajaran (Sesi 1-3). Simpan untuk Project Akhir.</p>
+        </div>
+        <button onclick="window.print()" class="bg-orange-700 hover:bg-orange-800 text-white font-bold py-2 px-6 rounded-lg shadow flex items-center gap-2 transition-transform hover:scale-105">
+            🖨️ Cetak Worksheet
+        </button>
+    </div>
+
+    <!-- SVG DEFINITIONS -->
+    <svg style="display: none;">
+        <!-- Nona Dara Face (Hijab/Turban Style for Port Manager) -->
+        <symbol id="nona-face" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="#fce7f3" stroke="#ea580c" stroke-width="3"/> <!-- Skin -->
+            <path d="M 10 60 Q 50 100 90 60 V 20 Q 50 -20 10 20 Z" fill="#0e7490"/> <!-- Hijab/Headscarf -->
+            <circle cx="35" cy="55" r="4" fill="#78350f"/> <!-- Eye L -->
+            <circle cx="65" cy="55" r="4" fill="#78350f"/> <!-- Eye R -->
+            <path d="M 40 70 Q 50 80 60 70" fill="none" stroke="#ea580c" stroke-width="3" stroke-linecap="round"/> <!-- Smile -->
+            <rect x="20" y="80" width="60" height="20" rx="5" fill="#15803d"/> <!-- Uniform Collar -->
+        </symbol>
+        
+        <!-- Icons -->
+        <symbol id="icon-clove" viewBox="0 0 24 24">
+            <path d="M12 2L14 7H10L12 2M12 22V7" stroke="#78350f" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <circle cx="12" cy="5" r="2" fill="#78350f"/>
+        </symbol>
+        <symbol id="icon-nutmeg" viewBox="0 0 24 24">
+            <ellipse cx="12" cy="12" rx="8" ry="10" fill="#ea580c" stroke="#78350f" stroke-width="2"/>
+            <path d="M12 4C16 4 18 8 18 12" stroke="#78350f" stroke-width="1" fill="none" stroke-dasharray="2 2"/>
+        </symbol>
+        <symbol id="icon-ship" viewBox="0 0 24 24">
+             <path d="M2 16L4 20H20L22 16H2Z" fill="#0e7490" stroke="black" stroke-width="1"/>
+             <rect x="8" y="8" width="8" height="8" fill="white" stroke="black"/>
+             <line x1="12" y1="8" x2="12" y2="4" stroke="black" stroke-width="2"/>
+             <path d="M12 4L16 6H12" fill="red"/>
+        </symbol>
+    </svg>
+
+    <!-- ====================================================================== -->
+    <!-- COVER: WORKSHEET PELABUHAN -->
+    <!-- ====================================================================== -->
+    <div class="a4-page">
+        <div class="binder-holes"><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div></div>
+        <div class="page-content justify-center items-center text-center border-4 border-double border-orange-900 m-4">
+            
+            <div class="mb-4 flex gap-4 justify-center">
+                <svg class="w-16 h-16 text-orange-700 drop-shadow"><use href="#icon-nutmeg"/></svg>
+                <svg class="w-16 h-16 text-orange-700 drop-shadow"><use href="#icon-ship"/></svg>
+                <svg class="w-16 h-16 text-orange-700 drop-shadow"><use href="#icon-clove"/></svg>
+            </div>
+
+            <h1 class="text-5xl text-orange-900 mb-2 uppercase tracking-widest leading-tight">WORKSHEET<br>PELABUHAN</h1>
+            <h2 class="text-2xl text-cyan-800 mb-8 italic font-serif">"Misi Dagang Rempah Ternate"</h2>
+
+            <div class="bg-white/90 p-8 rounded-xl shadow-lg border-2 border-orange-900 w-4/5 mx-auto transform -rotate-1">
+                <div class="flex items-center gap-4 mb-6">
+                    <svg class="nona-avatar"><use href="#nona-face"/></svg>
+                    <div class="text-left">
+                        <p class="handwritten text-xl text-orange-900">"Salam, Petualang! Ini adalah lembar kerjamu. Gunakan untuk latihan. Nanti hasilnya akan kita potong dan tempel di Project Akhir!"</p>
+                    </div>
+                </div>
+                
+                <div class="space-y-4 text-left font-mono text-sm">
+                    <div>
+                        <label class="block font-bold text-orange-900 uppercase">Nama Petugas:</label>
+                        <div class="border-b-2 border-orange-900 h-8 w-full bg-orange-50"></div>
+                    </div>
+                    <div>
+                        <label class="block font-bold text-orange-900 uppercase">Divisi (Kelas):</label>
+                        <div class="border-b-2 border-orange-900 h-8 w-full bg-orange-50"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 text-xs font-mono text-gray-500">
+                DOKUMEN PEMBELAJARAN HARIAN<br>
+                ARSIP PELABUHAN TERNATE
+            </div>
+        </div>
+    </div>
+
+    <!-- ====================================================================== -->
+    <!-- SESI 1: JADWAL KAPAL (KPK) -->
+    <!-- ====================================================================== -->
+    <div class="a4-page">
+        <div class="binder-holes"><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div></div>
+        <div class="page-content">
+            <div class="mission-header">
+                <div>
+                    <h2 class="text-2xl text-orange-900 uppercase">Worksheet 1: Jadwal Kapal</h2>
+                    <p class="handwritten text-cyan-700">"Kapan Mereka Bertemu? (KPK)"</p>
+                </div>
+                <div class="text-right font-mono text-xs text-gray-500">DERMAGA UTAMA</div>
+            </div>
+
+            <!-- Dialogue -->
+            <div class="flex gap-4 mb-4 items-start">
+                <svg class="nona-avatar"><use href="#nona-face"/></svg>
+                <div class="speech-bubble flex-1 bg-cyan-50">
+                    "Kapal A datang tiap <b>4 hari</b>. Kapal B tiap <b>6 hari</b>. Gunakan kalender di bawah ini! Lingkari hari kedatangan Kapal A dengan <span class="text-blue-600 font-bold">BIRU</span> dan Kapal B dengan <span class="text-red-600 font-bold">MERAH</span>. Kapan warnanya bertemu?"
+                </div>
+            </div>
+
+            <!-- Calendar Activity -->
+            <div class="bg-white p-4 rounded-lg border-2 border-orange-200 mb-6 shadow-sm">
+                <h3 class="font-bold text-center text-orange-900 mb-2 font-serif">KALENDER PELABUHAN (Bulan Ini)</h3>
+                <div class="calendar-grid">
+                    <!-- 30 Days Grid -->
+                    <!-- Generating 30 divs -->
+                    <div class="calendar-day">1</div><div class="calendar-day">2</div><div class="calendar-day">3</div><div class="calendar-day">4</div><div class="calendar-day">5</div><div class="calendar-day">6</div><div class="calendar-day">7</div>
+                    <div class="calendar-day">8</div><div class="calendar-day">9</div><div class="calendar-day">10</div><div class="calendar-day">11</div><div class="calendar-day">12</div><div class="calendar-day">13</div><div class="calendar-day">14</div>
+                    <div class="calendar-day">15</div><div class="calendar-day">16</div><div class="calendar-day">17</div><div class="calendar-day">18</div><div class="calendar-day">19</div><div class="calendar-day">20</div><div class="calendar-day">21</div>
+                    <div class="calendar-day">22</div><div class="calendar-day">23</div><div class="calendar-day">24</div><div class="calendar-day">25</div><div class="calendar-day">26</div><div class="calendar-day">27</div><div class="calendar-day">28</div>
+                    <div class="calendar-day">29</div><div class="calendar-day">30</div><div class="calendar-day bg-gray-200"></div><div class="calendar-day bg-gray-200"></div><div class="calendar-day bg-gray-200"></div><div class="calendar-day bg-gray-200"></div><div class="calendar-day bg-gray-200"></div>
+                </div>
+                <p class="text-xs text-gray-500 mt-2 italic text-center">*Tempel stiker 💡 (Lampu) dari Learning Kit di hari pertemuan!</p>
+            </div>
+
+            <!-- Table Input -->
+            <div class="flex-1">
+                <div class="border-2 border-cyan-800 rounded-lg overflow-hidden">
+                    <table class="w-full text-sm">
+                        <thead class="bg-cyan-800 text-white">
+                            <tr>
+                                <th class="p-2 text-left">KAPAL</th>
+                                <th class="p-2 text-left">JADWAL DATANG (Kelipatan)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b">
+                                <td class="p-2 font-bold text-blue-800">Kapal A (4 Hari)</td>
+                                <td class="p-2 font-mono">4, 8, ....., ....., ....., .....</td>
+                            </tr>
+                            <tr class="border-b bg-gray-50">
+                                <td class="p-2 font-bold text-red-800">Kapal B (6 Hari)</td>
+                                <td class="p-2 font-mono">6, 12, ....., ....., ....., .....</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="mt-4 bg-yellow-100 border-2 border-yellow-400 p-4 rounded-xl text-center">
+                    <p class="font-bold text-orange-900 mb-2">LAPORAN PERTEMUAN (KPK)</p>
+                    <p class="text-sm">Kapal A dan B akan bertemu pertama kali pada hari ke:</p>
+                    <div class="w-24 h-12 border-b-4 border-orange-900 mx-auto text-3xl font-bold text-orange-900 text-center pt-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====================================================================== -->
+    <!-- SESI 1 PART 2: GUDANG REMPAH (FPB) -->
+    <!-- ====================================================================== -->
+    <div class="a4-page">
+        <div class="binder-holes"><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div></div>
+        <div class="page-content">
+            <div class="mission-header">
+                <div>
+                    <h2 class="text-2xl text-orange-900 uppercase">Worksheet 2: Gudang Rempah</h2>
+                    <p class="handwritten text-cyan-700">"Membagi Adil ke Kontainer (FPB)"</p>
+                </div>
+                <div class="text-right font-mono text-xs text-gray-500">GUDANG LOGISTIK</div>
+            </div>
+
+            <div class="flex gap-4 mb-6 items-center flex-row-reverse">
+                <svg class="nona-avatar" style="transform: scaleX(-1);"><use href="#nona-face"/></svg>
+                <div class="speech-bubble flex-1 bg-orange-50 text-right">
+                    "Kita punya <b>24 Pala</b> dan <b>18 Cengkeh</b>. Saya butuh jumlah kontainer paling banyak supaya isinya sama rata dan tidak ada sisa. Bantu saya menghitung faktornya!"
+                </div>
+            </div>
+
+            <!-- Factor Tree Activity -->
+            <div class="grid grid-cols-2 gap-8 mb-8">
+                <!-- Tree 24 -->
+                <div class="border-2 border-dashed border-gray-400 rounded-xl p-4 relative">
+                    <div class="absolute -top-3 left-4 bg-white px-2 font-bold text-orange-800">POHON FAKTOR 24 (PALA)</div>
+                    <div class="flex flex-col items-center gap-4 mt-2">
+                        <div class="factor-circle bg-orange-200">24</div>
+                        <div class="w-full flex justify-center gap-8 relative">
+                            <!-- Lines would be drawn by students, visual cues provided -->
+                            <div class="h-8 w-px bg-black absolute -top-4"></div>
+                            <div class="w-16 h-px bg-black absolute -top-4"></div>
+                            <div class="h-4 w-px bg-black absolute -top-4 left-1/2 transform -translate-x-8"></div>
+                            <div class="h-4 w-px bg-black absolute -top-4 left-1/2 transform translate-x-8"></div>
+                        </div>
+                        <div class="flex gap-16">
+                            <div class="factor-circle"></div>
+                            <div class="factor-circle"></div>
+                        </div>
+                        <p class="text-xs text-gray-400 italic mt-8 text-center">(Lanjutkan cabang pohon sampai angka prima!)</p>
+                    </div>
+                </div>
+
+                <!-- Tree 18 -->
+                <div class="border-2 border-dashed border-gray-400 rounded-xl p-4 relative">
+                    <div class="absolute -top-3 left-4 bg-white px-2 font-bold text-orange-800">POHON FAKTOR 18 (CENGKEH)</div>
+                    <div class="flex flex-col items-center gap-4 mt-2">
+                        <div class="factor-circle bg-orange-200">18</div>
+                        <div class="w-full flex justify-center gap-8 relative">
+                            <div class="h-8 w-px bg-black absolute -top-4"></div>
+                            <div class="w-16 h-px bg-black absolute -top-4"></div>
+                            <div class="h-4 w-px bg-black absolute -top-4 left-1/2 transform -translate-x-8"></div>
+                            <div class="h-4 w-px bg-black absolute -top-4 left-1/2 transform translate-x-8"></div>
+                        </div>
+                        <div class="flex gap-16">
+                            <div class="factor-circle"></div>
+                            <div class="factor-circle"></div>
+                        </div>
+                        <p class="text-xs text-gray-400 italic mt-8 text-center">(Lanjutkan cabang pohon sampai angka prima!)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Result Box -->
+            <div class="bg-green-50 border-2 border-green-600 rounded-xl p-4">
+                <h3 class="font-bold text-green-900 mb-2">KEPUTUSAN MANAJER (FPB):</h3>
+                <p class="text-sm mb-2">Jumlah kontainer terbanyak yang bisa kita siapkan adalah:</p>
+                <div class="flex items-center gap-4">
+                    <div class="w-20 h-12 border-2 border-black bg-white rounded flex items-center justify-center text-2xl font-bold"></div>
+                    <span class="font-bold text-lg">Kontainer</span>
+                </div>
+                <div class="mt-4 border-t border-green-300 pt-2 text-sm">
+                    <p>Setiap kontainer berisi:</p>
+                    <ul class="list-disc pl-5">
+                        <li>...... Pala</li>
+                        <li>...... Cengkeh</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====================================================================== -->
+    <!-- SESI 2: RASIO KARGO (DIPERBANYAK) -->
+    <!-- ====================================================================== -->
+    <div class="a4-page">
+        <div class="binder-holes"><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div></div>
+        <div class="page-content">
+            <div class="mission-header">
+                <div>
+                    <h2 class="text-2xl text-orange-900 uppercase">Worksheet 3: Kapal Miring!</h2>
+                    <p class="handwritten text-cyan-700">"Menjaga Keseimbangan (Rasio)"</p>
+                </div>
+                <div class="text-right font-mono text-xs text-gray-500">DEK KARGO</div>
+            </div>
+
+            <div class="flex gap-4 mb-4 items-start">
+                <svg class="nona-avatar"><use href="#nona-face"/></svg>
+                <div class="speech-bubble flex-1 bg-red-50 border-red-300">
+                    "Bahaya! Aturan keamanan kapal: Untuk setiap <b>2 Kotak Pala</b>, harus ada <b>5 Kotak Cengkeh</b> (2:5). Hitung muatan yang aman!"
+                </div>
+            </div>
+
+            <!-- Activity 1: Drawing Ratio (Mini) -->
+            <div class="mb-4">
+                <h3 class="font-bold text-orange-900 mb-1 text-sm">1. POLA DASAR (2:5)</h3>
+                <div class="bar-model w-1/2 mb-1">
+                    <div class="bar-part bg-red-100 font-bold text-red-800">P</div><div class="bar-part bg-red-100 font-bold text-red-800">P</div>
+                    <div class="bar-part bg-green-100 font-bold text-green-800">C</div><div class="bar-part bg-green-100 font-bold text-green-800">C</div><div class="bar-part bg-green-100 font-bold text-green-800">C</div><div class="bar-part bg-green-100 font-bold text-green-800">C</div><div class="bar-part bg-green-100 font-bold text-green-800">C</div>
+                </div>
+            </div>
+
+            <!-- Activity 2: Equivalent Ratio (EXPANDED) -->
+            <div class="mb-4">
+                <h3 class="font-bold text-orange-900 mb-2 text-sm">2. PERBESAR MUATAN (Hitung Cepat!)</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Soal 1 -->
+                    <div class="border border-gray-400 p-2 rounded bg-white shadow-sm">
+                        <p class="text-sm font-bold text-center mb-1">Jika ada 4 Pala...</p>
+                        <div class="flex justify-center mb-1 gap-1"><div class="w-4 h-4 bg-red-500"></div><div class="w-4 h-4 bg-red-500"></div><div class="w-4 h-4 bg-red-500"></div><div class="w-4 h-4 bg-red-500"></div></div>
+                        <p class="text-xs text-center mb-1 text-gray-500">(2x Lipat)</p>
+                        <div class="text-center font-bold mt-1 bg-gray-100 p-1 rounded">Butuh ..... Cengkeh</div>
+                    </div>
+                    <!-- Soal 2 -->
+                    <div class="border border-gray-400 p-2 rounded bg-white shadow-sm">
+                        <p class="text-sm font-bold text-center mb-1">Jika ada 6 Pala...</p>
+                        <div class="flex justify-center mb-1 gap-1"><div class="w-4 h-4 bg-red-500"></div><div class="w-4 h-4 bg-red-500"></div><div class="w-4 h-4 bg-red-500"></div><div class="w-4 h-4 bg-red-500"></div><div class="w-4 h-4 bg-red-500"></div><div class="w-4 h-4 bg-red-500"></div></div>
+                        <p class="text-xs text-center mb-1 text-gray-500">(3x Lipat)</p>
+                        <div class="text-center font-bold mt-1 bg-gray-100 p-1 rounded">Butuh ..... Cengkeh</div>
+                    </div>
+                    <!-- Soal 3 (Expanded) -->
+                    <div class="border border-gray-400 p-2 rounded bg-white shadow-sm">
+                        <p class="text-sm font-bold text-center mb-1">Jika ada 8 Pala...</p>
+                        <p class="text-xs text-center mb-1 text-gray-500">(4x Lipat)</p>
+                        <div class="text-center font-bold mt-1 bg-gray-100 p-1 rounded">Butuh ..... Cengkeh</div>
+                    </div>
+                    <!-- Soal 4 (Expanded - Reverse Logic) -->
+                    <div class="border-2 border-dashed border-red-400 p-2 rounded bg-red-50 shadow-sm relative">
+                        <div class="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] px-2 rounded font-bold">TANTANGAN</div>
+                        <p class="text-sm font-bold text-center mb-1">Jika ada 10 Cengkeh...</p>
+                        <p class="text-xs text-center mb-1 text-gray-500">(Diketahui Cengkehnya)</p>
+                        <div class="text-center font-bold mt-1 bg-white p-1 rounded border border-red-300">Butuh ..... Pala</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activity 3: Create Your Own -->
+            <div class="flex-1 border-2 border-dashed border-orange-400 bg-orange-50 rounded-xl p-4">
+                <h3 class="font-bold text-orange-900 mb-2 flex items-center gap-2">
+                    <span>⭐</span> DESAIN KARGO IDEALMU
+                </h3>
+                <p class="text-sm text-gray-700 mb-4">Pilih rasiomu sendiri (misal 3:4) dan gambar bar modelnya di bawah ini!</p>
+                
+                <div class="bg-white border-2 border-black h-20 w-full mb-4 relative">
+                    <p class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-gray-300 italic text-xs">(Gambar kotak-kotak di sini)</p>
+                </div>
+
+                <div class="flex gap-4 items-center">
+                    <label class="font-bold text-sm">Rasio:</label>
+                    <div class="border-b-2 border-black w-12 text-center font-bold"></div>
+                    <span class="font-bold">:</span>
+                    <div class="border-b-2 border-black w-12 text-center font-bold"></div>
+                </div>
+                <div class="mt-2">
+                    <label class="font-bold text-sm">Alasan:</label>
+                    <div class="border-b border-black w-full mt-4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====================================================================== -->
+    <!-- SESI 3: LAPORAN DATA (GRAFIK BATANG + ANALISIS) -->
+    <!-- ====================================================================== -->
+    <div class="a4-page">
+        <div class="binder-holes"><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div><div class="hole"></div></div>
+        <div class="page-content">
+            <div class="mission-header">
+                <div>
+                    <h2 class="text-2xl text-orange-900 uppercase">Worksheet 4: Laporan Bulanan</h2>
+                    <p class="handwritten text-cyan-700">"Analisis Data Pelabuhan"</p>
+                </div>
+                <div class="text-right font-mono text-xs text-gray-500">KANTOR PUSAT</div>
+            </div>
+
+            <div class="flex gap-4 mb-4 items-start">
+                <svg class="nona-avatar"><use href="#nona-face"/></svg>
+                <div class="speech-bubble flex-1 bg-green-50 border-green-600 text-sm">
+                    "Saya harus lapor ke kantor pusat! Data kargo bulan ini menumpuk: <b>Gula 4 Ton, Kopi 7 Ton, Rempah 5 Ton</b>. Tolong buatkan GRAFIK BATANG agar mudah dibaca!"
+                </div>
+            </div>
+
+            <!-- Graph Area -->
+            <div class="bg-white border-2 border-gray-800 p-6 rounded-lg shadow-md mb-8 relative">
+                <div class="absolute top-2 right-2 bg-yellow-100 px-2 py-1 text-xs border border-black font-mono">DATA: G=4, K=7, R=5</div>
+                
+                <div class="flex">
+                    <!-- Y Axis Label -->
+                    <div class="w-6 flex items-center justify-center">
+                        <span class="transform -rotate-90 text-xs font-bold text-gray-600 whitespace-nowrap">BERAT (TON)</span>
+                    </div>
+                    
+                    <div class="flex-1 ml-2 mt-2 border-l-2 border-b-2 border-black h-80 relative" style="background-size: 100% 12.5%; background-image: linear-gradient(to bottom, #e5e7eb 1px, transparent 1px);">
+                        <!-- Scale Numbers -->
+                        <div class="absolute -left-4 bottom-0 text-xs">0</div>
+                        <div class="absolute -left-4 bottom-[12.5%] text-xs">1</div>
+                        <div class="absolute -left-4 bottom-[25%] text-xs">2</div>
+                        <div class="absolute -left-4 bottom-[37.5%] text-xs">3</div>
+                        <div class="absolute -left-4 bottom-[50%] text-xs">4</div>
+                        <div class="absolute -left-4 bottom-[62.5%] text-xs">5</div>
+                        <div class="absolute -left-4 bottom-[75%] text-xs">6</div>
+                        <div class="absolute -left-4 bottom-[87.5%] text-xs">7</div>
+                        <div class="absolute -left-4 top-0 text-xs">8</div>
+
+                        <!-- Bars Area (Empty for students to draw) -->
+                        <div class="flex justify-around items-end h-full px-4">
+                            <div class="w-12 bg-gray-100 border border-dashed border-gray-400 h-full flex items-end justify-center pb-1 text-xs text-gray-400">Gula</div>
+                            <div class="w-12 bg-gray-100 border border-dashed border-gray-400 h-full flex items-end justify-center pb-1 text-xs text-gray-400">Kopi</div>
+                            <div class="w-12 bg-gray-100 border border-dashed border-gray-400 h-full flex items-end justify-center pb-1 text-xs text-gray-400">Rempah</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-1 text-xs font-bold text-gray-600">JENIS KARGO</div>
+            </div>
+
+            <!-- Analysis (EXPANDED) -->
+            <div class="bg-orange-50 p-5 rounded-xl border-2 border-orange-300 flex-1 mt-4">
+                <h3 class="font-bold text-orange-900 mb-2 text-sm border-b border-orange-400 pb-1">TANYA JAWAB DATA</h3>
+                
+                <div class="grid grid-cols-1 gap-4 text-sm">
+                    <!-- Q1 -->
+                    <div class="flex justify-between items-center">
+                        <span>1. Kargo apa yang paling banyak?</span>
+                        <div class="border-b-2 border-black w-24 text-center font-bold text-blue-900"></div>
+                    </div>
+                    <!-- Q2 (New) -->
+                    <div class="flex justify-between items-center">
+                        <span>2. Kargo apa yang paling sedikit?</span>
+                        <div class="border-b-2 border-black w-24 text-center font-bold text-blue-900"></div>
+                    </div>
+                    <!-- Q3 (New - Calculation) -->
+                    <div class="flex justify-between items-center">
+                        <span>3. Berapa total semua kargo? (4+7+5)</span>
+                        <div class="flex items-center gap-1">
+                            <div class="border-b-2 border-black w-12 text-center font-bold text-blue-900"></div>
+                            <span class="text-xs">Ton</span>
+                        </div>
+                    </div>
+                    <!-- Q4 (New - Difference) -->
+                    <div class="flex justify-between items-center">
+                        <span>4. Selisih berat Kopi dan Gula?</span>
+                        <div class="flex items-center gap-1">
+                            <div class="border-b-2 border-black w-12 text-center font-bold text-blue-900"></div>
+                            <span class="text-xs">Ton</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Q5 (Checklist Logic) -->
+                    <div class="mt-2 bg-white p-2 rounded border border-gray-300">
+                        <p class="font-bold text-xs mb-1">5. Detektif Data: Benar atau Salah?</p>
+                        <div class="flex items-center gap-2 text-xs mb-1">
+                            <div class="w-4 h-4 border border-black rounded-full"></div>
+                            <span>Rempah lebih berat daripada Gula.</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs">
+                            <div class="w-4 h-4 border border-black rounded-full"></div>
+                            <span>Kopi adalah muatan paling ringan.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer Note -->
+            <div class="mt-auto pt-2 text-center text-xs text-gray-400 font-mono border-t border-gray-300">
+                HASIL INI AKAN DIPAKAI UNTUK LAPORAN AKHIR (PROJECT)
+            </div>
+        </div>
+    </div>
+
+    <!-- ====================================================================== -->
+    <!-- KIT PAGE: TOKEN & STIKER -->
+    <!-- ====================================================================== -->
+    <div class="a4-page bg-blue-50">
+        <div class="page-content border-4 border-dashed border-gray-400 m-4">
+            <div class="flex justify-between items-center border-b-2 border-gray-400 pb-2 mb-4">
+                <h1 class="text-xl font-bold text-gray-700 uppercase flex items-center gap-2">✂️ LEARNING KIT: REMPAH & KAPAL</h1>
+                <div class="bg-gray-700 text-white px-3 py-1 rounded text-xs font-bold">GUNTING & TEMPEL</div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-8">
+                <!-- Column 1: Ships -->
+                <div class="bg-white p-4 rounded border-2 border-dashed border-blue-300">
+                    <h3 class="text-center font-bold text-blue-800 mb-4">TOKEN KAPAL (Untuk Timeline)</h3>
+                    <div class="flex flex-wrap gap-4 justify-center">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex flex-col items-center justify-center border-2 border-blue-500">
+                            <svg class="w-8 h-8 text-blue-800"><use href="#icon-ship"/></svg>
+                            <span class="text-xs font-bold text-blue-800">KAPAL A</span>
+                        </div>
+                        <div class="w-16 h-16 bg-red-100 rounded-full flex flex-col items-center justify-center border-2 border-red-500">
+                            <svg class="w-8 h-8 text-red-800"><use href="#icon-ship"/></svg>
+                            <span class="text-xs font-bold text-red-800">KAPAL B</span>
+                        </div>
+                        <div class="w-12 h-12 bg-yellow-200 rounded-full flex items-center justify-center border-2 border-yellow-500 shadow-lg">
+                            <span class="text-2xl">💡</span>
+                        </div>
+                        <div class="w-12 h-12 bg-yellow-200 rounded-full flex items-center justify-center border-2 border-yellow-500 shadow-lg">
+                            <span class="text-2xl">💡</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2: Spices -->
+                <div class="bg-white p-4 rounded border-2 border-dashed border-orange-300">
+                    <h3 class="text-center font-bold text-orange-800 mb-4">STIKER KARGO (Untuk Grafik)</h3>
+                    <div class="grid grid-cols-3 gap-2">
+                        <!-- Gula (Sugar Cubes) -->
+                        <div class="w-10 h-10 bg-gray-100 border border-gray-400 flex items-center justify-center text-[10px] font-bold">GULA</div>
+                        <div class="w-10 h-10 bg-gray-100 border border-gray-400 flex items-center justify-center text-[10px] font-bold">GULA</div>
+                        <div class="w-10 h-10 bg-gray-100 border border-gray-400 flex items-center justify-center text-[10px] font-bold">GULA</div>
+                        
+                        <!-- Kopi -->
+                        <div class="w-10 h-10 bg-amber-900 text-white border border-black flex items-center justify-center text-[10px] font-bold">KOPI</div>
+                        <div class="w-10 h-10 bg-amber-900 text-white border border-black flex items-center justify-center text-[10px] font-bold">KOPI</div>
+                        <div class="w-10 h-10 bg-amber-900 text-white border border-black flex items-center justify-center text-[10px] font-bold">KOPI</div>
+
+                        <!-- Rempah -->
+                        <div class="w-10 h-10 bg-orange-200 border border-orange-600 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-orange-800"><use href="#icon-clove"/></svg>
+                        </div>
+                        <div class="w-10 h-10 bg-orange-200 border border-orange-600 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-orange-800"><use href="#icon-nutmeg"/></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Badge -->
+            <div class="mt-8 flex justify-center">
+                <div class="border-4 border-double border-orange-600 bg-yellow-50 p-4 rounded-full w-48 h-48 flex flex-col items-center justify-center text-center shadow-xl rotate-3">
+                    <div class="text-4xl mb-1">⚓</div>
+                    <h3 class="font-bold text-orange-900 text-sm leading-tight">PETUGAS DATA CILIK</h3>
+                    <h2 class="font-serif text-xl text-cyan-800 my-1">PELABUHAN<br>TERNATE</h2>
+                    <div class="w-full h-px bg-orange-300 my-1"></div>
+                    <p class="text-[10px] font-mono">AUTHORIZED PERSONNEL</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+  </body>
+</html>
