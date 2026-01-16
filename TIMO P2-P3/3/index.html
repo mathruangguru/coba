@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIMO Practice Set 3 - Primary Level</title>
+    <style>
+        :root {
+            --primary: #059669; /* Emerald/Teal theme for Set 3 */
+            --secondary: #047857;
+            --bg: #ecfdf5;
+            --card-bg: #ffffff;
+            --text: #064e3b;
+            --success: #10b981;
+            --error: #ef4444;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 2px solid #34d399;
+        }
+
+        h1 { margin: 0; font-size: 2.5em; }
+        p.subtitle { opacity: 0.9; font-size: 1.1em; margin-top: 10px; }
+        
+        .set-badge {
+            background: #ffffff;
+            color: var(--primary);
+            font-weight: bold;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .category-header {
+            background-color: var(--text);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-left: 5px solid #34d399;
+        }
+
+        .question-card {
+            background: var(--card-bg);
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid #a7f3d0;
+            transition: transform 0.2s;
+        }
+
+        .question-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .q-number {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .q-text-en { font-weight: 600; font-size: 1.1em; margin-bottom: 8px; }
+        .q-text-id { color: #065f46; font-style: italic; margin-bottom: 15px; font-size: 0.95em; opacity: 0.8; }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            border: 2px solid #d1fae5;
+            border-radius: 6px;
+            width: 150px;
+            font-size: 1em;
+            color: var(--text);
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .btn-check { background-color: var(--primary); color: white; }
+        .btn-check:hover { background-color: var(--secondary); }
+
+        .btn-solution { background-color: #d1fae5; color: var(--text); margin-left: auto; }
+        .btn-solution:hover { background-color: #a7f3d0; }
+
+        .feedback {
+            margin-top: 10px;
+            font-weight: bold;
+            display: none;
+        }
+        .feedback.correct { color: var(--success); display: block; }
+        .feedback.incorrect { color: var(--error); display: block; }
+
+        .solution-panel {
+            background-color: #f0fdf4;
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            margin-top: 15px;
+            display: none;
+            font-size: 0.95em;
+        }
+
+        .solution-panel.visible { display: block; }
+
+        .math-pattern {
+            font-family: 'Courier New', monospace;
+            background: #d1fae5;
+            padding: 10px;
+            border-radius: 4px;
+            display: inline-block;
+            margin: 10px 0;
+            font-weight: bold;
+            color: var(--text);
+        }
+
+        .shape-container {
+            font-size: 1.5em;
+            margin: 10px 0;
+            background: #f0fdf4;
+            padding: 10px;
+            border-radius: 8px;
+            display: inline-block;
+            border: 1px dashed var(--primary);
+        }
+        
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8em; }
+            .input-group { flex-direction: column; align-items: stretch; }
+            .btn-solution { margin-left: 0; margin-top: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>TIMO Practice Set 3</h1>
+        <div class="set-badge">Varied Question Types</div>
+        <p class="subtitle">Primary 2/3 Preparation Level</p>
+        <p style="font-size: 0.9em; margin-top: 5px;">Focus: Assumption Method, Substitution, & Logic Traps</p>
+    </header>
+
+    <div id="quiz-content">
+        <!-- Questions will be injected here by JavaScript -->
+    </div>
+
+</div>
+
+<script>
+    // Question Database - Set 3
+    const questions = [
+        // --- LOGICAL THINKING ---
+        {
+            id: 1,
+            category: "Logical Thinking",
+            text_en: "If 3 cats can catch 3 mice in 3 minutes, how many minutes does it take for 100 cats to catch 100 mice?",
+            text_id: "Jika 3 kucing dapat menangkap 3 tikus dalam 3 menit, berapa menit yang dibutuhkan 100 kucing untuk menangkap 100 tikus?",
+            answer: "3",
+            accepted_answers: ["3"],
+            solution: "<strong>Strategy: Logic Trap (Rate)</strong><br>3 cats catch 3 mice in 3 minutes.<br>This means 1 cat catches 1 mouse in 3 minutes (working simultaneously).<br>If you have 100 cats working simultaneously, each catches 1 mouse.<br>The time taken is still <strong>3</strong> minutes."
+        },
+        {
+            id: 2,
+            category: "Logical Thinking",
+            text_en: "Find the missing number: 1, 1, 2, 3, 5, 8, __, 21.",
+            text_id: "Temukan angka yang hilang: 1, 1, 2, 3, 5, 8, __, 21.",
+            answer: "13",
+            accepted_answers: ["13"],
+            solution: "<strong>Strategy: Fibonacci Sequence</strong><br>Each number is the sum of the two preceding ones.<br>1 + 1 = 2<br>1 + 2 = 3<br>2 + 3 = 5<br>3 + 5 = 8<br>5 + 8 = <strong>13</strong>.<br>Check: 8 + 13 = 21."
+        },
+        {
+            id: 3,
+            category: "Logical Thinking",
+            text_en: "Given: 1 Pineapple = 2 Apples, and 1 Apple = 3 Strawberries. How many Strawberries equal 1 Pineapple?",
+            text_id: "Diketahui: 1 Nanas = 2 Apel, dan 1 Apel = 3 Stroberi. Berapa Stroberi yang setara dengan 1 Nanas?",
+            answer: "6",
+            accepted_answers: ["6"],
+            solution: "<strong>Strategy: Substitution</strong><br>1 P = 2 A<br>Since 1 A = 3 S, then 2 A = 2 × 3 S = 6 S.<br>Therefore, 1 P = <strong>6</strong> Strawberries."
+        },
+        {
+            id: 4,
+            category: "Logical Thinking",
+            text_en: "The sum of ages of Tom and Jerry 3 years ago was 15. What will be the sum of their ages 3 years from now?",
+            text_id: "Jumlah umur Tom dan Jerry 3 tahun yang lalu adalah 15. Berapakah jumlah umur mereka 3 tahun dari sekarang?",
+            answer: "27",
+            accepted_answers: ["27"],
+            solution: "<strong>Strategy: Timeline Addition</strong><br>Sum 3 years ago = 15.<br>From '3 years ago' to 'Now', 2 people grow 3 years older. Sum increases by 2 × 3 = 6.<br>Sum Now = 15 + 6 = 21.<br>From 'Now' to '3 years later', sum increases by 2 × 3 = 6.<br>Final Sum = 21 + 6 = <strong>27</strong>.<br>(Or simply: Difference in years is 6. 2 people × 6 years = +12. 15 + 12 = 27)."
+        },
+        {
+            id: 5,
+            category: "Logical Thinking",
+            text_en: "In a line, Alice is the 6th person from the front and Bob is the 10th person from the back. If there are 20 people in the line, how many people are between Alice and Bob?",
+            text_id: "Dalam antrian, Alice adalah orang ke-6 dari depan dan Bob adalah orang ke-10 dari belakang. Jika ada 20 orang dalam antrian, berapa orang di antara Alice dan Bob?",
+            answer: "4",
+            accepted_answers: ["4"],
+            solution: "<strong>Strategy: Total - (Left + Right)</strong><br>Total people = 20.<br>People up to Alice (from front) = 6.<br>People up to Bob (from back) = 10.<br>Total occupied by Alice+Front and Bob+Back = 6 + 10 = 16.<br>People in between = Total - 16 = 20 - 16 = <strong>4</strong>."
+        },
+        {
+            id: 6,
+            category: "Logical Thinking",
+            text_en: "Find '?' based on the pattern:",
+            text_id: "Temukan '?' berdasarkan pola:",
+            content: "<div class='math-pattern'>12 ( 9 ) 6 <br> 20 ( 12 ) 4 <br> 30 ( ? ) 10</div>",
+            answer: "20",
+            accepted_answers: ["20"],
+            solution: "<strong>Strategy: Center Number Logic</strong><br>First line: (12 + 6) ÷ 2 = 9.<br>Second line: (20 + 4) ÷ 2 = 12.<br>Pattern: Average of outer numbers.<br>Third line: (30 + 10) ÷ 2 = 40 ÷ 2 = <strong>20</strong>."
+        },
+
+        // --- ARITHMETIC ---
+        {
+            id: 7,
+            category: "Arithmetic",
+            text_en: "Find the value of: 9 + 99 + 999 + 4",
+            text_id: "Temukan nilai dari: 9 + 99 + 999 + 4",
+            answer: "1111",
+            accepted_answers: ["1111"],
+            solution: "<strong>Strategy: Make a Whole Number</strong><br>Split the 4 into 1 + 1 + 1 + 1.<br>(9 + 1) + (99 + 1) + (999 + 1) + 1<br>= 10 + 100 + 1000 + 1<br>= 1110 + 1 = <strong>1111</strong>."
+        },
+        {
+            id: 8,
+            category: "Arithmetic",
+            text_en: "Calculate: 2024 - 204 - 20 - 4",
+            text_id: "Hitung: 2024 - 204 - 20 - 4",
+            answer: "1796",
+            accepted_answers: ["1796"],
+            solution: "<strong>Strategy: Subtraction</strong><br>2024 - 204 = 1820<br>1820 - 20 = 1800<br>1800 - 4 = <strong>1796</strong>."
+        },
+        {
+            id: 9,
+            category: "Arithmetic",
+            text_en: "If A × 5 + 15 = 50, find A.",
+            text_id: "Jika A × 5 + 15 = 50, temukan A.",
+            answer: "7",
+            accepted_answers: ["7"],
+            solution: "<strong>Strategy: Work Backwards</strong><br>50 - 15 = 35<br>35 ÷ 5 = 7<br>A = <strong>7</strong>."
+        },
+        {
+            id: 10,
+            category: "Arithmetic",
+            text_en: "Calculate the sum of all even numbers from 2 to 20.",
+            text_id: "Hitung jumlah semua bilangan genap dari 2 sampai 20.",
+            answer: "110",
+            accepted_answers: ["110"],
+            solution: "<strong>Strategy: Arithmetic Progression Sum</strong><br>Sequence: 2, 4, 6 ... 20.<br>Number of terms = 10.<br>Sum = (First + Last) × Count ÷ 2<br>= (2 + 20) × 10 ÷ 2<br>= 22 × 5 = <strong>110</strong>."
+        },
+        {
+            id: 11,
+            category: "Arithmetic",
+            text_en: "Find the value of: 1000 - 1 - 2 - 3 - 4 - ... - 10.",
+            text_id: "Temukan nilai dari: 1000 - 1 - 2 - 3 - 4 - ... - 10.",
+            answer: "945",
+            accepted_answers: ["945"],
+            solution: "<strong>Strategy: Subtracting a Sum</strong><br>First, find sum of 1 to 10.<br>Sum = (1 + 10) × 10 ÷ 2 = 55.<br>Equation becomes: 1000 - 55.<br>1000 - 55 = <strong>945</strong>."
+        },
+        {
+            id: 12,
+            category: "Arithmetic",
+            text_en: "What is 4 × 5 × 6 × 7?",
+            text_id: "Berapakah 4 × 5 × 6 × 7?",
+            answer: "840",
+            accepted_answers: ["840"],
+            solution: "<strong>Strategy: Smart Grouping</strong><br>4 × 5 = 20.<br>6 × 7 = 42.<br>20 × 42 = 2 × 42 × 10 = 84 × 10 = <strong>840</strong>."
+        },
+
+        // --- NUMBER THEORY ---
+        {
+            id: 13,
+            category: "Number Theory",
+            text_en: "Define a ♦ b = (a + b) ÷ 2. Find (12 ♦ 8) ♦ 5.",
+            text_id: "Definisikan a ♦ b = (a + b) ÷ 2. Temukan (12 ♦ 8) ♦ 5.",
+            answer: "7.5",
+            accepted_answers: ["7.5", "7,5", "7 1/2"],
+            solution: "<strong>Strategy: Order of Operations</strong><br>Step 1: 12 ♦ 8 = (12 + 8) ÷ 2 = 20 ÷ 2 = 10.<br>Step 2: 10 ♦ 5 = (10 + 5) ÷ 2 = 15 ÷ 2 = <strong>7.5</strong>."
+        },
+        {
+            id: 14,
+            category: "Number Theory",
+            text_en: "How many digits are used to write numbers from 1 to 20?",
+            text_id: "Berapa digit yang digunakan untuk menulis angka dari 1 sampai 20?",
+            answer: "31",
+            accepted_answers: ["31"],
+            solution: "<strong>Strategy: Counting Digits</strong><br>1-9 (1-digit numbers): 9 digits.<br>10-20 (2-digit numbers): There are 11 numbers (10,11,12...20).<br>11 numbers × 2 digits = 22 digits.<br>Total = 9 + 22 = <strong>31</strong>."
+        },
+        {
+            id: 15,
+            category: "Number Theory",
+            text_en: "A number divided by 3 gives remainder 1. Divided by 4 gives remainder 1. Divided by 5 gives remainder 1. What is the smallest such positive number?",
+            text_id: "Sebuah bilangan dibagi 3 sisa 1. Dibagi 4 sisa 1. Dibagi 5 sisa 1. Berapakah bilangan positif terkecil tersebut?",
+            answer: "61",
+            accepted_answers: ["61"],
+            solution: "<strong>Strategy: LCM + Remainder</strong><br>The number is a multiple of LCM(3, 4, 5) + 1.<br>LCM(3, 4, 5) = 60.<br>Number = 60 + 1 = <strong>61</strong>."
+        },
+        {
+            id: 16,
+            category: "Number Theory",
+            text_en: "How many zeros are at the end of the product 1 × 2 × 3 × 4 × 5 × ... × 10?",
+            text_id: "Berapa banyak nol di akhir hasil kali 1 × 2 × 3 × 4 × 5 × ... × 10?",
+            answer: "2",
+            accepted_answers: ["2"],
+            solution: "<strong>Strategy: Counting Factors of 5</strong><br>Zeros are produced by pairs of 2 and 5.<br>In 1 to 10, factors of 5 are in: 5 and 10.<br>There are two 5s. (There are plenty of 2s).<br>So there are <strong>2</strong> zeros."
+        },
+        {
+            id: 17,
+            category: "Number Theory",
+            text_en: "What is the smallest 3-digit number where the sum of its digits is 4?",
+            text_id: "Berapakah bilangan 3 digit terkecil yang jumlah digitnya 4?",
+            answer: "103",
+            accepted_answers: ["103"],
+            solution: "<strong>Strategy: Place Value Minimization</strong><br>Hundreds digit must be smallest possible: 1.<br>Tens digit must be smallest possible: 0.<br>Units digit must complete the sum: 4 - 1 - 0 = 3.<br>Number is <strong>103</strong>."
+        },
+        {
+            id: 18,
+            category: "Number Theory",
+            text_en: "Sum of 3 consecutive integers is 63. What is the largest number?",
+            text_id: "Jumlah 3 bilangan bulat berurutan adalah 63. Berapakah bilangan terbesarnya?",
+            answer: "22",
+            accepted_answers: ["22"],
+            solution: "<strong>Strategy: Average</strong><br>Middle number = Sum ÷ 3 = 63 ÷ 3 = 21.<br>Numbers are 20, 21, 22.<br>Largest is <strong>22</strong>."
+        },
+
+        // --- GEOMETRY ---
+        {
+            id: 19,
+            category: "Geometry",
+            text_en: "A rectangular garden has length 10m and width 6m. If I run around it 3 times, how far do I run?",
+            text_id: "Sebuah kebun berbentuk persegi panjang memiliki panjang 10m dan lebar 6m. Jika saya berlari mengelilinginya 3 kali, seberapa jauh saya berlari?",
+            answer: "96",
+            accepted_answers: ["96", "96m"],
+            solution: "<strong>Strategy: Perimeter Multiples</strong><br>Perimeter = (10 + 6) × 2 = 32m.<br>3 laps = 32 × 3 = <strong>96</strong>m."
+        },
+        {
+            id: 20,
+            category: "Geometry",
+            text_en: "How many 1cm cubes fit into a box of size 4cm × 3cm × 2cm?",
+            text_id: "Berapa banyak kubus 1cm yang muat dalam kotak berukuran 4cm × 3cm × 2cm?",
+            answer: "24",
+            accepted_answers: ["24"],
+            solution: "<strong>Strategy: Volume</strong><br>Volume = L × W × H<br>4 × 3 × 2 = <strong>24</strong>."
+        },
+        {
+            id: 21,
+            category: "Geometry",
+            text_en: "Count the number of triangles in a square with both diagonals drawn.",
+            text_id: "Hitung jumlah segitiga dalam sebuah persegi dengan kedua diagonal digambar.",
+            content: "<div class='shape-container'>☒</div>",
+            answer: "8",
+            accepted_answers: ["8"],
+            solution: "<strong>Strategy: Systematic Counting</strong><br>Small triangles: 4.<br>Large triangles (formed by 2 small ones): 4.<br>Total = 4 + 4 = <strong>8</strong>."
+        },
+        {
+            id: 22,
+            category: "Geometry",
+            text_en: "A standard cube has side 3cm. If you paint the outside, how many faces are painted?",
+            text_id: "Sebuah kubus standar memiliki sisi 3cm. Jika Anda mengecat bagian luarnya, berapa banyak sisi yang dicat?",
+            answer: "6",
+            accepted_answers: ["6"],
+            solution: "<strong>Strategy: Trick Question (Properties)</strong><br>A cube always has 6 faces, regardless of size.<br>Answer = <strong>6</strong>."
+        },
+        {
+            id: 23,
+            category: "Geometry",
+            text_en: "What is the perimeter of a 'stairs' shape cut from a 10x10 square?",
+            text_id: "Berapakah keliling bentuk 'tangga' yang dipotong dari persegi 10x10?",
+            answer: "40",
+            accepted_answers: ["40"],
+            solution: "<strong>Strategy: Perimeter Translation</strong><br>When steps are cut from a corner, the vertical and horizontal lines can be 'pushed out' to complete the original square.<br>The perimeter remains the same as the original 10x10 square.<br>Perimeter = 4 × 10 = <strong>40</strong>."
+        },
+        {
+            id: 24,
+            category: "Geometry",
+            text_en: "How many cuts are needed to cut a log into 5 pieces?",
+            text_id: "Berapa banyak potongan yang dibutuhkan untuk memotong batang kayu menjadi 5 bagian?",
+            answer: "4",
+            accepted_answers: ["4"],
+            solution: "<strong>Strategy: Gaps vs Items</strong><br>Cuts = Pieces - 1.<br>5 - 1 = <strong>4</strong> cuts."
+        },
+
+        // --- COMBINATORICS ---
+        {
+            id: 25,
+            category: "Combinatorics",
+            text_en: "A farmer has chickens and cows. There are 10 heads and 28 legs. How many cows?",
+            text_id: "Seorang petani memiliki ayam dan sapi. Ada 10 kepala dan 28 kaki. Berapa banyak sapi?",
+            answer: "4",
+            accepted_answers: ["4"],
+            solution: "<strong>Strategy: Assumption Method</strong><br>Assume all 10 are chickens.<br>Legs = 10 × 2 = 20.<br>Shortage = 28 - 20 = 8 legs.<br>A cow has 2 more legs than a chicken.<br>Number of cows = Shortage ÷ 2 = 8 ÷ 2 = <strong>4</strong> cows.<br>(Check: 4 cows (16 legs) + 6 chickens (12 legs) = 28. Correct)."
+        },
+        {
+            id: 26,
+            category: "Combinatorics",
+            text_en: "You have 3 shirts (Red, Blue, Green) and 2 pants (Black, White). How many different outfits can you make?",
+            text_id: "Anda memiliki 3 kemeja (Merah, Biru, Hijau) dan 2 celana (Hitam, Putih). Berapa banyak pakaian berbeda yang bisa Anda buat?",
+            answer: "6",
+            accepted_answers: ["6"],
+            solution: "<strong>Strategy: Multiplication Rule</strong><br>3 shirts × 2 pants = <strong>6</strong> outfits."
+        },
+        {
+            id: 27,
+            category: "Combinatorics",
+            text_en: "How many odd numbers are there between 10 and 30?",
+            text_id: "Berapa banyak bilangan ganjil antara 10 dan 30?",
+            answer: "10",
+            accepted_answers: ["10"],
+            solution: "<strong>Strategy: List/Sequence</strong><br>11, 13, 15, ..., 29.<br>Formula: (Last - First) ÷ 2 + 1.<br>(29 - 11) ÷ 2 + 1 = 18 ÷ 2 + 1 = 9 + 1 = <strong>10</strong>."
+        },
+        {
+            id: 28,
+            category: "Combinatorics",
+            text_en: "A knockout tennis tournament has 16 players. How many matches are played to determine the winner?",
+            text_id: "Turnamen tenis sistem gugur memiliki 16 pemain. Berapa banyak pertandingan yang dimainkan untuk menentukan pemenang?",
+            answer: "15",
+            accepted_answers: ["15"],
+            solution: "<strong>Strategy: Logic (Losers)</strong><br>To have 1 winner, 15 players must lose.<br>Since each match produces 1 loser, there must be <strong>15</strong> matches."
+        },
+        {
+            id: 29,
+            category: "Combinatorics",
+            text_en: "How many 3-digit numbers can be formed using digits 5, 0, 5?",
+            text_id: "Berapa banyak bilangan 3 digit yang dapat dibentuk menggunakan angka 5, 0, 5?",
+            answer: "2",
+            accepted_answers: ["2"],
+            solution: "<strong>Strategy: Listing with Constraint</strong><br>Hundreds digit cannot be 0.<br>Possible numbers: 505, 550.<br>Total = <strong>2</strong>."
+        },
+        {
+            id: 30,
+            category: "Combinatorics",
+            text_en: "At a party, everyone clinks glasses with everyone else once. If there are 4 people, how many clinks?",
+            text_id: "Di sebuah pesta, semua orang mendentingkan gelas dengan orang lain sekali. Jika ada 4 orang, berapa banyak dentingan?",
+            answer: "6",
+            accepted_answers: ["6"],
+            solution: "<strong>Strategy: Combination (Handshake)</strong><br>Person 1 clinks with 3 others.<br>Person 2 clinks with 2 others (already clinked with 1).<br>Person 3 clinks with 1 other.<br>Total = 3 + 2 + 1 = <strong>6</strong>."
+        }
+    ];
+
+    // Functions to render
+    function renderQuiz() {
+        const container = document.getElementById('quiz-content');
+        let currentCategory = "";
+
+        questions.forEach((q, index) => {
+            if (q.category !== currentCategory) {
+                currentCategory = q.category;
+                const catHeader = document.createElement('div');
+                catHeader.className = 'category-header';
+                catHeader.innerText = currentCategory;
+                container.appendChild(catHeader);
+            }
+
+            const card = document.createElement('div');
+            card.className = 'question-card';
+            card.innerHTML = `
+                <span class="q-number">Question ${q.id}</span>
+                <div class="q-text-en">${q.text_en}</div>
+                <div class="q-text-id">${q.text_id}</div>
+                ${q.content ? q.content : ''}
+                
+                <div class="input-group">
+                    <input type="text" id="input-${q.id}" placeholder="Answer">
+                    <button class="btn-check" onclick="checkAnswer(${q.id})">Check</button>
+                    <button class="btn-solution" onclick="toggleSolution(${q.id})">Show Solution</button>
+                </div>
+                
+                <div id="feedback-${q.id}" class="feedback"></div>
+                <div id="solution-${q.id}" class="solution-panel">
+                    ${q.solution}
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    function checkAnswer(id) {
+        const question = questions.find(q => q.id === id);
+        const input = document.getElementById(`input-${id}`).value.trim().toLowerCase();
+        const feedback = document.getElementById(`feedback-${id}`);
+
+        // Simple check logic
+        const isCorrect = question.accepted_answers.includes(input) || input == question.answer;
+
+        if (isCorrect) {
+            feedback.innerText = "Correct! / Benar!";
+            feedback.className = "feedback correct";
+        } else {
+            feedback.innerText = "Try Again. (Tip: Use simplest form)";
+            feedback.className = "feedback incorrect";
+        }
+    }
+
+    function toggleSolution(id) {
+        const panel = document.getElementById(`solution-${id}`);
+        const btn = panel.previousElementSibling.previousElementSibling.querySelector('.btn-solution');
+        
+        if (panel.classList.contains('visible')) {
+            panel.classList.remove('visible');
+            btn.innerText = "Show Solution";
+        } else {
+            panel.classList.add('visible');
+            btn.innerText = "Hide Solution";
+        }
+    }
+
+    // Initialize
+    window.onload = renderQuiz;
+
+</script>
+
+</body>
+</html>
