@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIMO Practice Set 2 - Primary Level</title>
+    <style>
+        :root {
+            --primary: #7c3aed; /* Purple theme for Set 2 */
+            --secondary: #5b21b6;
+            --bg: #f3f4f6;
+            --card-bg: #ffffff;
+            --text: #1f2937;
+            --success: #10b981;
+            --error: #ef4444;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        h1 { margin: 0; font-size: 2.5em; }
+        p.subtitle { opacity: 0.9; font-size: 1.1em; margin-top: 10px; }
+        
+        .set-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .category-header {
+            background-color: var(--text);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-left: 5px solid var(--primary);
+        }
+
+        .question-card {
+            background: var(--card-bg);
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid #e5e7eb;
+            transition: transform 0.2s;
+        }
+
+        .question-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .q-number {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .q-text-en { font-weight: 600; font-size: 1.1em; margin-bottom: 8px; }
+        .q-text-id { color: #666; font-style: italic; margin-bottom: 15px; font-size: 0.95em; }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            width: 150px;
+            font-size: 1em;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .btn-check { background-color: var(--primary); color: white; }
+        .btn-check:hover { background-color: var(--secondary); }
+
+        .btn-solution { background-color: #e5e7eb; color: var(--text); margin-left: auto; }
+        .btn-solution:hover { background-color: #d1d5db; }
+
+        .feedback {
+            margin-top: 10px;
+            font-weight: bold;
+            display: none;
+        }
+        .feedback.correct { color: var(--success); display: block; }
+        .feedback.incorrect { color: var(--error); display: block; }
+
+        .solution-panel {
+            background-color: #f8fafc;
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            margin-top: 15px;
+            display: none;
+            font-size: 0.95em;
+        }
+
+        .solution-panel.visible { display: block; }
+
+        .math-pattern {
+            font-family: 'Courier New', monospace;
+            background: #f1f1f1;
+            padding: 10px;
+            border-radius: 4px;
+            display: inline-block;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        .shape-container {
+            font-size: 1.5em;
+            margin: 10px 0;
+            background: #f8fafc;
+            padding: 10px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        /* 3D Block Visualization placeholder */
+        .block-viz {
+            display: inline-block;
+            font-family: monospace;
+            white-space: pre;
+            line-height: 1;
+            background: #eee;
+            padding: 10px;
+        }
+        
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8em; }
+            .input-group { flex-direction: column; align-items: stretch; }
+            .btn-solution { margin-left: 0; margin-top: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>TIMO Practice Set 2</h1>
+        <div class="set-badge">New Questions</div>
+        <p class="subtitle">Primary 2/3 Preparation Level</p>
+        <p style="font-size: 0.9em; margin-top: 5px;">Focus: Bar Models, Logic, & Heuristics</p>
+    </header>
+
+    <div id="quiz-content">
+        <!-- Questions will be injected here by JavaScript -->
+    </div>
+
+</div>
+
+<script>
+    // Question Database - Set 2
+    const questions = [
+        // --- LOGICAL THINKING ---
+        {
+            id: 1,
+            category: "Logical Thinking",
+            text_en: "Today is Monday. Which day of the week will it be 40 days from today?",
+            text_id: "Hari ini adalah hari Senin. Hari apa 40 hari dari hari ini?",
+            answer: "Saturday",
+            accepted_answers: ["saturday", "sabtu"],
+            solution: "<strong>Strategy: Remainder Logic</strong><br>1 week = 7 days.<br>40 ÷ 7 = 5 weeks remainder 5 days.<br>Count forward 5 days from Monday: Tuesday, Wednesday, Thursday, Friday, <strong>Saturday</strong>."
+        },
+        {
+            id: 2,
+            category: "Logical Thinking",
+            text_en: "Find the missing number in the sequence:",
+            text_id: "Temukan angka yang hilang dalam urutan:",
+            content: "<div class='math-pattern'>1, 2, 4, 7, 11, __, 22</div>",
+            answer: "16",
+            accepted_answers: ["16"],
+            solution: "<strong>Strategy: Increasing Difference</strong><br>2 - 1 = +1<br>4 - 2 = +2<br>7 - 4 = +3<br>11 - 7 = +4<br>Next step must be +5.<br>11 + 5 = <strong>16</strong>.<br>Check: 16 + 6 = 22 (Correct)."
+        },
+        {
+            id: 3,
+            category: "Logical Thinking",
+            text_en: "In a class line, Alice is 8th from the front and Ben is 12th from the back. There are 3 students between them. Alice is in front of Ben. How many students are there in total?",
+            text_id: "Di barisan kelas, Alice urutan ke-8 dari depan dan Ben urutan ke-12 dari belakang. Ada 3 siswa di antara mereka. Alice di depan Ben. Berapa jumlah siswa seluruhnya?",
+            answer: "23",
+            accepted_answers: ["23"],
+            solution: "<strong>Strategy: Diagram/Model</strong><br>[Front] ... (7 people) ... Alice ... (3 people) ... Ben ... (11 people) ... [Back]<br>Total = Alice(1) + Front(7) + Between(3) + Ben(1) + Back(11).<br>Easier: 8 (up to Alice) + 3 (between) + 12 (Ben & behind).<br>Wait, Ben is 12th from back, so counting Ben + behind = 12.<br>Total = 8 (Alice + Front) + 3 (Between) + 12 (Ben + Back) = <strong>23</strong>."
+        },
+        {
+            id: 4,
+            category: "Logical Thinking",
+            text_en: "The sum of Amy's age and Ben's age is 20. Amy is 4 years older than Ben. How old is Ben?",
+            text_id: "Jumlah umur Amy dan Ben adalah 20. Amy 4 tahun lebih tua dari Ben. Berapa umur Ben?",
+            answer: "8",
+            accepted_answers: ["8"],
+            solution: "<strong>Strategy: Bar Model (Singapore Math)</strong><br>Amy: [__Unit__]+4<br>Ben: [__Unit__]<br>Total = 2 Units + 4 = 20.<br>2 Units = 20 - 4 = 16.<br>1 Unit (Ben) = 16 ÷ 2 = <strong>8</strong>.<br>Check: Ben 8, Amy 12. 12+8=20."
+        },
+        {
+            id: 5,
+            category: "Logical Thinking",
+            text_en: "What is the 35th symbol in the pattern?",
+            text_id: "Apa simbol ke-35 dalam pola tersebut?",
+            content: "<div class='shape-container'>★ ■ ▲ ● ★ ■ ▲ ● ...</div>",
+            answer: "triangle",
+            accepted_answers: ["triangle", "segitiga", "▲"],
+            solution: "<strong>Strategy: Cyclicity</strong><br>The pattern is ★ ■ ▲ ● (4 symbols).<br>35 ÷ 4 = 8 remainder 3.<br>The 3rd symbol in the group is ▲ (Triangle)."
+        },
+        {
+            id: 6,
+            category: "Logical Thinking",
+            text_en: "Find '?' based on the logic in the rows.",
+            text_id: "Temukan '?' berdasarkan logika pada baris.",
+            content: "<table border='1' style='margin:10px 0; border-collapse:collapse; width:200px; text-align:center;'><tr><td>5</td><td>2</td><td>12</td></tr><tr><td>3</td><td>4</td><td>10</td></tr><tr><td>6</td><td>3</td><td>15</td></tr><tr><td>7</td><td>5</td><td>?</td></tr></table>",
+            answer: "19",
+            accepted_answers: ["19"],
+            solution: "<strong>Strategy: Operation Discovery</strong><br>Row 1: 5 and 2 make 12. -> (5 × 2) + 2 = 12.<br>Row 2: 3 and 4 make 10. -> (3 × 2) + 4 = 10.<br>Rule seems to be: <strong>(Col1 × 2) + Col2</strong>.<br>Let's check Row 3: (6 × 2) + 3 = 12 + 3 = 15. Correct.<br>Row 4: (7 × 2) + 5 = 14 + 5 = <strong>19</strong>."
+        },
+
+        // --- ARITHMETIC ---
+        {
+            id: 7,
+            category: "Arithmetic",
+            text_en: "Find the value of:",
+            text_id: "Temukan nilai dari:",
+            content: "<div class='math-pattern'>360 ÷ 3 + 360 ÷ 4 + 360 ÷ 6 - 360 ÷ 12</div>",
+            answer: "240",
+            accepted_answers: ["240"],
+            solution: "<strong>Strategy: Calculation</strong><br>360 ÷ 3 = 120<br>360 ÷ 4 = 90<br>360 ÷ 6 = 60<br>360 ÷ 12 = 30<br>120 + 90 + 60 - 30 = 270 - 30 = <strong>240</strong>."
+        },
+        {
+            id: 8,
+            category: "Arithmetic",
+            text_en: "Find the sum of: 2 + 4 + 6 + ... + 40.",
+            text_id: "Temukan jumlah dari: 2 + 4 + 6 + ... + 40.",
+            answer: "420",
+            accepted_answers: ["420"],
+            solution: "<strong>Strategy: Arithmetic Progression</strong><br>First = 2, Last = 40.<br>Count: 40 ÷ 2 = 20 numbers.<br>Sum = (First + Last) × Count ÷ 2<br>= (2 + 40) × 20 ÷ 2<br>= 42 × 10 = <strong>420</strong>."
+        },
+        {
+            id: 9,
+            category: "Arithmetic",
+            text_en: "Calculate: 125 × 7 + 125 × 9 - 125 × 8.",
+            text_id: "Hitung: 125 × 7 + 125 × 9 - 125 × 8.",
+            answer: "1000",
+            accepted_answers: ["1000"],
+            solution: "<strong>Strategy: Grouping (Distributive Law)</strong><br>125 × (7 + 9 - 8)<br>= 125 × (8)<br>Think of 125 × 8 = 1000 (standard pair).<br>Answer = <strong>1000</strong>."
+        },
+        {
+            id: 10,
+            category: "Arithmetic",
+            text_en: "If A ÷ 8 = 15 remainder 3, what is A?",
+            text_id: "Jika A ÷ 8 = 15 sisa 3, berapakah A?",
+            answer: "123",
+            accepted_answers: ["123"],
+            solution: "<strong>Strategy: Inverse Operation</strong><br>A = (Divisor × Quotient) + Remainder<br>A = (8 × 15) + 3<br>A = 120 + 3 = <strong>123</strong>."
+        },
+        {
+            id: 11,
+            category: "Arithmetic",
+            text_en: "Find the value of: 50 - 45 + 40 - 35 + 30 - 25 + ... + 10 - 5.",
+            text_id: "Temukan nilai dari: 50 - 45 + 40 - 35 + 30 - 25 + ... + 10 - 5.",
+            answer: "25",
+            accepted_answers: ["25"],
+            solution: "<strong>Strategy: Grouping</strong><br>(50 - 45) + (40 - 35) + (30 - 25) + (20 - 15) + (10 - 5)<br>Each pair is 5.<br>There are 5 pairs.<br>Total = 5 × 5 = <strong>25</strong>."
+        },
+        {
+            id: 12,
+            category: "Arithmetic",
+            text_en: "Calculate 25 × 32.",
+            text_id: "Hitung 25 × 32.",
+            answer: "800",
+            accepted_answers: ["800"],
+            solution: "<strong>Strategy: Decomposition</strong><br>Split 32 into 4 × 8.<br>25 × 4 × 8<br>= 100 × 8 = <strong>800</strong>."
+        },
+
+        // --- NUMBER THEORY ---
+        {
+            id: 13,
+            category: "Number Theory",
+            text_en: "Define operation a @ b = (a × b) - (a + b). Find 6 @ 5.",
+            text_id: "Definisikan operasi a @ b = (a × b) - (a + b). Temukan 6 @ 5.",
+            answer: "19",
+            accepted_answers: ["19"],
+            solution: "<strong>Strategy: Substitution</strong><br>a=6, b=5<br>(6 × 5) - (6 + 5)<br>= 30 - 11<br>= <strong>19</strong>."
+        },
+        {
+            id: 14,
+            category: "Number Theory",
+            text_en: "What is the smallest 3-digit number divisible by both 4 and 6?",
+            text_id: "Berapakah bilangan 3 digit terkecil yang habis dibagi 4 dan 6?",
+            answer: "108",
+            accepted_answers: ["108"],
+            solution: "<strong>Strategy: LCM</strong><br>Multiples of 4: 4, 8, 12...<br>Multiples of 6: 6, 12...<br>LCM(4,6) = 12.<br>We need the smallest 3-digit multiple of 12.<br>100 ÷ 12 = 8 rem 4.<br>So 12 × 9 = <strong>108</strong>."
+        },
+        {
+            id: 15,
+            category: "Number Theory",
+            text_en: "The sum of 5 consecutive numbers is 100. What is the smallest number?",
+            text_id: "Jumlah 5 bilangan berurutan adalah 100. Berapakah bilangan terkecil?",
+            answer: "18",
+            accepted_answers: ["18"],
+            solution: "<strong>Strategy: Average/Median</strong><br>Middle number (3rd) = Sum ÷ Count = 100 ÷ 5 = 20.<br>Sequence: 18, 19, 20, 21, 22.<br>Smallest is <strong>18</strong>."
+        },
+        {
+            id: 16,
+            category: "Number Theory",
+            text_en: "Product of A and B is 48. A - B = 8. Find A (A > B).",
+            text_id: "Hasil kali A dan B adalah 48. A - B = 8. Temukan A (A > B).",
+            answer: "12",
+            accepted_answers: ["12"],
+            solution: "<strong>Strategy: Factor Pairs</strong><br>Pairs of 48: (1,48), (2,24), (3,16), (4,12), (6,8).<br>Check differences:<br>48-1=47<br>24-2=22<br>16-3=13<br>12-4=8 (Match!)<br>So A=12, B=4. Answer A = <strong>12</strong>."
+        },
+        {
+            id: 17,
+            category: "Number Theory",
+            text_en: "How many multiples of 5 are there between 1 and 100 (inclusive)?",
+            text_id: "Berapa banyak kelipatan 5 antara 1 sampai 100 (inklusif)?",
+            answer: "20",
+            accepted_answers: ["20"],
+            solution: "<strong>Strategy: Division</strong><br>100 ÷ 5 = 20.<br>There are <strong>20</strong> multiples."
+        },
+        {
+            id: 18,
+            category: "Number Theory",
+            text_en: "What is the unit digit of 7 × 7 × 7 ... (multiplied 22 times)?",
+            text_id: "Berapa angka satuan dari 7 × 7 × 7 ... (dikalikan 22 kali)?",
+            answer: "9",
+            accepted_answers: ["9"],
+            solution: "<strong>Strategy: Cyclicity</strong><br>Powers of 7 end in: 7, 9, 3, 1, 7, 9...<br>Cycle length = 4.<br>22 ÷ 4 = 5 remainder 2.<br>2nd number in cycle is <strong>9</strong>."
+        },
+
+        // --- GEOMETRY ---
+        {
+            id: 19,
+            category: "Geometry",
+            text_en: "A square has a perimeter of 36cm. What is its area?",
+            text_id: "Sebuah persegi memiliki keliling 36cm. Berapakah luasnya?",
+            answer: "81",
+            accepted_answers: ["81", "81cm^2"],
+            solution: "<strong>Strategy: Formula Reverse</strong><br>Side = Perimeter ÷ 4 = 36 ÷ 4 = 9cm.<br>Area = Side × Side = 9 × 9 = <strong>81</strong>."
+        },
+        {
+            id: 20,
+            category: "Geometry",
+            text_en: "How many rectangles are in a 1 × 3 grid?",
+            text_id: "Berapa banyak persegi panjang dalam grid 1 × 3?",
+            content: "<div class='math-pattern'>[ _ ][ _ ][ _ ]</div>",
+            answer: "6",
+            accepted_answers: ["6"],
+            solution: "<strong>Strategy: Systematic Counting</strong><br>Single blocks: 3<br>Double blocks: 2<br>Triple block: 1<br>Total = 3 + 2 + 1 = <strong>6</strong>."
+        },
+        {
+            id: 21,
+            category: "Geometry",
+            text_en: "A hexagonal pyramid has how many faces?",
+            text_id: "Piramida heksagonal (segi enam) memiliki berapa sisi?",
+            answer: "7",
+            accepted_answers: ["7"],
+            solution: "<strong>Strategy: 3D Properties</strong><br>Base = 1 Hexagon.<br>Sides = 6 Triangles.<br>Total Faces = 1 + 6 = <strong>7</strong>."
+        },
+        {
+            id: 22,
+            category: "Geometry",
+            text_en: "The area of a rectangle is 24. Sides are integers. What is the minimum perimeter?",
+            text_id: "Luas persegi panjang adalah 24. Sisi-sisinya bilangan bulat. Berapa keliling minimum?",
+            answer: "20",
+            accepted_answers: ["20"],
+            solution: "<strong>Strategy: Factor Pairs</strong><br>Pairs for 24: (1,24), (2,12), (3,8), (4,6).<br>Perimeters:<br>(1+24)×2=50<br>(2+12)×2=28<br>(3+8)×2=22<br>(4+6)×2=20<br>Minimum is <strong>20</strong>."
+        },
+        {
+            id: 23,
+            category: "Geometry",
+            text_en: "A paper is folded in half twice. When unfolded, how many sections are there?",
+            text_id: "Sebuah kertas dilipat dua sebanyak dua kali. Saat dibuka, ada berapa bagian?",
+            answer: "4",
+            accepted_answers: ["4"],
+            solution: "<strong>Strategy: Powers of 2</strong><br>1 fold = 2 sections.<br>2 folds = 2 × 2 = <strong>4</strong> sections."
+        },
+        {
+            id: 24,
+            category: "Geometry",
+            text_en: "Count the cubes in this stack (3 on bottom, 2 on middle, 1 on top).",
+            text_id: "Hitung kubus dalam tumpukan ini (3 di bawah, 2 di tengah, 1 di atas).",
+            answer: "6",
+            accepted_answers: ["6"],
+            solution: "<strong>Strategy: Simple Addition</strong><br>3 + 2 + 1 = <strong>6</strong>."
+        },
+
+        // --- COMBINATORICS ---
+        {
+            id: 25,
+            category: "Combinatorics",
+            text_en: "You have $1, $2, and $5 coins. How many ways can you make $6?",
+            text_id: "Anda memiliki koin $1, $2, dan $5. Berapa banyak cara untuk membuat $6?",
+            answer: "5",
+            accepted_answers: ["5"],
+            solution: "<strong>Strategy: Systematic Listing</strong><br>1. 5+1<br>2. 2+2+2<br>3. 2+2+1+1<br>4. 2+1+1+1+1<br>5. 1+1+1+1+1+1<br>Total = <strong>5</strong> ways."
+        },
+        {
+            id: 26,
+            category: "Combinatorics",
+            text_en: "How many 2-digit odd numbers can be formed using digits 1, 2, 3? (Repetition allowed)",
+            text_id: "Berapa banyak bilangan ganjil 2 digit yang dapat dibentuk menggunakan angka 1, 2, 3? (Pengulangan diperbolehkan)",
+            answer: "6",
+            accepted_answers: ["6"],
+            solution: "<strong>Strategy: Slots Method</strong><br>Tens digit options: 1, 2, 3 (3 options).<br>Units digit options (must be odd): 1, 3 (2 options).<br>Total = 3 × 2 = <strong>6</strong>.<br>(List: 11, 13, 21, 23, 31, 33)."
+        },
+        {
+            id: 27,
+            category: "Combinatorics",
+            text_en: "There are 5 red balls and 5 blue balls. Minimum balls to pick to guarantee 2 of the same color?",
+            text_id: "Ada 5 bola merah dan 5 bola biru. Minimal bola yang diambil untuk menjamin 2 bola berwarna sama?",
+            answer: "3",
+            accepted_answers: ["3"],
+            solution: "<strong>Strategy: Pigeonhole Principle</strong><br>Worst case scenario: Pick 1 Red, then Pick 1 Blue.<br>You have 2 balls, but no pair yet.<br>The 3rd ball MUST be Red or Blue, creating a pair.<br>Answer = <strong>3</strong>."
+        },
+        {
+            id: 28,
+            category: "Combinatorics",
+            text_en: "6 teams play in a tournament. If every team plays every other team once, how many matches?",
+            text_id: "6 tim bermain dalam turnamen. Jika setiap tim bermain melawan tim lain sekali, berapa banyak pertandingan?",
+            answer: "15",
+            accepted_answers: ["15"],
+            solution: "<strong>Strategy: Handshake Formula</strong><br>n × (n-1) ÷ 2<br>6 × 5 ÷ 2 = 30 ÷ 2 = <strong>15</strong>."
+        },
+        {
+            id: 29,
+            category: "Combinatorics",
+            text_en: "How many ways to arrange the letters A, B, C?",
+            text_id: "Berapa banyak cara menyusun huruf A, B, C?",
+            answer: "6",
+            accepted_answers: ["6"],
+            solution: "<strong>Strategy: Permutation</strong><br>3 × 2 × 1 = <strong>6</strong>.<br>(ABC, ACB, BAC, BCA, CAB, CBA)."
+        },
+        {
+            id: 30,
+            category: "Combinatorics",
+            text_en: "Andy gave half his candy to Bob, then ate 1. He has 4 left. How many did he start with?",
+            text_id: "Andy memberikan setengah permennya ke Bob, lalu makan 1. Dia sisa 4. Berapa permen awalnya?",
+            answer: "10",
+            accepted_answers: ["10"],
+            solution: "<strong>Strategy: Working Backwards</strong><br>End: 4.<br>Before eating 1: 4 + 1 = 5.<br>Before halving: 5 × 2 = <strong>10</strong>."
+        }
+    ];
+
+    // Functions to render
+    function renderQuiz() {
+        const container = document.getElementById('quiz-content');
+        let currentCategory = "";
+
+        questions.forEach((q, index) => {
+            if (q.category !== currentCategory) {
+                currentCategory = q.category;
+                const catHeader = document.createElement('div');
+                catHeader.className = 'category-header';
+                catHeader.innerText = currentCategory;
+                container.appendChild(catHeader);
+            }
+
+            const card = document.createElement('div');
+            card.className = 'question-card';
+            card.innerHTML = `
+                <span class="q-number">Question ${q.id}</span>
+                <div class="q-text-en">${q.text_en}</div>
+                <div class="q-text-id">${q.text_id}</div>
+                ${q.content ? q.content : ''}
+                
+                <div class="input-group">
+                    <input type="text" id="input-${q.id}" placeholder="Answer">
+                    <button class="btn-check" onclick="checkAnswer(${q.id})">Check</button>
+                    <button class="btn-solution" onclick="toggleSolution(${q.id})">Show Solution</button>
+                </div>
+                
+                <div id="feedback-${q.id}" class="feedback"></div>
+                <div id="solution-${q.id}" class="solution-panel">
+                    ${q.solution}
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    function checkAnswer(id) {
+        const question = questions.find(q => q.id === id);
+        const input = document.getElementById(`input-${id}`).value.trim().toLowerCase();
+        const feedback = document.getElementById(`feedback-${id}`);
+
+        // Simple check logic
+        const isCorrect = question.accepted_answers.includes(input) || input == question.answer;
+
+        if (isCorrect) {
+            feedback.innerText = "Correct! / Benar!";
+            feedback.className = "feedback correct";
+        } else {
+            feedback.innerText = "Try Again. (Tip: Use simplest form)";
+            feedback.className = "feedback incorrect";
+        }
+    }
+
+    function toggleSolution(id) {
+        const panel = document.getElementById(`solution-${id}`);
+        const btn = panel.previousElementSibling.previousElementSibling.querySelector('.btn-solution');
+        
+        if (panel.classList.contains('visible')) {
+            panel.classList.remove('visible');
+            btn.innerText = "Show Solution";
+        } else {
+            panel.classList.add('visible');
+            btn.innerText = "Hide Solution";
+        }
+    }
+
+    // Initialize
+    window.onload = renderQuiz;
+
+</script>
+
+</body>
+</html>
