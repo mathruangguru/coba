@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bank Aktivitas: TKA Pecahan Senilai</title>
+<script>
+window.MathJax = {
+    tex: { inlineMath: [["$", "$"], ["\\(", "\\)"]], displayMath: [["$$", "$$"], ["\\[", "\\]"]], packages: { "[+]": ["ams"] } },
+    svg: { fontCache: "global" }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet" />
+<style>
+:root {
+    --primary-text: #333333;
+    --secondary-text: #555555;
+    --border-color: #dddddd;
+    --header-top-bg: #e0f7fa;
+    --header-bottom-bg: #f0f0f0;
+    --header-title-color: #00838f;
+    --grey-text: #8d8e8d;
+    --stimulus-bg: #fcfcfc;
+    --stimulus-border: #00838f;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+    font-family: "Montserrat", sans-serif;
+    font-size: 8.5pt;
+    line-height: 1.5;
+    color: var(--primary-text);
+    background-color: #e0e0e0;
+    margin: 0;
+    padding: 0;
+}
+
+.page-container {
+    counter-reset: page;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.page {
+    background: white;
+    width: 21cm;
+    min-height: 29.7cm;
+    height: auto;
+    padding: 1.8cm 2.5cm 1.5cm 2.5cm;
+    margin: 1cm auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-header {
+    margin: -1.8cm -2.5cm 15px -2.5cm;
+    width: 21cm;
+    position: relative;
+    z-index: 10;
+}
+
+.header-top-box {
+    background-color: var(--header-top-bg);
+    padding: 10px 2.5cm;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2px;
+}
+
+.header-title-main {
+    font-size: 18pt;
+    font-weight: 700;
+    color: var(--header-title-color);
+    line-height: 1.2;
+}
+
+.header-title-sub {
+    font-size: 8pt;
+    font-weight: 600;
+    color: var(--primary-text);
+    margin-top: 4px;
+}
+
+.header-bottom-box {
+    padding: 4px 2.5cm;
+}
+
+.header-bottom-text {
+    background-color: var(--header-bottom-bg);
+    padding: 6px 15px;
+    font-weight: 700;
+    font-size: 8pt;
+    color: var(--secondary-text);
+    display: block;
+    border-radius: 4px;
+    white-space: normal;
+    text-align: left;
+}
+
+.header-logo { max-height: 50px; }
+
+.page-subsequent .header-bottom-box { display: none; }
+.page-subsequent .header-top-box { margin-bottom: 20px; }
+
+.content-wrapper {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    flex-grow: 1;
+}
+
+.manual-flex-layout {
+    display: flex;
+    gap: 15mm;
+    align-items: flex-start;
+}
+.manual-flex-layout .kolom {
+    flex: 1;
+    width: 50%;
+}
+
+.soal-latihan {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    margin-bottom: 18px;
+    text-align: justify;
+    break-inside: avoid;
+}
+
+.page-compact .soal-latihan { margin-bottom: 16px; }
+.page-compact .soal-konten { line-height: 1.4; }
+.page-compact ol.pilihan-ganda { margin-top: 4px; }
+.page-compact ol.pilihan-ganda li { margin-bottom: 6px; }
+.page-compact table.soal-kategori th, .page-compact table.soal-kategori td { padding: 4px 6px; }
+
+.soal-nomor {
+    font-weight: 900;
+    flex-shrink: 0;
+    min-width: 18px;
+    color: var(--header-title-color);
+    font-size: 10pt;
+}
+
+.soal-konten { flex-grow: 1; }
+.soal-konten p { margin: 0 0 8px 0; }
+
+.visual-container {
+    margin: 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+ol.pilihan-ganda { list-style-type: none; padding-left: 0; margin-top: 6px; }
+ol.pilihan-ganda li { margin-bottom: 8px; padding-left: 20px; text-indent: -20px; display: flex; align-items: center;}
+ol.pilihan-ganda li::before { content: attr(data-option) ". "; font-weight: bold; padding-right: 15px; } /* Jarak opsi PG diperlebar */
+
+.pilihan-ganda-mcma { margin-top: 8px; }
+.pilihan-ganda-mcma div { display: flex; align-items: center; margin-bottom: 8px; padding-left: 2px; }
+.pilihan-ganda-mcma input[type="checkbox"] { width: 14px; height: 14px; margin-right: 15px; flex-shrink: 0; accent-color: var(--header-title-color); } /* Jarak checkbox diperlebar */
+
+table.soal-kategori { width: 100%; border-collapse: collapse; text-align: left; margin-top: 8px; margin-bottom: 10px; font-size: 8pt; }
+table.soal-kategori th, table.soal-kategori td { padding: 6px 8px; border: 1px solid #ccc; vertical-align: middle; }
+table.soal-kategori th { background-color: #f2f2f2; font-weight: 700; text-align: center; }
+table.soal-kategori th:not(:first-child), table.soal-kategori td:not(:first-child) { text-align: center; width: 45px; font-weight: 600; }
+
+.page-footer { display: flex; justify-content: space-between; text-align: left; font-size: 6pt; color: var(--grey-text); padding-top: 4px; margin-top: auto; border-top: 2.5px solid var(--grey-text); }
+
+@media print {
+    @page { size: A4; margin: 0; }
+    body { background-color: white; margin: 0; }
+    .page { width: 100%; min-height: 29.7cm; height: auto; margin: 0; box-shadow: none; page-break-after: always; }
+    .page:last-child { page-break-after: avoid; }
+    .header-top-box, .header-bottom-text, table.soal-kategori th { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+.section-desc-inline {
+    font-style: italic;
+    font-weight: bold;
+    margin-bottom: 12px;
+    font-size: 8.5pt;
+}
+</style>
+</head>
+<body>
+
+<div class="page-container">
+
+    <!-- HALAMAN 1: Pilihan Ganda (1-6) -->
+    <section class="page">
+        <header class="page-header">
+            <div class="header-top-box">
+                <div><div class="header-title-main">Bank Aktivitas</div><div class="header-title-sub">Matematika</div></div>
+                <img src="https://imgix3.ruangguru.com/assets/miscellaneous/png_63qwb1_5293.png" alt="Brain Academy Logo" class="header-logo" />
+            </div>
+            <div class="header-bottom-box">
+                <div class="header-bottom-text">SD | Kurikulum Merdeka | [TKA] Drill Soal | Subtopik: Pecahan Senilai</div>
+            </div>
+        </header>
+        
+        <div class="content-wrapper">
+            <div class="section-desc-inline">Bagian I: Pilihan Ganda. Pilihlah satu jawaban representasi visual yang paling tepat!</div>
+            <div class="manual-flex-layout page-compact">
+                <!-- Kolom Kiri -->
+                <div class="kolom">
+                    <!-- Soal 1 -->
+                    <div class="soal-latihan">
+                        <div class="soal-nomor">1.</div>
+                        <div class="soal-konten">
+                            <p>Perhatikan gambar model pecahan berikut:</p>
+                            <div class="visual-container"><span class="fraction-bar" data-n="1" data-d="2"></span></div>
+                            <p>Gambar manakah di bawah ini yang menunjukkan pecahan yang <b>senilai</b> dengan gambar di atas?</p>
+                            <ol class="pilihan-ganda">
+                                <li data-option="A"><span class="fraction-pie" data-n="1" data-d="3"></span></li>
+                                <li data-option="B"><span class="fraction-grid" data-c="2" data-r="2" data-s="2"></span></li>
+                                <li data-option="C"><span class="fraction-pie" data-n="1" data-d="4"></span></li>
+                                <li data-option="D"><span class="fraction-bar" data-n="6" data-d="8"></span></li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- Soal 2 -->
+                    <div class="soal-latihan">
+                        <div class="soal-nomor">2.</div>
+                        <div class="soal-konten">
+                            <p>Perhatikan gambar lingkaran berikut:</p>
+                            <div class="visual-container"><span class="fraction-pie" data-n="2" data-d="3"></span></div>
+                            <p>Model mana yang mewakili pecahan senilai dengan lingkaran di atas?</p>
+                            <ol class="pilihan-ganda">
+                                <li data-option="A"><span class="fraction-grid" data-c="3" data-r="2" data-s="4"></span></li>
+                                <li data-option="B"><span class="fraction-bar" data-n="3" data-d="6"></span></li>
+                                <li data-option="C"><span class="fraction-pie" data-n="2" data-d="4"></span></li>
+                                <li data-option="D"><span class="fraction-grid" data-c="4" data-r="2" data-s="3"></span></li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- Soal 3 -->
+                    <div class="soal-latihan">
+                        <div class="soal-nomor">3.</div>
+                        <div class="soal-konten">
+                            <p>Budi mewarnai kotak (<i>grid</i>) seperti gambar berikut:</p>
+                            <div class="visual-container"><span class="fraction-grid" data-c="2" data-r="2" data-s="3"></span></div>
+                            <p>Jika kotak tersebut dibagi lagi sehingga memiliki bagian yang lebih kecil, representasi mana yang senilai dengan arsiran Budi?</p>
+                            <ol class="pilihan-ganda">
+                                <li data-option="A"><span class="fraction-pie" data-n="4" data-d="8"></span></li>
+                                <li data-option="B"><span class="fraction-bar" data-n="4" data-d="6"></span></li>
+                                <li data-option="C"><span class="fraction-grid" data-c="4" data-r="2" data-s="6"></span></li>
+                                <li data-option="D"><span class="fraction-pie" data-n="6" data-d="10"></span></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kolom Kanan -->
+                <div class="kolom">
+                    <!-- Soal 4 -->
+                    <div class="soal-latihan">
+                        <div class="soal-nomor">4.</div>
+                        <div class="soal-konten">
+                            <p>Sebuah kue dipotong seperti gambar berikut:</p>
+                            <div class="visual-container"><span class="fraction-pie" data-n="1" data-d="4"></span></div>
+                            <p>Gambar mana yang menunjukkan nilai potongan yang sama besar?</p>
+                            <ol class="pilihan-ganda">
+                                <li data-option="A"><span class="fraction-grid" data-c="4" data-r="2" data-s="2"></span></li>
+                                <li data-option="B"><span class="fraction-bar" data-n="4" data-d="8"></span></li>
+                                <li data-option="C"><span class="fraction-pie" data-n="2" data-d="4"></span></li>
+                                <li data-option="D"><span class="fraction-grid" data-c="2" data-r="2" data-s="3"></span></li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- Soal 5 -->
+                    <div class="soal-latihan">
+                        <div class="soal-nomor">5.</div>
+                        <div class="soal-konten">
+                            <p>Arsiran pada balok di bawah ini bernilai $\frac{2}{5}$:</p>
+                            <div class="visual-container"><span class="fraction-bar" data-n="2" data-d="5"></span></div>
+                            <p>Pilihlah model lain yang menunjukkan pecahan senilai!</p>
+                            <ol class="pilihan-ganda">
+                                <li data-option="A"><span class="fraction-pie" data-n="2" data-d="10"></span></li>
+                                <li data-option="B"><span class="fraction-pie" data-n="4" data-d="10"></span></li>
+                                <li data-option="C"><span class="fraction-grid" data-c="5" data-r="2" data-s="5"></span></li>
+                                <li data-option="D"><span class="fraction-bar" data-n="6" data-d="10"></span></li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- Soal 6 -->
+                    <div class="soal-latihan">
+                        <div class="soal-nomor">6.</div>
+                        <div class="soal-konten">
+                            <p>Setengah bagian lingkaran diarsir sebagai berikut:</p>
+                            <div class="visual-container"><span class="fraction-pie" data-n="1" data-d="2"></span></div>
+                            <p>Model mana yang setara dengan arsiran tersebut?</p>
+                            <ol class="pilihan-ganda">
+                                <li data-option="A"><span class="fraction-grid" data-c="3" data-r="2" data-s="2"></span></li>
+                                <li data-option="B"><span class="fraction-bar" data-n="1" data-d="3"></span></li>
+                                <li data-option="C"><span class="fraction-pie" data-n="4" data-d="6"></span></li>
+                                <li data-option="D"><span class="fraction-grid" data-c="3" data-r="2" data-s="3"></span></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="page-footer"><b>CopyrightⒸ 2026 - PT Ruang Raya Indonesia - All Rights Reserved.</b><i>Dilarang menyebarluaskan dokumen ini tanpa seizin PT Ruang Raya Indonesia.</i></footer>
+    </section>
+
+    <!-- HALAMAN 2: Lanjutan PG & MCMA (7-12) -->
+    <section class="page page-subsequent">
+        <header class="page-header">
+            <div class="header-top-box">
+                <div><div class="header-title-main">Bank Aktivitas</div><div class="header-title-sub">Matematika</div></div>
+                <img src="https://imgix3.ruangguru.com/assets/miscellaneous/png_63qwb1_5293.png" alt="Brain Academy Logo" class="header-logo" />
+            </div>
+        </header>
+        
+        <div class="content-wrapper">
+            <div class="manual-flex-layout page-compact">
+                <!-- Kolom Kiri -->
+                <div class="kolom">
+                    <!-- Soal 7 -->
+                    <div class="soal-latihan">
+                        <div class="soal-nomor">7.</div>
+                        <div class="soal-konten">
+                            <p><i>Grid</i> di bawah ini menunjukkan pecahan $\frac{4}{8}$:</p>
+                            <div class="visual-container"><span class="fraction-grid" data-c="4" data-r="2" data-s="4"></span></div>
+                            <p>Bentuk paling sederhana dari pecahan di atas divisualisasikan oleh ....</p>
+                            <ol class="pilihan-ganda">
+                                <li data-option="A"><span class="fraction-pie" data-n="1" data-d="2"></span></li>
+                                <li data-option="B"><span class="fraction-bar" data-n="1" data-d="3"></span></li>
+                                <li data-option="C"><span class="fraction-grid" data-c="2" data-r="2" data-s="1"></span></li>
+                                <li data-option="D"><span class="fraction-pie" data-n="2" data-d="6"></span></li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- Soal 8 -->
+                    <div class="soal-latihan">
+                        <div class="soal-nomor">8.</div>
+                        <div class="soal-konten">
+                            <p>Perhatikan lingkaran berikut yang menunjukkan pecahan $\frac{6}{10}$:</p>
+                            <div class="visual-container"><span class="fraction-pie" data-n="6" data-d="10"></span></div>
+                            <p>Gambar di bawah ini yang menunjukkan nilai yang <b>sama</b> adalah ....</p>
+                            <ol class="pilihan-ganda">
+                                <li data-option="A"><span class="fraction-grid" data-c="5" data-r="1" data-s="2"></span></li>
+                                <li data-option="B"><span class="fraction-grid" data-c="5" data-r="1" data-s="3"></span></li>
+                                <li data-option="C"><span class="fraction-pie" data-n="4" data-d="5"></span></li>
+                                <li data-option="D"><span class="fraction-pie" data-n="1" data-d="2"></span></li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div class="section-desc-inline" style="margin-top: 15px;">Bagian II: Pilihan Ganda Kompleks (MCMA).<br>Beri tanda silang (x) pada kotak untuk jawaban yang tepat!</div>
+
+                    <!-- Soal 9 -->
+                    <div class="soal-latihan">
+                        <div class="soal-nomor">9.</div>
+                        <div class="soal-konten">
+                            <p>Diberikan model lingkaran bernilai $\frac{1}{2}$:</p>
+                            <div class="visual-container"><span class="fraction-pie" data-n="1" data-d="2"></span></div>
+                            <p>Pilihlah gambar-gambar yang menunjukkan pecahan yang senilai. (Bisa memilih lebih dari satu jawaban)</p>
+                            <div class="pilihan-ganda-mcma">
+                                <div><input type="checkbox" /><span class="fraction-grid" data-c="2" data-r="2" data-s="2"></span> <span style="margin-left:8px;"> ($\frac{2}{4}$)</span></div>
+                                <div><input type="checkbox" /><span class="fraction-bar" data-n="3" data-d="6"></span> <span style="margin-left:8px;"> ($\frac{3}{6}$)</span></div>
+                                <div><input type="checkbox" /><span class="fraction-pie" data-n="2" data-d="5"></span> <span style="margin-left:8px;"> ($\frac{2}{5}$)</span></div>
+                                <div><input type="checkbox" /><span class="fraction-grid" data-c="4" data-r="2" data-s="4"></span> <span style="margin-left:8px;"> ($\frac{4}{8}$)</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kolom Kanan -->
+                <div class="kolom">
+                    <!-- Soal 10 -->
+                    <div class="soal-latihan">
+                        <div class="soal-nomor">10.</div>
+                        <div class="soal-konten">
+                            <p>Diberikan model <i>grid</i> bernilai $\frac{1}{3}$:</p>
+                            <div class="visual-container"><span class="fraction-grid" data-c="3" data-r="1" data-s="1"></span></div>
+                            <p>Pilihlah gambar-gambar yang menunjukkan pecahan yang senilai. (Bisa memilih lebih dari satu jawaban)</p>
+                            <div class="pilihan-ganda-mcma">
+                                <div><input type="checkbox" /><span class="fraction-pie" data-n="2" data-d="6"></span> <span style="margin-left:8px;"> ($\frac{2}{6}$)</span></div>
+                                <div><input type="checkbox" /><span class="fraction-grid" data-c="2" data-r="2" data-s="2"></span> <span style="margin-left:8px;"> ($\frac{2}{4}$)</span></div>
+                                <div><input type="checkbox" /><span class="fraction-bar" data-n="3" data-d="9"></span> <span style="margin-left:8px;"> ($\frac{3}{9}$)</span></div>
+                                <div><input type="checkbox" /><span class="fraction-pie" data-n="4" data-d="8"></span> <span style="margin-left:8px;"> ($\frac{4}{8}$)</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Soal 11 -->
+                    <div class="soal-latihan">
+                        <div class="soal-nomor">11.</div>
+                        <div class="soal-konten">
+                            <p>Diberikan model lingkaran bernilai $\frac{2}{3}$:</p>
+                            <div class="visual-container"><span class="fraction-pie" data-n="2" data-d="3"></span></div>
+                            <p>Pilihlah gambar-gambar yang menunjukkan pecahan yang senilai. (Bisa memilih lebih dari satu jawaban)</p>
+                            <div class="pilihan-ganda-mcma">
+                                <div><input type="checkbox" /><span class="fraction-grid" data-c="3" data-r="2" data-s="4"></span> <span style="margin-left:8px;"> ($\frac{4}{6}$)</span></div>
+                                <div><input type="checkbox" /><span class="fraction-bar" data-n="2" data-d="5"></span> <span style="margin-left:8px;"> ($\frac{2}{5}$)</span></div>
+                                <div><input type="checkbox" /><span class="fraction-pie" data-n="6" data-d="9"></span> <span style="margin-left:8px;"> ($\frac{6}{9}$)</span></div>
+                                <div><input type="checkbox" /><span class="fraction-grid" data-c="3" data-r="2" data-s="3"></span> <span style="margin-left:8px;"> ($\frac{3}{6}$)</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Soal 12 -->
+                    <div class="soal-latihan">
+                        <div class="soal-nomor">12.</div>
+                        <div class="soal-konten">
+                            <p>Diberikan model <i>grid</i> bernilai $\frac{3}{4}$:</p>
+                            <div class="visual-container"><span class="fraction-grid" data-c="2" data-r="2" data-s="3"></span></div>
+                            <p>Pilihlah gambar-gambar yang menunjukkan pecahan yang senilai. (Bisa memilih lebih dari satu jawaban)</p>
+                            <div class="pilihan-ganda-mcma">
+                                <div><input type="checkbox" /><span class="fraction-bar" data-n="6" data-d="8"></span> <span style="margin-left:8px;"> ($\frac{6}{8}$)</span></div>
+                                <div><input type="checkbox" /><span class="fraction-pie" data-n="4" data-d="8"></span> <span style="margin-left:8px;"> ($\frac{4}{8}$)</span></div>
+                                <div><input type="checkbox" /><span class="fraction-grid" data-c="4" data-r="3" data-s="9"></span> <span style="margin-left:8px;"> ($\frac{9}{12}$)</span></div>
+                                <div><input type="checkbox" /><span class="fraction-pie" data-n="2" data-d="4"></span> <span style="margin-left:8px;"> ($\frac{2}{4}$)</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="page-footer"><b>CopyrightⒸ 2026 - PT Ruang Raya Indonesia - All Rights Reserved.</b><i>Dilarang menyebarluaskan dokumen ini tanpa seizin PT Ruang Raya Indonesia.</i></footer>
+    </section>
+
+    <!-- HALAMAN 3: MCMA & Tabel B/S (13-17) -->
+    <section class="page page-subsequent">
+        <header class="page-header">
+            <div class="header-top-box">
+                <div><div class="header-title-main">Bank Aktivitas</div><div class="header-title-sub">Matematika</div></div>
+                <img src="https://imgix3.ruangguru.com/assets/miscellaneous/png_63qwb1_5293.png" alt="Brain Academy Logo" class="header-logo" />
+            </div>
+        </header>
+        
+        <div class="content-wrapper">
+            <div class="manual-flex-layout page-compact">
+                <!-- Kolom Kiri -->
+                <div class="kolom">
+                    <!-- Soal 13 -->
+                    <div class="soal-latihan">
+                        <div class="soal-nomor">13.</div>
+                        <div class="soal-konten">
+                            <p>Diberikan model pie bernilai $\frac{1}{4}$:</p>
+                            <div class="visual-container"><span class="fraction-pie" data-n="1" data-d="4"></span></div>
+                            <p>Pilihlah gambar-gambar yang menunjukkan pecahan yang senilai. (Bisa memilih lebih dari satu jawaban)</p>
+                            <div class="pilihan-ganda-mcma">
+                                <div><input type="checkbox" /><span class="fraction-bar" data-n="2" data-d="8"></span> <span style="margin-left:8px;"> ($\frac{2}{8}$)</span></div>
+                                <div><input type="checkbox" /><span class="fraction-pie" data-n="2" data-d="8"></span> <span style="margin-left:8px;"> ($\frac{2}{8}$)</span></div>
+                                <div><input type="checkbox" /><span class="fraction-grid" data-c="3" data-r="1" data-s="1"></span> <span style="margin-left:8px;"> ($\frac{1}{3}$)</span></div>
+                                <div><input type="checkbox" /><span class="fraction-grid" data-c="4" data-r="3" data-s="3"></span> <span style="margin-left:8px;"> ($\frac{3}{12}$)</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Soal 14 -->
+                    <div class="soal-latihan">
+                        <div class="soal-nomor">14.</div>
+                        <div class="soal-konten">
+                            <p>Diberikan model balok bernilai $\frac{3}{5}$:</p>
+                            <div class="visual-container"><span class="fraction-bar" data-n="3" data-d="5"></span></div>
+                            <p>Pilihlah gambar-gambar yang menunjukkan pecahan yang senilai. (Bisa memilih lebih dari satu jawaban)</p>
+                            <div class="pilihan-ganda-mcma">
+                                <div><input type="checkbox" /><span class="fraction-pie" data-n="6" data-d="10"></span> <span style="margin-left:8px;"> ($\frac{6}{10}$)</span></div>
+                                <div><input type="checkbox" /><span class="fraction-grid" data-c="5" data-r="2" data-s="4"></span> <span style="margin-left:8px;"> ($\frac{4}{10}$)</span></div>
+                                <div><input type="checkbox" /><span class="fraction-pie" data-n="1" data-d="2"></span> <span style="margin-left:8px;"> ($\frac{1}{2}$)</span></div>
+                                <div><input type="checkbox" /><span class="fraction-bar" data-n="9" data-d="15"></span> <span style="margin-left:8px;"> ($\frac{9}{15}$)</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="section-desc-inline" style="margin-top: 15px;">Bagian III: Pilihan Ganda Kompleks (Tabel Benar/Salah). Bacalah setiap pernyataan dengan teliti!</div>
+
+                    <!-- Soal 15 -->
+                    <div class="soal-latihan">
+                        <div class="soal-nomor">15.</div>
+                        <div class="soal-konten">
+                            <p>Perhatikan Gambar A dan Gambar B di bawah ini:</p>
+                            <div class="visual-container"><b>Gambar A:</b> <span class="fraction-bar" data-n="1" data-d="2"></span> ($\frac{1}{2}$)</div>
+                            <div class="visual-container"><b>Gambar B:</b> <span class="fraction-bar" data-n="2" data-d="4"></span> ($\frac{2}{4}$)</div>
+                            <p>Tentukan nilai kebenaran benar/salah dari pernyataan-pernyataan berikut!</p>
+                            <table class="soal-kategori">
+                                <thead>
+                                    <tr><th>Pernyataan</th><th>Benar</th><th>Salah</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Pecahan pada Gambar A senilai dengan Gambar B.</td><td></td><td></td></tr>
+                                    <tr><td>Luas total daerah yang diarsir pada Gambar B dua kali lipat lebih besar dari Gambar A jika ukuran utuhnya sama.</td><td></td><td></td></tr>
+                                    <tr><td>Gambar B dapat diperoleh dengan membagi dua sama besar setiap bagian pada Gambar A.</td><td></td><td></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kolom Kanan -->
+                <div class="kolom">
+                    <!-- Soal 16 -->
+                    <div class="soal-latihan">
+                        <div class="soal-nomor">16.</div>
+                        <div class="soal-konten">
+                            <p>Diberikan representasi $\frac{1}{3}$ dan $\frac{3}{9}$ sebagai berikut:</p>
+                            <div class="visual-container"><b>Visual 1:</b> <span class="fraction-pie" data-n="1" data-d="3"></span> &nbsp; <b>Visual 2:</b> <span class="fraction-pie" data-n="3" data-d="9"></span></div>
+                            <p>Tentukan nilai kebenaran benar/salah dari pernyataan-pernyataan berikut!</p>
+                            <table class="soal-kategori">
+                                <thead>
+                                    <tr><th>Pernyataan</th><th>Benar</th><th>Salah</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Kedua visual tersebut menunjukkan pecahan yang senilai.</td><td></td><td></td></tr>
+                                    <tr><td>Pecahan $\frac{3}{9}$ bentuk sederhananya adalah $\frac{1}{4}$.</td><td></td><td></td></tr>
+                                    <tr><td>Untuk mendapatkan Visual 2, setiap potongan pada Visual 1 dipotong menjadi 3 bagian yang sama besar.</td><td></td><td></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Soal 17 -->
+                    <div class="soal-latihan">
+                        <div class="soal-nomor">17.</div>
+                        <div class="soal-konten">
+                            <p>Rina memiliki balok pecahan <span class="fraction-bar" data-n="3" data-d="4"></span> dan Dito memiliki balok <span class="fraction-bar" data-n="6" data-d="8"></span>.</p>
+                            <p>Tentukan nilai kebenaran benar/salah dari pernyataan-pernyataan berikut!</p>
+                            <table class="soal-kategori">
+                                <thead>
+                                    <tr><th>Pernyataan</th><th>Benar</th><th>Salah</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Balok pecahan milik Rina lebih besar nilainya daripada milik Dito.</td><td></td><td></td></tr>
+                                    <tr><td>Jika balok Rina masing-masing kotaknya dibagi dua, maka akan sama persis dengan balok Dito.</td><td></td><td></td></tr>
+                                    <tr><td>Pecahan $\frac{3}{4}$ senilai dengan $\frac{6}{8}$ karena pembilang dan penyebut dikalikan dengan bilangan yang sama, yaitu 2.</td><td></td><td></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="page-footer"><b>CopyrightⒸ 2026 - PT Ruang Raya Indonesia - All Rights Reserved.</b><i>Dilarang menyebarluaskan dokumen ini tanpa seizin PT Ruang Raya Indonesia.</i></footer>
+    </section>
+
+    <!-- HAL halaman 4: Tabel B/S (18-20) -->
+    <section class="page page-subsequent">
+        <header class="page-header">
+            <div class="header-top-box">
+                <div><div class="header-title-main">Bank Aktivitas</div><div class="header-title-sub">Matematika</div></div>
+                <img src="https://imgix3.ruangguru.com/assets/miscellaneous/png_63qwb1_5293.png" alt="Brain Academy Logo" class="header-logo" />
+            </div>
+        </header>
+        
+        <div class="content-wrapper">
+            <div class="manual-flex-layout page-compact">
+                <!-- Kolom Kiri -->
+                <div class="kolom">
+                    <!-- Soal 18 -->
+                    <div class="soal-latihan">
+                        <div class="soal-nomor">18.</div>
+                        <div class="soal-konten">
+                            <p>Sebuah <i>Ten-Frame</i> (bingkai sepuluh) memiliki 5 kotak yang terisi, mewakili pecahan $\frac{5}{10}$.</p>
+                            <div class="visual-container"><span class="fraction-grid" data-c="5" data-r="2" data-s="5"></span></div>
+                            <p>Tentukan nilai kebenaran benar/salah dari pernyataan-pernyataan berikut!</p>
+                            <table class="soal-kategori">
+                                <thead>
+                                    <tr><th>Pernyataan</th><th>Benar</th><th>Salah</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Pecahan $\frac{5}{10}$ tersebut senilai dengan model setengah ($\frac{1}{2}$).</td><td></td><td></td></tr>
+                                    <tr><td>Jika 2 kotak lagi diisi sehingga menjadi $\frac{7}{10}$, pecahan tersebut akan senilai dengan $\frac{3}{4}$.</td><td></td><td></td></tr>
+                                    <tr><td>$\frac{5}{10}$ memiliki nilai yang sama dengan $\frac{2}{4}$ karena keduanya jika disederhanakan bernilai sama.</td><td></td><td></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Soal 19 -->
+                    <div class="soal-latihan">
+                        <div class="soal-nomor">19.</div>
+                        <div class="soal-konten">
+                            <p>Perhatikan perbandingan <i>grid</i> pecahan berikut:</p>
+                            <div class="visual-container"><b>Kiri:</b> <span class="fraction-grid" data-c="3" data-r="2" data-s="2"></span> ($\frac{2}{6}$) &nbsp; <b>Kanan:</b> <span class="fraction-grid" data-c="3" data-r="2" data-s="4"></span> ($\frac{4}{6}$)</div>
+                            <p>Tentukan nilai kebenaran benar/salah dari pernyataan-pernyataan berikut!</p>
+                            <table class="soal-kategori">
+                                <thead>
+                                    <tr><th>Pernyataan</th><th>Benar</th><th>Salah</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Pecahan sebelah Kiri senilai dengan $\frac{1}{3}$.</td><td></td><td></td></tr>
+                                    <tr><td>Pecahan sebelah Kanan senilai dengan $\frac{2}{3}$.</td><td></td><td></td></tr>
+                                    <tr><td>Pecahan sebelah Kiri dan Kanan adalah pecahan yang senilai satu sama lain.</td><td></td><td></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kolom Kanan -->
+                <div class="kolom">
+                    <!-- Soal 20 -->
+                    <div class="soal-latihan">
+                        <div class="soal-nomor">20.</div>
+                        <div class="soal-konten">
+                            <p>Secara abstrak, kita bisa menentukan pecahan senilai tanpa menggambar dengan prinsip matematika tertentu.</p>
+                            <p>Tentukan nilai kebenaran benar/salah dari pernyataan-pernyataan berikut!</p>
+                            <table class="soal-kategori">
+                                <thead>
+                                    <tr><th>Pernyataan</th><th>Benar</th><th>Salah</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Jika penyebut sebuah pecahan dikali 3, maka agar nilainya tetap senilai, pembilangnya harus ditambah 3.</td><td></td><td></td></tr>
+                                    <tr><td>Membagi pembilang dan penyebut dengan angka yang sama (selain 0) akan menghasilkan pecahan senilai yang lebih sederhana.</td><td></td><td></td></tr>
+                                    <tr><td>Pecahan $\frac{2}{5}$ tidak memiliki pecahan senilai karena 2 dan 5 adalah bilangan prima.</td><td></td><td></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="page-footer"><b>CopyrightⒸ 2026 - PT Ruang Raya Indonesia - All Rights Reserved.</b><i>Dilarang menyebarluaskan dokumen ini tanpa seizin PT Ruang Raya Indonesia.</i></footer>
+    </section>
+
+</div>
+
+<script>
+// --- JS DRAWING ENGINE UNTUK MENGGANTIKAN TIKZ ---
+document.addEventListener("DOMContentLoaded", () => {
+    
+    // 1. Gambar Bar Model
+    document.querySelectorAll('.fraction-bar').forEach(el => {
+        const n = parseInt(el.getAttribute('data-n'));
+        const d = parseInt(el.getAttribute('data-d'));
+        const w = 120, h = 24;
+        let svg = `<svg width="${w}" height="${h}" style="vertical-align: middle;">`;
+        if (n > 0) svg += `<rect x="0" y="0" width="${w * n / d}" height="${h}" fill="#b0bec5" />`;
+        svg += `<rect x="0" y="0" width="${w}" height="${h}" fill="none" stroke="#333" stroke-width="2" />`;
+        for (let i = 1; i < d; i++) {
+            svg += `<line x1="${w * i / d}" y1="0" x2="${w * i / d}" y2="${h}" stroke="#333" stroke-width="2" />`;
+        }
+        svg += `</svg>`;
+        el.innerHTML = svg;
+    });
+
+    // 2. Gambar Pie Chart
+    document.querySelectorAll('.fraction-pie').forEach(el => {
+        const n = parseInt(el.getAttribute('data-n'));
+        const d = parseInt(el.getAttribute('data-d'));
+        const size = 42; 
+        const r = size / 2 - 2; 
+        const cx = size / 2;
+        const cy = size / 2;
+        let svg = `<svg width="${size}" height="${size}" style="vertical-align: middle;">`;
+
+        if (n > 0 && n < d) {
+            const angle = (n / d) * 2 * Math.PI;
+            const x = cx + r * Math.sin(angle);
+            const y = cy - r * Math.cos(angle);
+            const largeArc = (n / d) > 0.5 ? 1 : 0;
+            // Shading starting from top (12 o'clock)
+            svg += `<path d="M ${cx} ${cy} L ${cx} ${cy - r} A ${r} ${r} 0 ${largeArc} 1 ${x} ${y} Z" fill="#b0bec5" stroke="#333" stroke-width="1"/>`;
+        } else if (n === d) {
+            svg += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="#b0bec5" />`;
+        }
+
+        svg += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#333" stroke-width="2" />`;
+
+        if (d > 1) {
+            for (let i = 0; i < d; i++) {
+                const angle = (i / d) * 2 * Math.PI;
+                const x = cx + r * Math.sin(angle);
+                const y = cy - r * Math.cos(angle);
+                svg += `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="#333" stroke-width="2" />`;
+            }
+        }
+        svg += `</svg>`;
+        el.innerHTML = svg;
+    });
+
+    // 3. Gambar Grid 2D (Termasuk Ten-Frame)
+    document.querySelectorAll('.fraction-grid').forEach(el => {
+        const cols = parseInt(el.getAttribute('data-c'));
+        const rows = parseInt(el.getAttribute('data-r'));
+        const shaded = parseInt(el.getAttribute('data-s'));
+        const cell = 20;
+        const w = cols * cell;
+        const h = rows * cell;
+        let svg = `<svg width="${w}" height="${h}" style="vertical-align: middle;">`;
+
+        let count = 0;
+        for (let r = 0; r < rows; r++) {
+            for (let c = 0; c < cols; c++) {
+                if (count < shaded) {
+                    svg += `<rect x="${c * cell}" y="${r * cell}" width="${cell}" height="${cell}" fill="#b0bec5" />`;
+                }
+                count++;
+            }
+        }
+
+        for (let r = 0; r <= rows; r++) {
+            svg += `<line x1="0" y1="${r * cell}" x2="${w}" y2="${r * cell}" stroke="#333" stroke-width="2" />`;
+        }
+        for (let c = 0; c <= cols; c++) {
+            svg += `<line x1="${c * cell}" y1="0" x2="${c * cell}" y2="${h}" stroke="#333" stroke-width="2" />`;
+        }
+
+        svg += `</svg>`;
+        el.innerHTML = svg;
+    });
+});
+</script>
+</body>
+</html>
