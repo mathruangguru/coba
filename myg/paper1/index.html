@@ -10,7 +10,7 @@
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     
     <!-- Chosen Palette: Warm Neutrals & Deep Teal (bg-stone-50, text-stone-800, accent-teal-600) -->
-    <!-- Application Structure Plan: Tabbed SPA with Bilingual support. CSS classes (.lang-id, .lang-en) are used to toggle content languages instantly. MathJax renders both hidden and visible elements on load to ensure smooth transitions. -->
+    <!-- Application Structure Plan: Tabbed SPA with Bilingual support. CSS classes (.lang-id, .lang-en) are used to toggle content languages instantly. MathJax renders both hidden and visible elements on load to ensure smooth transitions. Added a specific "Drilling" section for quadratic equation solving based on user request. -->
     <!-- Visualization & Content Choices: Interactive charts (Chart.js) remain, with dynamically updated labels/text based on the active language state. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 
@@ -624,9 +624,150 @@
             </div>
 
             <div class="space-y-6">
+
+                <!-- NEW DRILLING SECTION -->
+                <div>
+                    <h3 class="text-xl font-serif-title border-b border-teal-300 pb-2 mb-4 text-teal-800">
+                        <span class="lang-id">Drilling: Menyelesaikan Persamaan Kuadrat</span>
+                        <span class="lang-en">Drilling: Solving Quadratic Equations</span>
+                    </h3>
+                    <div class="grid grid-cols-1 gap-4">
+                        
+                        <!-- Drill 1 -->
+                        <div class="bg-white border border-stone-200 rounded-xl overflow-hidden shadow-sm">
+                            <div class="p-4">
+                                <p class="font-medium mb-2 text-sm">
+                                    <span class="lang-id">D1. Selesaikan persamaan kuadrat berikut dengan faktorisasi: \(x^2 - 7x + 10 = 0\)</span>
+                                    <span class="lang-en">D1. Solve the following quadratic equation by factorisation: \(x^2 - 7x + 10 = 0\)</span>
+                                </p>
+                                <button onclick="toggleAnswer('ans-drill1')" class="text-teal-600 font-semibold text-xs flex items-center hover:text-teal-800">
+                                    <span class="lang-id">Lihat Pembahasan</span><span class="lang-en">View Solution</span> <span id="icon-ans-drill1" class="ml-1 transition-transform">&#9662;</span>
+                                </button>
+                            </div>
+                            <div id="ans-drill1" class="answer-reveal bg-stone-50 border-t border-stone-100 text-sm">
+                                <div class="p-4 text-stone-700">
+                                    <div class="math-block py-1">
+                                        \((x - 2)(x - 5) = 0\)
+                                    </div>
+                                    <p class="mt-1 font-semibold text-teal-800">
+                                        <span class="lang-id">Jawaban:</span><span class="lang-en">Answer:</span> \(x = 2\) <span class="lang-id">atau</span><span class="lang-en">or</span> \(x = 5\)
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Drill 2 -->
+                        <div class="bg-white border border-stone-200 rounded-xl overflow-hidden shadow-sm">
+                            <div class="p-4">
+                                <p class="font-medium mb-2 text-sm">
+                                    <span class="lang-id">D2. Selesaikan persamaan kuadrat berikut (faktorisasi \(a > 1\)): \(2x^2 + 5x - 3 = 0\)</span>
+                                    <span class="lang-en">D2. Solve the following equation (factorisation \(a > 1\)): \(2x^2 + 5x - 3 = 0\)</span>
+                                </p>
+                                <button onclick="toggleAnswer('ans-drill2')" class="text-teal-600 font-semibold text-xs flex items-center hover:text-teal-800">
+                                    <span class="lang-id">Lihat Pembahasan</span><span class="lang-en">View Solution</span> <span id="icon-ans-drill2" class="ml-1 transition-transform">&#9662;</span>
+                                </button>
+                            </div>
+                            <div id="ans-drill2" class="answer-reveal bg-stone-50 border-t border-stone-100 text-sm">
+                                <div class="p-4 text-stone-700">
+                                    <div class="math-block py-1">
+                                        \((2x - 1)(x + 3) = 0\)
+                                    </div>
+                                    <p class="mt-1 font-semibold text-teal-800">
+                                        <span class="lang-id">Jawaban:</span><span class="lang-en">Answer:</span> \(x = \frac{1}{2}\) <span class="lang-id">atau</span><span class="lang-en">or</span> \(x = -3\)
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Drill 3 -->
+                        <div class="bg-white border border-stone-200 rounded-xl overflow-hidden shadow-sm">
+                            <div class="p-4">
+                                <p class="font-medium mb-2 text-sm">
+                                    <span class="lang-id">D3. Selesaikan persamaan \(x^2 - 4x - 7 = 0\). Berikan jawabanmu dalam bentuk akar yang paling sederhana (\(a \pm b\sqrt{c}\)).</span>
+                                    <span class="lang-en">D3. Solve the equation \(x^2 - 4x - 7 = 0\). Give your answers in the simplest surd form (\(a \pm b\sqrt{c}\)).</span>
+                                </p>
+                                <button onclick="toggleAnswer('ans-drill3')" class="text-teal-600 font-semibold text-xs flex items-center hover:text-teal-800">
+                                    <span class="lang-id">Lihat Pembahasan</span><span class="lang-en">View Solution</span> <span id="icon-ans-drill3" class="ml-1 transition-transform">&#9662;</span>
+                                </button>
+                            </div>
+                            <div id="ans-drill3" class="answer-reveal bg-stone-50 border-t border-stone-100 text-sm">
+                                <div class="p-4 text-stone-700">
+                                    <p class="mb-1">
+                                        <span class="lang-id">Gunakan Rumus Kuadrat:</span><span class="lang-en">Use the Quadratic Formula:</span>
+                                    </p>
+                                    <div class="math-block py-1">
+                                        \(x = \frac{-(-4) \pm \sqrt{(-4)^2 - 4(1)(-7)}}{2(1)}\)<br>
+                                        \(x = \frac{4 \pm \sqrt{16 + 28}}{2}\)<br>
+                                        \(x = \frac{4 \pm \sqrt{44}}{2}\)<br>
+                                        \(x = \frac{4 \pm 2\sqrt{11}}{2}\)
+                                    </div>
+                                    <p class="mt-1 font-semibold text-teal-800">
+                                        <span class="lang-id">Jawaban:</span><span class="lang-en">Answer:</span> \(x = 2 \pm \sqrt{11}\)
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Drill 4 -->
+                        <div class="bg-white border border-stone-200 rounded-xl overflow-hidden shadow-sm">
+                            <div class="p-4">
+                                <p class="font-medium mb-2 text-sm">
+                                    <span class="lang-id">D4. Selesaikan persamaan \(x^2 + 6x + 2 = 0\) menggunakan metode melengkapkan kuadrat.</span>
+                                    <span class="lang-en">D4. Solve the equation \(x^2 + 6x + 2 = 0\) by completing the square.</span>
+                                </p>
+                                <button onclick="toggleAnswer('ans-drill4')" class="text-teal-600 font-semibold text-xs flex items-center hover:text-teal-800">
+                                    <span class="lang-id">Lihat Pembahasan</span><span class="lang-en">View Solution</span> <span id="icon-ans-drill4" class="ml-1 transition-transform">&#9662;</span>
+                                </button>
+                            </div>
+                            <div id="ans-drill4" class="answer-reveal bg-stone-50 border-t border-stone-100 text-sm">
+                                <div class="p-4 text-stone-700">
+                                    <div class="math-block py-1">
+                                        \((x + 3)^2 - 9 + 2 = 0\)<br>
+                                        \((x + 3)^2 - 7 = 0\)<br>
+                                        \((x + 3)^2 = 7\)<br>
+                                        \(x + 3 = \pm\sqrt{7}\)
+                                    </div>
+                                    <p class="mt-1 font-semibold text-teal-800">
+                                        <span class="lang-id">Jawaban:</span><span class="lang-en">Answer:</span> \(x = -3 \pm \sqrt{7}\)
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Drill 5 -->
+                        <div class="bg-white border border-stone-200 rounded-xl overflow-hidden shadow-sm">
+                            <div class="p-4">
+                                <p class="font-medium mb-2 text-sm">
+                                    <span class="lang-id">D5. Selesaikan persamaan berikut: \(x(2x - 3) = 20\)</span>
+                                    <span class="lang-en">D5. Solve the following equation: \(x(2x - 3) = 20\)</span>
+                                </p>
+                                <button onclick="toggleAnswer('ans-drill5')" class="text-teal-600 font-semibold text-xs flex items-center hover:text-teal-800">
+                                    <span class="lang-id">Lihat Pembahasan</span><span class="lang-en">View Solution</span> <span id="icon-ans-drill5" class="ml-1 transition-transform">&#9662;</span>
+                                </button>
+                            </div>
+                            <div id="ans-drill5" class="answer-reveal bg-stone-50 border-t border-stone-100 text-sm">
+                                <div class="p-4 text-stone-700">
+                                    <p class="mb-1">
+                                        <span class="lang-id">Jabarkan dan pindah ruaskan ke satu sisi:</span><span class="lang-en">Expand and rearrange to one side:</span>
+                                    </p>
+                                    <div class="math-block py-1">
+                                        \(2x^2 - 3x = 20\)<br>
+                                        \(2x^2 - 3x - 20 = 0\)<br>
+                                        \((2x + 5)(x - 4) = 0\)
+                                    </div>
+                                    <p class="mt-1 font-semibold text-teal-800">
+                                        <span class="lang-id">Jawaban:</span><span class="lang-en">Answer:</span> \(x = -\frac{5}{2}\) <span class="lang-id">atau</span><span class="lang-en">or</span> \(x = 4\)
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
                 <!-- LEVEL 1 -->
                 <div>
-                    <h3 class="text-xl font-serif-title border-b border-stone-200 pb-2 mb-4 text-stone-800">
+                    <h3 class="text-xl font-serif-title border-b border-stone-200 pb-2 mb-4 text-stone-800 mt-8">
                         Level 1: Foundation
                     </h3>
                     <div class="space-y-4">
