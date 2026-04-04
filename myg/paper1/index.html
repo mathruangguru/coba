@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modul Pembelajaran Interaktif: Quadratics 9709</title>
+    <title>Modul Pembelajaran Interaktif: Quadratics 9709 / Interactive Module: Quadratics</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     
     <!-- Chosen Palette: Warm Neutrals & Deep Teal (bg-stone-50, text-stone-800, accent-teal-600) -->
-    <!-- Application Structure Plan: The SPA uses a tabbed navigation system (Konsep, Contoh, Latihan) to break down the dense markdown report into a structured learning path. The 'Konsep' section uses sub-tabs to avoid cognitive overload. Interactive elements (sliders for vertex form, buttons for discriminant) are added to visualize abstract algebraic concepts, adhering to the CPA (Concrete-Pictorial-Abstract) approach mentioned in the teacher tips. -->
-    <!-- Visualization & Content Choices: Completing the Square -> Goal: Understand a, p, q impact -> Viz: Interactive Chart.js Line Chart with sliders -> Justification: Allows students to concretely see translations and dilations. Discriminant -> Goal: Relate D to roots -> Viz: Chart.js Line Chart toggled by buttons -> Justification: Instantly connects abstract D values to visual x-axis intersections. No SVG/Mermaid used, fully reliant on Chart.js and styled HTML. -->
+    <!-- Application Structure Plan: Tabbed SPA with Bilingual support. CSS classes (.lang-id, .lang-en) are used to toggle content languages instantly. MathJax renders both hidden and visible elements on load to ensure smooth transitions. -->
+    <!-- Visualization & Content Choices: Interactive charts (Chart.js) remain, with dynamically updated labels/text based on the active language state. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 
     <style>
@@ -22,6 +22,10 @@
             background-color: #fafaf9;
             color: #292524;
         }
+
+        /* Language Toggle Logic */
+        body.lang-id .lang-en { display: none !important; }
+        body.lang-en .lang-id { display: none !important; }
 
         h1, h2, h3, h4, .font-serif-title {
             font-family: 'Lora', serif;
@@ -71,25 +75,52 @@
         }
         
         .answer-reveal.open {
-            max-height: 1000px;
+            max-height: 1500px; /* Increased to accommodate longer bilingual content */
         }
     </style>
 </head>
-<body class="antialiased min-h-screen flex flex-col">
+<body class="antialiased min-h-screen flex flex-col lang-id">
 
     <header class="bg-white shadow-sm sticky top-0 z-50">
         <div class="max-w-5xl mx-auto px-4 py-6">
             <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-                <div>
-                    <h1 class="text-2xl md:text-3xl font-semibold text-teal-800">Pure Mathematics 1</h1>
-                    <p class="text-stone-500 text-sm mt-1">Cambridge International AS & A Level (9709) - Topik 1.1: Quadratics</p>
+                <div class="w-full md:w-auto flex justify-between items-center">
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-semibold text-teal-800">
+                            <span class="lang-id">Matematika Murni 1</span>
+                            <span class="lang-en">Pure Mathematics 1</span>
+                        </h1>
+                        <p class="text-stone-500 text-sm mt-1">Cambridge International AS & A Level (9709) - Topik 1.1: Quadratics</p>
+                    </div>
+                    <!-- Language Toggle Switch (Mobile view aligned) -->
+                    <div class="md:hidden flex items-center space-x-1 bg-stone-100 p-1 rounded-lg border border-stone-200 ml-4">
+                        <button onclick="setLang('id')" id="btn-lang-id-mob" class="px-2 py-1 rounded text-xs font-semibold bg-white text-teal-700 shadow-sm transition-all">ID</button>
+                        <button onclick="setLang('en')" id="btn-lang-en-mob" class="px-2 py-1 rounded text-xs font-semibold text-stone-500 hover:text-stone-700 transition-all">EN</button>
+                    </div>
                 </div>
-                <nav class="flex gap-1 md:gap-4 overflow-x-auto w-full md:w-auto pb-2 md:pb-0">
-                    <button onclick="switchMainTab('konsep')" id="tab-konsep" class="tab-btn active px-4 py-2 text-stone-600 hover:text-teal-700 whitespace-nowrap">Konsep Inti</button>
-                    <button onclick="switchMainTab('contoh')" id="tab-contoh" class="tab-btn px-4 py-2 text-stone-600 hover:text-teal-700 whitespace-nowrap">Contoh Soal</button>
-                    <button onclick="switchMainTab('latihan')" id="tab-latihan" class="tab-btn px-4 py-2 text-stone-600 hover:text-teal-700 whitespace-nowrap">Latihan Mandiri</button>
-                    <button onclick="switchMainTab('guru')" id="tab-guru" class="tab-btn px-4 py-2 text-stone-600 hover:text-teal-700 whitespace-nowrap">Tips Guru</button>
-                </nav>
+                
+                <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
+                    <nav class="flex gap-1 md:gap-4 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 hide-scrollbar">
+                        <button onclick="switchMainTab('konsep')" id="tab-konsep" class="tab-btn active px-4 py-2 text-stone-600 hover:text-teal-700 whitespace-nowrap">
+                            <span class="lang-id">Konsep Inti</span><span class="lang-en">Core Concepts</span>
+                        </button>
+                        <button onclick="switchMainTab('contoh')" id="tab-contoh" class="tab-btn px-4 py-2 text-stone-600 hover:text-teal-700 whitespace-nowrap">
+                            <span class="lang-id">Contoh Soal</span><span class="lang-en">Worked Examples</span>
+                        </button>
+                        <button onclick="switchMainTab('latihan')" id="tab-latihan" class="tab-btn px-4 py-2 text-stone-600 hover:text-teal-700 whitespace-nowrap">
+                            <span class="lang-id">Latihan Mandiri</span><span class="lang-en">Practice</span>
+                        </button>
+                        <button onclick="switchMainTab('guru')" id="tab-guru" class="tab-btn px-4 py-2 text-stone-600 hover:text-teal-700 whitespace-nowrap">
+                            <span class="lang-id">Tips Guru</span><span class="lang-en">Teacher Tips</span>
+                        </button>
+                    </nav>
+                    
+                    <!-- Language Toggle Switch (Desktop) -->
+                    <div class="hidden md:flex items-center space-x-1 bg-stone-100 p-1 rounded-lg border border-stone-200">
+                        <button onclick="setLang('id')" id="btn-lang-id" class="px-3 py-1 rounded-md text-sm font-semibold bg-white text-teal-700 shadow-sm transition-all">ID</button>
+                        <button onclick="setLang('en')" id="btn-lang-en" class="px-3 py-1 rounded-md text-sm font-semibold text-stone-500 hover:text-stone-700 transition-all">EN</button>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
@@ -98,89 +129,166 @@
 
         <section id="content-konsep" class="block space-y-8">
             <div class="bg-teal-50 border-l-4 border-teal-600 p-4 rounded-r-lg">
-                <p class="text-stone-700">Bagian ini membedah konsep dasar hingga lanjut dalam mengelola polinomial derajat dua. Eksplorasi interaktif di bawah ini dirancang untuk memperkuat pemahaman visual dan aljabar Anda.</p>
+                <p class="text-stone-700 lang-id">Bagian ini membedah konsep dasar hingga lanjut dalam mengelola polinomial derajat dua. Eksplorasi interaktif di bawah ini dirancang untuk memperkuat pemahaman visual dan aljabar Anda.</p>
+                <p class="text-stone-700 lang-en">This section breaks down basic to advanced concepts in managing degree-two polynomials. The interactive explorations below are designed to strengthen your visual and algebraic understanding.</p>
             </div>
 
             <div class="flex flex-wrap gap-2 mb-6">
-                <button onclick="switchSubTab('sq')" id="sub-sq" class="sub-tab-btn active px-3 py-1.5 rounded-full border border-stone-300 text-sm">Melengkapkan Kuadrat</button>
-                <button onclick="switchSubTab('disc')" id="sub-disc" class="sub-tab-btn px-3 py-1.5 rounded-full border border-stone-300 text-sm">Diskriminan</button>
-                <button onclick="switchSubTab('ineq')" id="sub-ineq" class="sub-tab-btn px-3 py-1.5 rounded-full border border-stone-300 text-sm">Persamaan & Pertidaksamaan</button>
-                <button onclick="switchSubTab('simul')" id="sub-simul" class="sub-tab-btn px-3 py-1.5 rounded-full border border-stone-300 text-sm">Persamaan Simultan</button>
-                <button onclick="switchSubTab('hidden')" id="sub-hidden" class="sub-tab-btn px-3 py-1.5 rounded-full border border-stone-300 text-sm">Hidden Quadratics</button>
+                <button onclick="switchSubTab('sq')" id="sub-sq" class="sub-tab-btn active px-3 py-1.5 rounded-full border border-stone-300 text-sm">
+                    <span class="lang-id">Melengkapkan Kuadrat</span><span class="lang-en">Completing the Square</span>
+                </button>
+                <button onclick="switchSubTab('disc')" id="sub-disc" class="sub-tab-btn px-3 py-1.5 rounded-full border border-stone-300 text-sm">
+                    <span class="lang-id">Diskriminan</span><span class="lang-en">Discriminant</span>
+                </button>
+                <button onclick="switchSubTab('ineq')" id="sub-ineq" class="sub-tab-btn px-3 py-1.5 rounded-full border border-stone-300 text-sm">
+                    <span class="lang-id">Persamaan & Pertidaksamaan</span><span class="lang-en">Equations & Inequalities</span>
+                </button>
+                <button onclick="switchSubTab('simul')" id="sub-simul" class="sub-tab-btn px-3 py-1.5 rounded-full border border-stone-300 text-sm">
+                    <span class="lang-id">Persamaan Simultan</span><span class="lang-en">Simultaneous Eq.</span>
+                </button>
+                <button onclick="switchSubTab('hidden')" id="sub-hidden" class="sub-tab-btn px-3 py-1.5 rounded-full border border-stone-300 text-sm">
+                    <span class="lang-id">Kuadrat Terselubung</span><span class="lang-en">Hidden Quadratics</span>
+                </button>
             </div>
 
+            <!-- Completing the Square -->
             <div id="subcontent-sq" class="block animate-fade-in">
-                <h2 class="text-2xl font-serif-title mb-4">1. Melengkapkan Kuadrat (Completing the Square)</h2>
+                <h2 class="text-2xl font-serif-title mb-4">
+                    <span class="lang-id">1. Melengkapkan Kuadrat (Completing the Square)</span>
+                    <span class="lang-en">1. Completing the Square</span>
+                </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
-                        <p class="mb-4">Bentuk umum \(ax^2 + bx + c\) dapat diubah menjadi bentuk <strong>Vertex Form</strong>:</p>
+                        <p class="mb-4">
+                            <span class="lang-id">Bentuk umum \(ax^2 + bx + c\) dapat diubah menjadi bentuk <strong>Vertex Form</strong>:</span>
+                            <span class="lang-en">The general form \(ax^2 + bx + c\) can be converted into <strong>Vertex Form</strong>:</span>
+                        </p>
                         <div class="math-block bg-white p-4 rounded-lg shadow-sm border border-stone-100 text-center text-xl">
                             \(a(x + p)^2 + q\)
                         </div>
-                        <h3 class="font-semibold mt-6 mb-2">Mengapa ini penting?</h3>
+                        <h3 class="font-semibold mt-6 mb-2">
+                            <span class="lang-id">Mengapa ini penting?</span>
+                            <span class="lang-en">Why is this important?</span>
+                        </h3>
                         <ul class="list-disc pl-5 space-y-2 text-stone-700">
-                            <li><strong>Mencari Titik Puncak (Vertex):</strong> Koordinat titik puncak adalah \((-p, q)\).</li>
-                            <li><strong>Sumbu Simetri:</strong> Garis \(x = -p\).</li>
-                            <li><strong>Sketsa Grafik:</strong> Memberikan informasi instan mengenai nilai maksimum/minimum fungsi tanpa perlu membuat tabel panjang.</li>
+                            <li>
+                                <span class="lang-id"><strong>Mencari Titik Puncak (Vertex):</strong> Koordinat titik puncak adalah \((-p, q)\).</span>
+                                <span class="lang-en"><strong>Finding the Vertex:</strong> The coordinates of the vertex are \((-p, q)\).</span>
+                            </li>
+                            <li>
+                                <span class="lang-id"><strong>Sumbu Simetri:</strong> Garis \(x = -p\).</span>
+                                <span class="lang-en"><strong>Line of Symmetry:</strong> The vertical line \(x = -p\).</span>
+                            </li>
+                            <li>
+                                <span class="lang-id"><strong>Sketsa Grafik:</strong> Memberikan informasi instan mengenai nilai maksimum/minimum fungsi tanpa perlu membuat tabel panjang.</span>
+                                <span class="lang-en"><strong>Graph Sketching:</strong> Provides instant information about the function's maximum/minimum value without needing long tables.</span>
+                            </li>
                         </ul>
                     </div>
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
-                        <h3 class="font-semibold mb-4 text-center">Eksplorasi Vertex Form</h3>
+                        <h3 class="font-semibold mb-4 text-center">
+                            <span class="lang-id">Eksplorasi Vertex Form</span>
+                            <span class="lang-en">Vertex Form Exploration</span>
+                        </h3>
                         <div class="chart-container mb-6">
                             <canvas id="vertexChart"></canvas>
                         </div>
                         <div class="space-y-4">
                             <div>
-                                <label class="flex justify-between text-sm text-stone-600"><span>Nilai \(a\) (Lebar/Arah)</span> <span id="val-a">1</span></label>
+                                <label class="flex justify-between text-sm text-stone-600">
+                                    <span class="lang-id">Nilai \(a\) (Lebar/Arah)</span>
+                                    <span class="lang-en">Value of \(a\) (Width/Direction)</span>
+                                    <span id="val-a">1</span>
+                                </label>
                                 <input type="range" id="slider-a" min="-3" max="3" step="0.5" value="1" class="w-full accent-teal-600" oninput="updateVertexChart()">
                             </div>
                             <div>
-                                <label class="flex justify-between text-sm text-stone-600"><span>Nilai \(p\) (Geser Horizontal)</span> <span id="val-p">0</span></label>
+                                <label class="flex justify-between text-sm text-stone-600">
+                                    <span class="lang-id">Nilai \(p\) (Geser Horizontal)</span>
+                                    <span class="lang-en">Value of \(p\) (Horizontal Shift)</span>
+                                    <span id="val-p">0</span>
+                                </label>
                                 <input type="range" id="slider-p" min="-5" max="5" step="1" value="0" class="w-full accent-teal-600" oninput="updateVertexChart()">
                             </div>
                             <div>
-                                <label class="flex justify-between text-sm text-stone-600"><span>Nilai \(q\) (Geser Vertikal)</span> <span id="val-q">0</span></label>
+                                <label class="flex justify-between text-sm text-stone-600">
+                                    <span class="lang-id">Nilai \(q\) (Geser Vertikal)</span>
+                                    <span class="lang-en">Value of \(q\) (Vertical Shift)</span>
+                                    <span id="val-q">0</span>
+                                </label>
                                 <input type="range" id="slider-q" min="-5" max="5" step="1" value="0" class="w-full accent-teal-600" oninput="updateVertexChart()">
                             </div>
                         </div>
-                        <p class="text-center mt-4 text-sm font-semibold text-teal-700">Persamaan Saat Ini: <br> <span id="eq-display">y = 1(x + 0)² + 0</span></p>
+                        <p class="text-center mt-4 text-sm font-semibold text-teal-700">
+                            <span class="lang-id">Persamaan Saat Ini:</span>
+                            <span class="lang-en">Current Equation:</span>
+                            <br> <span id="eq-display">y = 1(x + 0)² + 0</span>
+                        </p>
                     </div>
                 </div>
             </div>
 
+            <!-- Discriminant -->
             <div id="subcontent-disc" class="hidden animate-fade-in">
-                <h2 class="text-2xl font-serif-title mb-4">2. Diskriminan (\(D = b^2 - 4ac\))</h2>
-                <p class="mb-6">Diskriminan digunakan untuk menentukan jenis akar dari persamaan \(ax^2 + bx + c = 0\) dan memprediksi posisi kurva terhadap sumbu-x.</p>
+                <h2 class="text-2xl font-serif-title mb-4">
+                    <span class="lang-id">2. Diskriminan (\(D = b^2 - 4ac\))</span>
+                    <span class="lang-en">2. Discriminant (\(D = b^2 - 4ac\))</span>
+                </h2>
+                <p class="mb-6">
+                    <span class="lang-id">Diskriminan digunakan untuk menentukan jenis akar dari persamaan \(ax^2 + bx + c = 0\) dan memprediksi posisi kurva terhadap sumbu-x.</span>
+                    <span class="lang-en">The discriminant is used to determine the nature of the roots of the equation \(ax^2 + bx + c = 0\) and to predict the curve's position relative to the x-axis.</span>
+                </p>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse">
                             <thead>
                                 <tr class="bg-stone-200 text-stone-800">
-                                    <th class="p-3 border border-stone-300">Nilai Diskriminan</th>
-                                    <th class="p-3 border border-stone-300">Jenis Akar</th>
-                                    <th class="p-3 border border-stone-300">Interpretasi Grafik</th>
+                                    <th class="p-3 border border-stone-300">
+                                        <span class="lang-id">Nilai Diskriminan</span><span class="lang-en">Discriminant Value</span>
+                                    </th>
+                                    <th class="p-3 border border-stone-300">
+                                        <span class="lang-id">Jenis Akar</span><span class="lang-en">Nature of Roots</span>
+                                    </th>
+                                    <th class="p-3 border border-stone-300">
+                                        <span class="lang-id">Interpretasi Grafik</span><span class="lang-en">Graph Interpretation</span>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr class="hover:bg-stone-100 transition-colors cursor-pointer" onclick="updateDiscChart(1)">
                                     <td class="p-3 border border-stone-300 font-semibold text-teal-700">\(b^2 - 4ac > 0\)</td>
-                                    <td class="p-3 border border-stone-300">Dua akar real berbeda</td>
-                                    <td class="p-3 border border-stone-300">Memotong sumbu-x di dua titik</td>
+                                    <td class="p-3 border border-stone-300">
+                                        <span class="lang-id">Dua akar real berbeda</span><span class="lang-en">Two distinct real roots</span>
+                                    </td>
+                                    <td class="p-3 border border-stone-300">
+                                        <span class="lang-id">Memotong sumbu-x di dua titik</span><span class="lang-en">Intersects x-axis at two points</span>
+                                    </td>
                                 </tr>
                                 <tr class="hover:bg-stone-100 transition-colors cursor-pointer" onclick="updateDiscChart(0)">
                                     <td class="p-3 border border-stone-300 font-semibold text-teal-700">\(b^2 - 4ac = 0\)</td>
-                                    <td class="p-3 border border-stone-300">Satu akar real (kembar/repeated)</td>
-                                    <td class="p-3 border border-stone-300">Menyinggung (tangent) sumbu-x</td>
+                                    <td class="p-3 border border-stone-300">
+                                        <span class="lang-id">Satu akar real (kembar/repeated)</span><span class="lang-en">One real root (repeated root)</span>
+                                    </td>
+                                    <td class="p-3 border border-stone-300">
+                                        <span class="lang-id">Menyinggung (tangent) sumbu-x</span><span class="lang-en">Tangent to the x-axis</span>
+                                    </td>
                                 </tr>
                                 <tr class="hover:bg-stone-100 transition-colors cursor-pointer" onclick="updateDiscChart(-1)">
                                     <td class="p-3 border border-stone-300 font-semibold text-teal-700">\(b^2 - 4ac < 0\)</td>
-                                    <td class="p-3 border border-stone-300">Tidak ada akar real</td>
-                                    <td class="p-3 border border-stone-300">Tidak memotong sumbu-x (Definit)</td>
+                                    <td class="p-3 border border-stone-300">
+                                        <span class="lang-id">Tidak ada akar real</span><span class="lang-en">No real roots</span>
+                                    </td>
+                                    <td class="p-3 border border-stone-300">
+                                        <span class="lang-id">Tidak memotong sumbu-x (Definit)</span><span class="lang-en">Does not intersect x-axis</span>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
-                        <p class="text-sm text-stone-500 mt-2">&#8505; Klik pada baris tabel untuk melihat visualisasi grafiknya.</p>
+                        <p class="text-sm text-stone-500 mt-2">
+                            <span class="lang-id">&#8505; Klik pada baris tabel untuk melihat visualisasi grafiknya.</span>
+                            <span class="lang-en">&#8505; Click on a table row to see its graphical visualization.</span>
+                        </p>
                     </div>
                     
                     <div class="bg-white p-4 rounded-xl shadow-sm border border-stone-200">
@@ -192,188 +300,345 @@
                         <div class="chart-container">
                             <canvas id="discChart"></canvas>
                         </div>
-                        <p id="disc-text" class="text-center mt-2 font-semibold text-teal-700">Pilih kondisi diskriminan di atas</p>
+                        <div id="disc-text-container" class="text-center mt-2 font-semibold text-teal-700"></div>
                     </div>
                 </div>
             </div>
 
+            <!-- Equations & Inequalities -->
             <div id="subcontent-ineq" class="hidden animate-fade-in">
-                <h2 class="text-2xl font-serif-title mb-4">3. Menyelesaikan Persamaan & Pertidaksamaan Kuadrat</h2>
+                <h2 class="text-2xl font-serif-title mb-4">
+                    <span class="lang-id">3. Menyelesaikan Persamaan & Pertidaksamaan Kuadrat</span>
+                    <span class="lang-en">3. Solving Quadratic Equations & Inequalities</span>
+                </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
-                        <h3 class="text-xl font-semibold mb-3 text-teal-800">Persamaan</h3>
-                        <p class="mb-2">Tiga metode utama penyelesaian:</p>
+                        <h3 class="text-xl font-semibold mb-3 text-teal-800">
+                            <span class="lang-id">Persamaan</span><span class="lang-en">Equations</span>
+                        </h3>
+                        <p class="mb-2">
+                            <span class="lang-id">Tiga metode utama penyelesaian:</span>
+                            <span class="lang-en">Three main methods of solving:</span>
+                        </p>
                         <ol class="list-decimal pl-5 space-y-2">
-                            <li><strong>Faktorisasi</strong> (Metode paling cepat jika akar rasional).</li>
-                            <li><strong>Rumus Kuadrat:</strong> <br>
+                            <li>
+                                <span class="lang-id"><strong>Faktorisasi</strong> (Metode paling cepat jika akar rasional).</span>
+                                <span class="lang-en"><strong>Factorisation</strong> (Fastest method if roots are rational).</span>
+                            </li>
+                            <li>
+                                <span class="lang-id"><strong>Rumus Kuadrat:</strong></span>
+                                <span class="lang-en"><strong>Quadratic Formula:</strong></span>
+                                <br>
                                 <span class="math-block inline-block mt-1">\(x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}\)</span>
                             </li>
-                            <li><strong>Melengkapkan kuadrat.</strong></li>
+                            <li>
+                                <span class="lang-id"><strong>Melengkapkan kuadrat.</strong></span>
+                                <span class="lang-en"><strong>Completing the square.</strong></span>
+                            </li>
                         </ol>
                     </div>
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
-                        <h3 class="text-xl font-semibold mb-3 text-teal-800">Pertidaksamaan</h3>
-                        <p class="mb-2">Sangat disarankan menggunakan pendekatan <strong>grafik</strong> untuk meminimalisir kesalahan tanda:</p>
+                        <h3 class="text-xl font-semibold mb-3 text-teal-800">
+                            <span class="lang-id">Pertidaksamaan</span><span class="lang-en">Inequalities</span>
+                        </h3>
+                        <p class="mb-2">
+                            <span class="lang-id">Sangat disarankan menggunakan pendekatan <strong>grafik</strong> untuk meminimalisir kesalahan tanda:</span>
+                            <span class="lang-en">It is highly recommended to use a <strong>graphical</strong> approach to minimize sign errors:</span>
+                        </p>
                         <ol class="list-decimal pl-5 space-y-2">
-                            <li>Cari nilai kritis (akar-akar persamaan).</li>
-                            <li>Gambar sketsa parabola (perhatikan nilai \(a\) positif/negatif).</li>
-                            <li>Tentukan daerah di atas atau di bawah sumbu-\(x\) sesuai tanda (\(>\) atau \(<\)).</li>
+                            <li>
+                                <span class="lang-id">Cari nilai kritis (akar-akar persamaan).</span>
+                                <span class="lang-en">Find the critical values (roots of the equation).</span>
+                            </li>
+                            <li>
+                                <span class="lang-id">Gambar sketsa parabola (perhatikan nilai \(a\) positif/negatif).</span>
+                                <span class="lang-en">Sketch the parabola (pay attention to whether \(a\) is positive or negative).</span>
+                            </li>
+                            <li>
+                                <span class="lang-id">Tentukan daerah di atas atau di bawah sumbu-\(x\) sesuai tanda (\(>\) atau \(<\)).</span>
+                                <span class="lang-en">Determine the region above or below the \(x\)-axis according to the inequality sign (\(>\) or \(<\)).</span>
+                            </li>
                         </ol>
                     </div>
                 </div>
             </div>
 
+            <!-- Simultaneous Eq -->
             <div id="subcontent-simul" class="hidden animate-fade-in">
-                <h2 class="text-2xl font-serif-title mb-4">4. Persamaan Simultan (Linear & Kuadrat)</h2>
-                <p class="text-lg mb-4">Mencari titik potong antara garis lurus dan kurva kuadrat.</p>
+                <h2 class="text-2xl font-serif-title mb-4">
+                    <span class="lang-id">4. Persamaan Simultan (Linear & Kuadrat)</span>
+                    <span class="lang-en">4. Simultaneous Equations (Linear & Quadratic)</span>
+                </h2>
+                <p class="text-lg mb-4">
+                    <span class="lang-id">Mencari titik potong antara garis lurus dan kurva kuadrat.</span>
+                    <span class="lang-en">Finding the points of intersection between a straight line and a quadratic curve.</span>
+                </p>
                 
                 <div class="bg-stone-100 p-6 rounded-lg border-l-4 border-amber-500 mb-6">
-                    <h4 class="font-bold mb-2">Langkah Penyelesaian:</h4>
-                    <p>Substitusikan persamaan linear ke dalam persamaan kuadrat untuk mengeliminasi satu variabel. Hasilnya akan selalu menjadi persamaan kuadrat baru.</p>
+                    <h4 class="font-bold mb-2">
+                        <span class="lang-id">Langkah Penyelesaian:</span>
+                        <span class="lang-en">Solution Steps:</span>
+                    </h4>
+                    <p>
+                        <span class="lang-id">Substitusikan persamaan linear ke dalam persamaan kuadrat untuk mengeliminasi satu variabel. Hasilnya akan selalu menjadi persamaan kuadrat baru.</span>
+                        <span class="lang-en">Substitute the linear equation into the quadratic equation to eliminate one variable. The result will always be a new quadratic equation.</span>
+                    </p>
                 </div>
 
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
-                    <h4 class="font-bold text-teal-800 mb-2">Contoh Kasus:</h4>
-                    <p>Garis \(y = x + 1\) dan Kurva \(x^2 + y^2 = 25\).</p>
-                    <p class="mt-2 text-stone-600">Substitusi \(y\): \(x^2 + (x + 1)^2 = 25\)</p>
-                    <p class="text-stone-600">Hasilnya akan menjadi persamaan kuadrat dalam \(x\) yang bisa diselesaikan untuk mendapatkan koordinat \(x\).</p>
+                    <h4 class="font-bold text-teal-800 mb-2">
+                        <span class="lang-id">Contoh Kasus:</span>
+                        <span class="lang-en">Example Case:</span>
+                    </h4>
+                    <p>
+                        <span class="lang-id">Garis \(y = x + 1\) dan Kurva \(x^2 + y^2 = 25\).</span>
+                        <span class="lang-en">Line \(y = x + 1\) and Curve \(x^2 + y^2 = 25\).</span>
+                    </p>
+                    <p class="mt-2 text-stone-600">
+                        <span class="lang-id">Substitusi \(y\): \(x^2 + (x + 1)^2 = 25\)</span>
+                        <span class="lang-en">Substitute \(y\): \(x^2 + (x + 1)^2 = 25\)</span>
+                    </p>
+                    <p class="text-stone-600">
+                        <span class="lang-id">Hasilnya akan menjadi persamaan kuadrat dalam \(x\) yang bisa diselesaikan untuk mendapatkan koordinat \(x\).</span>
+                        <span class="lang-en">The result is a quadratic equation in \(x\) which can be solved to find the \(x\)-coordinates.</span>
+                    </p>
                     
                     <div class="mt-6 p-4 bg-amber-50 rounded-lg text-amber-900 text-sm">
-                        <strong>Catatan Khusus (Penting untuk Ujian!):</strong> <br>
-                        Jika soal menyebutkan garis merupakan <strong>tangen</strong> (garis singgung) terhadap kurva, maka setelah substitusi, persamaan kuadrat yang dihasilkan <strong>pasti</strong> memiliki diskriminan nol (\(b^2 - 4ac = 0\)).
+                        <strong>
+                            <span class="lang-id">Catatan Khusus (Penting untuk Ujian!):</span>
+                            <span class="lang-en">Special Note (Crucial for Exams!):</span>
+                        </strong> <br>
+                        <span class="lang-id">Jika soal menyebutkan garis merupakan <strong>tangen</strong> (garis singgung) terhadap kurva, maka setelah substitusi, persamaan kuadrat yang dihasilkan <strong>pasti</strong> memiliki diskriminan nol (\(b^2 - 4ac = 0\)).</span>
+                        <span class="lang-en">If the question states the line is a <strong>tangent</strong> to the curve, then after substitution, the resulting quadratic equation <strong>must</strong> have a discriminant of zero (\(b^2 - 4ac = 0\)).</span>
                     </div>
                 </div>
             </div>
 
+            <!-- Hidden Quadratics -->
             <div id="subcontent-hidden" class="hidden animate-fade-in">
-                <h2 class="text-2xl font-serif-title mb-4">5. Persamaan Kuadrat Terselubung (Hidden Quadratics)</h2>
-                <p class="mb-4">Sering muncul persamaan yang terlihat rumit, namun secara struktur adalah kuadrat terhadap fungsi tertentu. Teknik utama yang digunakan adalah <strong>Substitusi \(u\)</strong>.</p>
+                <h2 class="text-2xl font-serif-title mb-4">
+                    <span class="lang-id">5. Persamaan Kuadrat Terselubung (Hidden Quadratics)</span>
+                    <span class="lang-en">5. Hidden Quadratics</span>
+                </h2>
+                <p class="mb-4">
+                    <span class="lang-id">Sering muncul persamaan yang terlihat rumit, namun secara struktur adalah kuadrat terhadap fungsi tertentu. Teknik utama yang digunakan adalah <strong>Substitusi \(u\)</strong>.</span>
+                    <span class="lang-en">Equations often appear complex but structurally are quadratics in some function. The main technique used is <strong>Substitution (let \(u = ...\))</strong>.</span>
+                </p>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div class="bg-white p-5 rounded-xl shadow-sm border border-stone-200 hover:shadow-md transition-shadow">
                         <div class="text-2xl mb-2 text-teal-600">&#10022;</div>
-                        <h4 class="font-bold mb-2">Polinomial Derajat Tinggi</h4>
+                        <h4 class="font-bold mb-2">
+                            <span class="lang-id">Polinomial Derajat Tinggi</span>
+                            <span class="lang-en">Higher Degree Polynomials</span>
+                        </h4>
                         <div class="math-block text-sm mb-2">\(ax^4 + bx^2 + c = 0\)</div>
-                        <p class="text-sm text-stone-600 border-t pt-2 mt-2">Misalkan <strong>\(u = x^2\)</strong><br>Menjadi \(au^2 + bu + c = 0\)</p>
+                        <p class="text-sm text-stone-600 border-t pt-2 mt-2">
+                            <span class="lang-id">Misalkan <strong>\(u = x^2\)</strong><br>Menjadi \(au^2 + bu + c = 0\)</span>
+                            <span class="lang-en">Let <strong>\(u = x^2\)</strong><br>Becomes \(au^2 + bu + c = 0\)</span>
+                        </p>
                     </div>
                     <div class="bg-white p-5 rounded-xl shadow-sm border border-stone-200 hover:shadow-md transition-shadow">
                         <div class="text-2xl mb-2 text-teal-600">&#10022;</div>
-                        <h4 class="font-bold mb-2">Bentuk Akar</h4>
+                        <h4 class="font-bold mb-2">
+                            <span class="lang-id">Bentuk Akar</span>
+                            <span class="lang-en">Surds / Square Roots</span>
+                        </h4>
                         <div class="math-block text-sm mb-2">\(ax + b\sqrt{x} + c = 0\)</div>
-                        <p class="text-sm text-stone-600 border-t pt-2 mt-2">Misalkan <strong>\(u = \sqrt{x}\)</strong><br>Menjadi \(au^2 + bu + c = 0\)</p>
+                        <p class="text-sm text-stone-600 border-t pt-2 mt-2">
+                            <span class="lang-id">Misalkan <strong>\(u = \sqrt{x}\)</strong><br>Menjadi \(au^2 + bu + c = 0\)</span>
+                            <span class="lang-en">Let <strong>\(u = \sqrt{x}\)</strong><br>Becomes \(au^2 + bu + c = 0\)</span>
+                        </p>
                     </div>
                     <div class="bg-white p-5 rounded-xl shadow-sm border border-stone-200 hover:shadow-md transition-shadow">
                         <div class="text-2xl mb-2 text-teal-600">&#10022;</div>
-                        <h4 class="font-bold mb-2">Trigonometri</h4>
+                        <h4 class="font-bold mb-2">
+                            <span class="lang-id">Trigonometri</span>
+                            <span class="lang-en">Trigonometry</span>
+                        </h4>
                         <div class="math-block text-sm mb-2">\(a\tan^2 x + b\tan x + c = 0\)</div>
-                        <p class="text-sm text-stone-600 border-t pt-2 mt-2">Misalkan <strong>\(u = \tan x\)</strong><br>Menjadi \(au^2 + bu + c = 0\)</p>
+                        <p class="text-sm text-stone-600 border-t pt-2 mt-2">
+                            <span class="lang-id">Misalkan <strong>\(u = \tan x\)</strong><br>Menjadi \(au^2 + bu + c = 0\)</span>
+                            <span class="lang-en">Let <strong>\(u = \tan x\)</strong><br>Becomes \(au^2 + bu + c = 0\)</span>
+                        </p>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- CONTOH SOAL SECTION -->
         <section id="content-contoh" class="hidden space-y-6">
             <div class="bg-teal-50 border-l-4 border-teal-600 p-4 rounded-r-lg mb-6">
-                <p class="text-stone-700">Analisis langkah demi langkah untuk soal-soal tipe ujian. Cobalah memikirkan solusinya sebelum membuka panel pembahasan.</p>
+                <p class="text-stone-700">
+                    <span class="lang-id">Analisis langkah demi langkah untuk soal-soal tipe ujian. Cobalah memikirkan solusinya sebelum membuka panel pembahasan.</span>
+                    <span class="lang-en">Step-by-step analysis for exam-style questions. Try to think of the solution before opening the explanation panel.</span>
+                </p>
             </div>
 
+            <!-- Contoh 1 -->
             <div class="bg-white border border-stone-200 rounded-xl overflow-hidden shadow-sm">
                 <div class="p-6">
-                    <span class="inline-block px-2 py-1 bg-stone-100 text-stone-600 text-xs font-bold rounded mb-3">Contoh 1: Analisis Grafik</span>
-                    <h3 class="text-lg font-medium mb-4">Nyatakan \(y = -x^2 + 6x - 5\) dalam bentuk \(y = a(x+p)^2 + q\). Tentukan koordinat titik puncaknya dan jenisnya (maksimum/minimum).</h3>
+                    <span class="inline-block px-2 py-1 bg-stone-100 text-stone-600 text-xs font-bold rounded mb-3">
+                        <span class="lang-id">Contoh 1: Analisis Grafik</span><span class="lang-en">Example 1: Graph Analysis</span>
+                    </span>
+                    <h3 class="text-lg font-medium mb-4">
+                        <span class="lang-id">Nyatakan \(y = -x^2 + 6x - 5\) dalam bentuk \(y = a(x+p)^2 + q\). Tentukan koordinat titik puncaknya dan jenisnya (maksimum/minimum).</span>
+                        <span class="lang-en">Express \(y = -x^2 + 6x - 5\) in the form \(y = a(x+p)^2 + q\). Find the coordinates of the vertex and state its nature (maximum/minimum).</span>
+                    </h3>
                     <button onclick="toggleAnswer('ans1')" class="text-teal-600 font-semibold text-sm flex items-center hover:text-teal-800">
-                        Lihat Pembahasan <span id="icon-ans1" class="ml-1 transition-transform">&#9662;</span>
+                        <span class="lang-id">Lihat Pembahasan</span><span class="lang-en">View Solution</span> 
+                        <span id="icon-ans1" class="ml-1 transition-transform">&#9662;</span>
                     </button>
                 </div>
                 <div id="ans1" class="answer-reveal bg-stone-50 border-t border-stone-100">
                     <div class="p-6">
-                        <p class="mb-2"><strong>Langkah-langkah:</strong></p>
+                        <p class="mb-2"><strong>
+                            <span class="lang-id">Langkah-langkah:</span><span class="lang-en">Steps:</span>
+                        </strong></p>
                         <div class="math-block">
                             \(y = -(x^2 - 6x) - 5\)<br>
                             \(y = -[(x - 3)^2 - 9] - 5\)<br>
                             \(y = -(x - 3)^2 + 9 - 5\)<br>
                             \(y = -(x - 3)^2 + 4\)
                         </div>
-                        <p class="mt-4">Karena nilai \(a = -1\) (negatif), kurva terbuka ke bawah (membentuk seperti gunung).</p>
-                        <p class="mt-2 text-lg font-semibold text-teal-800">Titik puncaknya adalah \((3, 4)\) dan ini adalah titik MAKSIMUM.</p>
-                        <p class="mt-2 text-sm text-stone-500 italic">(Visualisasi CPA: Bayangkan grafik memotong sumbu-y di -5, naik hingga puncaknya di y=4 saat x=3, lalu turun lagi).</p>
+                        <p class="mt-4">
+                            <span class="lang-id">Karena nilai \(a = -1\) (negatif), kurva terbuka ke bawah (membentuk seperti gunung).</span>
+                            <span class="lang-en">Since \(a = -1\) (negative), the curve opens downwards (forming a frown/mountain shape).</span>
+                        </p>
+                        <p class="mt-2 text-lg font-semibold text-teal-800">
+                            <span class="lang-id">Titik puncaknya adalah \((3, 4)\) dan ini adalah titik MAKSIMUM.</span>
+                            <span class="lang-en">The vertex is at \((3, 4)\) and it is a MAXIMUM point.</span>
+                        </p>
+                        <p class="mt-2 text-sm text-stone-500 italic">
+                            <span class="lang-id">(Visualisasi CPA: Bayangkan grafik memotong sumbu-y di -5, naik hingga puncaknya di y=4 saat x=3, lalu turun lagi).</span>
+                            <span class="lang-en">(CPA Visualization: Imagine the graph intersecting the y-axis at -5, rising to its peak at y=4 when x=3, then falling again).</span>
+                        </p>
                     </div>
                 </div>
             </div>
 
+            <!-- Contoh 2 -->
             <div class="bg-white border border-stone-200 rounded-xl overflow-hidden shadow-sm">
                 <div class="p-6">
-                    <span class="inline-block px-2 py-1 bg-stone-100 text-stone-600 text-xs font-bold rounded mb-3">Contoh 2: Pertidaksamaan</span>
-                    <h3 class="text-lg font-medium mb-4">Selesaikan pertidaksamaan \(2x^2 - 5x - 3 \le 0\).</h3>
+                    <span class="inline-block px-2 py-1 bg-stone-100 text-stone-600 text-xs font-bold rounded mb-3">
+                        <span class="lang-id">Contoh 2: Pertidaksamaan</span><span class="lang-en">Example 2: Inequalities</span>
+                    </span>
+                    <h3 class="text-lg font-medium mb-4">
+                        <span class="lang-id">Selesaikan pertidaksamaan \(2x^2 - 5x - 3 \le 0\).</span>
+                        <span class="lang-en">Solve the inequality \(2x^2 - 5x - 3 \le 0\).</span>
+                    </h3>
                     <button onclick="toggleAnswer('ans2')" class="text-teal-600 font-semibold text-sm flex items-center hover:text-teal-800">
-                        Lihat Pembahasan <span id="icon-ans2" class="ml-1 transition-transform">&#9662;</span>
+                        <span class="lang-id">Lihat Pembahasan</span><span class="lang-en">View Solution</span>
+                        <span id="icon-ans2" class="ml-1 transition-transform">&#9662;</span>
                     </button>
                 </div>
                 <div id="ans2" class="answer-reveal bg-stone-50 border-t border-stone-100">
                     <div class="p-6">
                         <ol class="list-decimal pl-5 space-y-4">
-                            <li><strong>Cari nilai kritis dengan faktorisasi:</strong><br>
-                                \((2x + 1)(x - 3) = 0 \implies x = -\frac{1}{2}\) atau \(x = 3\).
+                            <li><strong>
+                                <span class="lang-id">Cari nilai kritis dengan faktorisasi:</span>
+                                <span class="lang-en">Find critical values by factorising:</span>
+                                </strong><br>
+                                \((2x + 1)(x - 3) = 0 \implies x = -\frac{1}{2}\) <span class="lang-id">atau</span><span class="lang-en">or</span> \(x = 3\).
                             </li>
-                            <li><strong>Gambar sketsa parabola:</strong><br>
-                                Karena \(a=2\) (positif), kurva berbentuk U. Memotong sumbu-x di \(-\frac{1}{2}\) dan \(3\).
+                            <li><strong>
+                                <span class="lang-id">Gambar sketsa parabola:</span>
+                                <span class="lang-en">Sketch the parabola:</span>
+                                </strong><br>
+                                <span class="lang-id">Karena \(a=2\) (positif), kurva berbentuk U. Memotong sumbu-x di \(-\frac{1}{2}\) dan \(3\).</span>
+                                <span class="lang-en">Since \(a=2\) (positive), it's a U-shaped curve intersecting the x-axis at \(-\frac{1}{2}\) and \(3\).</span>
                             </li>
-                            <li><strong>Identifikasi daerah:</strong><br>
-                                Kita mencari daerah \(\le 0\) (di bawah sumbu-x), yang terletak <em>di antara</em> kedua akar.
+                            <li><strong>
+                                <span class="lang-id">Identifikasi daerah:</span>
+                                <span class="lang-en">Identify the region:</span>
+                                </strong><br>
+                                <span class="lang-id">Kita mencari daerah \(\le 0\) (di bawah sumbu-x), yang terletak <em>di antara</em> kedua akar.</span>
+                                <span class="lang-en">We are looking for \(\le 0\) (below the x-axis), which lies <em>between</em> the two roots.</span>
                             </li>
                         </ol>
-                        <p class="mt-4 text-lg font-semibold text-teal-800">Jawaban: \(-\frac{1}{2} \le x \le 3\)</p>
+                        <p class="mt-4 text-lg font-semibold text-teal-800">
+                            <span class="lang-id">Jawaban:</span><span class="lang-en">Answer:</span> \(-\frac{1}{2} \le x \le 3\)
+                        </p>
                     </div>
                 </div>
             </div>
 
+            <!-- Contoh 3 -->
             <div class="bg-white border border-stone-200 rounded-xl overflow-hidden shadow-sm">
                 <div class="p-6">
-                    <span class="inline-block px-2 py-1 bg-amber-100 text-amber-800 text-xs font-bold rounded mb-3">Contoh 3: Khas Exam (Tangen)</span>
-                    <h3 class="text-lg font-medium mb-4">Garis \(y = 2x + k\) adalah tangen terhadap kurva \(y = x^2 + 4x + 5\). Tentukan nilai konstanta \(k\).</h3>
+                    <span class="inline-block px-2 py-1 bg-amber-100 text-amber-800 text-xs font-bold rounded mb-3">
+                        <span class="lang-id">Contoh 3: Khas Exam (Tangen)</span>
+                        <span class="lang-en">Example 3: Exam Style (Tangent)</span>
+                    </span>
+                    <h3 class="text-lg font-medium mb-4">
+                        <span class="lang-id">Garis \(y = 2x + k\) adalah tangen terhadap kurva \(y = x^2 + 4x + 5\). Tentukan nilai konstanta \(k\).</span>
+                        <span class="lang-en">The line \(y = 2x + k\) is a tangent to the curve \(y = x^2 + 4x + 5\). Find the value of the constant \(k\).</span>
+                    </h3>
                     <button onclick="toggleAnswer('ans3')" class="text-teal-600 font-semibold text-sm flex items-center hover:text-teal-800">
-                        Lihat Pembahasan <span id="icon-ans3" class="ml-1 transition-transform">&#9662;</span>
+                        <span class="lang-id">Lihat Pembahasan</span><span class="lang-en">View Solution</span>
+                        <span id="icon-ans3" class="ml-1 transition-transform">&#9662;</span>
                     </button>
                 </div>
                 <div id="ans3" class="answer-reveal bg-stone-50 border-t border-stone-100">
                     <div class="p-6">
                         <ol class="list-decimal pl-5 space-y-4">
-                            <li><strong>Substitusi garis ke kurva:</strong><br>
+                            <li><strong>
+                                <span class="lang-id">Substitusi garis ke kurva:</span>
+                                <span class="lang-en">Substitute the line into the curve:</span>
+                                </strong><br>
                                 \(2x + k = x^2 + 4x + 5\)
                             </li>
-                            <li><strong>Susun menjadi persamaan kuadrat baku:</strong><br>
+                            <li><strong>
+                                <span class="lang-id">Susun menjadi persamaan kuadrat baku:</span>
+                                <span class="lang-en">Rearrange into a standard quadratic equation:</span>
+                                </strong><br>
                                 \(x^2 + 2x + (5 - k) = 0\)
                             </li>
-                            <li><strong>Gunakan syarat tangen (\(D = 0\)):</strong><br>
-                                Karena garis menyinggung di satu titik, maka diskriminannya nol.<br>
+                            <li><strong>
+                                <span class="lang-id">Gunakan syarat tangen (\(D = 0\)):</span>
+                                <span class="lang-en">Apply the tangent condition (\(D = 0\)):</span>
+                                </strong><br>
+                                <span class="lang-id">Karena garis menyinggung di satu titik, maka diskriminannya nol.</span>
+                                <span class="lang-en">Since the line touches at one point, the discriminant is zero.</span><br>
                                 \(b^2 - 4ac = 0\)<br>
                                 \((2)^2 - 4(1)(5 - k) = 0\)<br>
                                 \(4 - 20 + 4k = 0\)<br>
                                 \(4k = 16\)
                             </li>
                         </ol>
-                        <p class="mt-4 text-lg font-semibold text-teal-800">Jawaban: \(k = 4\)</p>
+                        <p class="mt-4 text-lg font-semibold text-teal-800">
+                            <span class="lang-id">Jawaban:</span><span class="lang-en">Answer:</span> \(k = 4\)
+                        </p>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- LATIHAN MANDIRI SECTION -->
         <section id="content-latihan" class="hidden space-y-8">
             <div class="bg-teal-50 border-l-4 border-teal-600 p-4 rounded-r-lg">
-                <p class="text-stone-700">Kerjakan soal-soal berikut dari level yang paling mudah hingga level ujian AS & A Level sesungguhnya. Klik "Lihat Pembahasan" untuk mencocokkan jawabanmu.</p>
+                <p class="text-stone-700">
+                    <span class="lang-id">Kerjakan soal-soal berikut dari level yang paling mudah hingga level ujian AS & A Level sesungguhnya. Klik "Lihat Pembahasan" untuk mencocokkan jawabanmu.</span>
+                    <span class="lang-en">Work through the following questions from the easiest level up to actual AS & A Level exam standard. Click "View Solution" to check your answers.</span>
+                </p>
             </div>
 
             <div class="space-y-6">
                 <!-- LEVEL 1 -->
                 <div>
-                    <h3 class="text-xl font-serif-title border-b border-stone-200 pb-2 mb-4 text-stone-800">Level 1: Foundation (Membangun Konsep)</h3>
+                    <h3 class="text-xl font-serif-title border-b border-stone-200 pb-2 mb-4 text-stone-800">
+                        Level 1: Foundation
+                    </h3>
                     <div class="space-y-4">
                         <!-- Latihan 1 -->
                         <div class="bg-white border border-stone-200 rounded-xl overflow-hidden shadow-sm">
                             <div class="p-5">
-                                <p class="font-medium mb-3">1. Nyatakan polinomial \(3x^2 + 12x - 7\) ke dalam bentuk \(a(x+p)^2 + q\). Tentukan nilai minimum dari polinomial tersebut.</p>
+                                <p class="font-medium mb-3">
+                                    <span class="lang-id">1. Nyatakan polinomial \(3x^2 + 12x - 7\) ke dalam bentuk \(a(x+p)^2 + q\). Tentukan nilai minimum dari polinomial tersebut.</span>
+                                    <span class="lang-en">1. Express the polynomial \(3x^2 + 12x - 7\) in the form \(a(x+p)^2 + q\). Find the minimum value of the polynomial.</span>
+                                </p>
                                 <button onclick="toggleAnswer('ans-lat1')" class="text-teal-600 font-semibold text-sm flex items-center hover:text-teal-800">
-                                    Lihat Pembahasan <span id="icon-ans-lat1" class="ml-1 transition-transform">&#9662;</span>
+                                    <span class="lang-id">Lihat Pembahasan</span><span class="lang-en">View Solution</span> <span id="icon-ans-lat1" class="ml-1 transition-transform">&#9662;</span>
                                 </button>
                             </div>
                             <div id="ans-lat1" class="answer-reveal bg-stone-50 border-t border-stone-100">
@@ -384,7 +649,10 @@
                                         \(3(x + 2)^2 - 12 - 7\)<br>
                                         <strong>\(3(x + 2)^2 - 19\)</strong>
                                     </div>
-                                    <p class="mt-2">Nilai minimumnya adalah <strong>-19</strong> (terjadi saat \(x = -2\)).</p>
+                                    <p class="mt-2">
+                                        <span class="lang-id">Nilai minimumnya adalah <strong>-19</strong> (terjadi saat \(x = -2\)).</span>
+                                        <span class="lang-en">The minimum value is <strong>-19</strong> (occurs when \(x = -2\)).</span>
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -392,19 +660,25 @@
                         <!-- Latihan 2 -->
                         <div class="bg-white border border-stone-200 rounded-xl overflow-hidden shadow-sm">
                             <div class="p-5">
-                                <p class="font-medium mb-3">2. Tentukan diskriminan dari persamaan \(4x^2 - 12x + 9 = 0\). Berdasarkan nilai tersebut, apa yang dapat kamu simpulkan tentang posisi kurva \(y = 4x^2 - 12x + 9\) terhadap sumbu-x?</p>
+                                <p class="font-medium mb-3">
+                                    <span class="lang-id">2. Tentukan diskriminan dari persamaan \(4x^2 - 12x + 9 = 0\). Berdasarkan nilai tersebut, apa yang dapat kamu simpulkan tentang posisi kurva \(y = 4x^2 - 12x + 9\) terhadap sumbu-x?</span>
+                                    <span class="lang-en">2. Find the discriminant of the equation \(4x^2 - 12x + 9 = 0\). Based on this value, what can you deduce about the position of the curve \(y = 4x^2 - 12x + 9\) relative to the x-axis?</span>
+                                </p>
                                 <button onclick="toggleAnswer('ans-lat2')" class="text-teal-600 font-semibold text-sm flex items-center hover:text-teal-800">
-                                    Lihat Pembahasan <span id="icon-ans-lat2" class="ml-1 transition-transform">&#9662;</span>
+                                    <span class="lang-id">Lihat Pembahasan</span><span class="lang-en">View Solution</span> <span id="icon-ans-lat2" class="ml-1 transition-transform">&#9662;</span>
                                 </button>
                             </div>
                             <div id="ans-lat2" class="answer-reveal bg-stone-50 border-t border-stone-100">
                                 <div class="p-5 text-stone-700">
-                                    <p>Diskriminan \(D = b^2 - 4ac\):</p>
+                                    <p><span class="lang-id">Diskriminan</span><span class="lang-en">Discriminant</span> \(D = b^2 - 4ac\):</p>
                                     <div class="math-block">
                                         \(D = (-12)^2 - 4(4)(9)\)<br>
                                         \(D = 144 - 144 = 0\)
                                     </div>
-                                    <p class="mt-2">Karena <strong>\(D = 0\)</strong>, kurva <strong>menyinggung sumbu-x</strong> di tepat satu titik (memiliki akar kembar).</p>
+                                    <p class="mt-2">
+                                        <span class="lang-id">Karena <strong>\(D = 0\)</strong>, kurva <strong>menyinggung sumbu-x</strong> di tepat satu titik (memiliki akar kembar).</span>
+                                        <span class="lang-en">Since <strong>\(D = 0\)</strong>, the curve is <strong>tangent to the x-axis</strong> at exactly one point (has a repeated root).</span>
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -412,19 +686,33 @@
                         <!-- Latihan 3 -->
                         <div class="bg-white border border-stone-200 rounded-xl overflow-hidden shadow-sm">
                             <div class="p-5">
-                                <p class="font-medium mb-3">3. Selesaikan pertidaksamaan \(x^2 - 8x + 15 > 0\). (Gambarkan sketsa grafiknya!)</p>
+                                <p class="font-medium mb-3">
+                                    <span class="lang-id">3. Selesaikan pertidaksamaan \(x^2 - 8x + 15 > 0\). (Gambarkan sketsa grafiknya!)</span>
+                                    <span class="lang-en">3. Solve the inequality \(x^2 - 8x + 15 > 0\). (Sketch the graph!)</span>
+                                </p>
                                 <button onclick="toggleAnswer('ans-lat3')" class="text-teal-600 font-semibold text-sm flex items-center hover:text-teal-800">
-                                    Lihat Pembahasan <span id="icon-ans-lat3" class="ml-1 transition-transform">&#9662;</span>
+                                    <span class="lang-id">Lihat Pembahasan</span><span class="lang-en">View Solution</span> <span id="icon-ans-lat3" class="ml-1 transition-transform">&#9662;</span>
                                 </button>
                             </div>
                             <div id="ans-lat3" class="answer-reveal bg-stone-50 border-t border-stone-100">
                                 <div class="p-5 text-stone-700">
                                     <ol class="list-decimal pl-5 space-y-2">
-                                        <li>Cari nilai kritis: \((x - 3)(x - 5) = 0 \implies x = 3\) atau \(x = 5\).</li>
-                                        <li>Sketsa grafik: Kurva U memotong sumbu-x di 3 dan 5.</li>
-                                        <li>Karena \(> 0\), cari daerah di atas sumbu-x (di luar rentang akar).</li>
+                                        <li>
+                                            <span class="lang-id">Cari nilai kritis: \((x - 3)(x - 5) = 0 \implies x = 3\) atau \(x = 5\).</span>
+                                            <span class="lang-en">Find critical values: \((x - 3)(x - 5) = 0 \implies x = 3\) or \(x = 5\).</span>
+                                        </li>
+                                        <li>
+                                            <span class="lang-id">Sketsa grafik: Kurva U memotong sumbu-x di 3 dan 5.</span>
+                                            <span class="lang-en">Sketch: U-shaped curve intersecting x-axis at 3 and 5.</span>
+                                        </li>
+                                        <li>
+                                            <span class="lang-id">Karena \(> 0\), cari daerah di atas sumbu-x (di luar rentang akar).</span>
+                                            <span class="lang-en">Since \(> 0\), look for the region above the x-axis (outside the roots).</span>
+                                        </li>
                                     </ol>
-                                    <p class="mt-3 text-lg font-semibold text-teal-800">Jawaban: \(x < 3\) atau \(x > 5\)</p>
+                                    <p class="mt-3 text-lg font-semibold text-teal-800">
+                                        <span class="lang-id">Jawaban:</span><span class="lang-en">Answer:</span> \(x < 3\) <span class="lang-id">atau</span><span class="lang-en">or</span> \(x > 5\)
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -433,30 +721,43 @@
 
                 <!-- LEVEL 2 -->
                 <div>
-                    <h3 class="text-xl font-serif-title border-b border-stone-200 pb-2 mb-4 text-stone-800 mt-8">Level 2: Intermediate (Penerapan)</h3>
+                    <h3 class="text-xl font-serif-title border-b border-stone-200 pb-2 mb-4 text-stone-800 mt-8">
+                        Level 2: Intermediate
+                    </h3>
                     <div class="space-y-4">
                         <!-- Latihan 4 -->
                         <div class="bg-white border border-stone-200 rounded-xl overflow-hidden shadow-sm">
                             <div class="p-5">
-                                <p class="font-medium mb-3">4. Selesaikan persamaan kuadrat terselubung berikut: \(x^4 - 5x^2 + 4 = 0\).</p>
+                                <p class="font-medium mb-3">
+                                    <span class="lang-id">4. Selesaikan persamaan kuadrat terselubung berikut: \(x^4 - 5x^2 + 4 = 0\).</span>
+                                    <span class="lang-en">4. Solve the following hidden quadratic equation: \(x^4 - 5x^2 + 4 = 0\).</span>
+                                </p>
                                 <button onclick="toggleAnswer('ans-lat4')" class="text-teal-600 font-semibold text-sm flex items-center hover:text-teal-800">
-                                    Lihat Pembahasan <span id="icon-ans-lat4" class="ml-1 transition-transform">&#9662;</span>
+                                    <span class="lang-id">Lihat Pembahasan</span><span class="lang-en">View Solution</span> <span id="icon-ans-lat4" class="ml-1 transition-transform">&#9662;</span>
                                 </button>
                             </div>
                             <div id="ans-lat4" class="answer-reveal bg-stone-50 border-t border-stone-100">
                                 <div class="p-5 text-stone-700">
-                                    <p>Misalkan \(u = x^2\), maka persamaannya menjadi:</p>
+                                    <p>
+                                        <span class="lang-id">Misalkan \(u = x^2\), maka persamaannya menjadi:</span>
+                                        <span class="lang-en">Let \(u = x^2\), the equation becomes:</span>
+                                    </p>
                                     <div class="math-block">
                                         \(u^2 - 5u + 4 = 0\)<br>
                                         \((u - 1)(u - 4) = 0\)<br>
-                                        \(u = 1\) atau \(u = 4\)
+                                        \(u = 1\) <span class="lang-id">atau</span><span class="lang-en">or</span> \(u = 4\)
                                     </div>
-                                    <p>Substitusikan kembali \(u = x^2\):</p>
+                                    <p>
+                                        <span class="lang-id">Substitusikan kembali \(u = x^2\):</span>
+                                        <span class="lang-en">Substitute back \(u = x^2\):</span>
+                                    </p>
                                     <ul class="list-disc pl-5">
-                                        <li>Untuk \(x^2 = 1 \implies x = \pm 1\)</li>
-                                        <li>Untuk \(x^2 = 4 \implies x = \pm 2\)</li>
+                                        <li><span class="lang-id">Untuk</span><span class="lang-en">For</span> \(x^2 = 1 \implies x = \pm 1\)</li>
+                                        <li><span class="lang-id">Untuk</span><span class="lang-en">For</span> \(x^2 = 4 \implies x = \pm 2\)</li>
                                     </ul>
-                                    <p class="mt-3 text-lg font-semibold text-teal-800">Akar-akarnya: \(x = -2, -1, 1, 2\)</p>
+                                    <p class="mt-3 text-lg font-semibold text-teal-800">
+                                        <span class="lang-id">Akar-akarnya:</span><span class="lang-en">Roots:</span> \(x = -2, -1, 1, 2\)
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -464,25 +765,36 @@
                         <!-- Latihan 5 -->
                         <div class="bg-white border border-stone-200 rounded-xl overflow-hidden shadow-sm">
                             <div class="p-5">
-                                <p class="font-medium mb-3">5. Selesaikan persamaan: \(y - 3\sqrt{y} + 2 = 0\).</p>
+                                <p class="font-medium mb-3">
+                                    <span class="lang-id">5. Selesaikan persamaan: \(y - 3\sqrt{y} + 2 = 0\).</span>
+                                    <span class="lang-en">5. Solve the equation: \(y - 3\sqrt{y} + 2 = 0\).</span>
+                                </p>
                                 <button onclick="toggleAnswer('ans-lat5')" class="text-teal-600 font-semibold text-sm flex items-center hover:text-teal-800">
-                                    Lihat Pembahasan <span id="icon-ans-lat5" class="ml-1 transition-transform">&#9662;</span>
+                                    <span class="lang-id">Lihat Pembahasan</span><span class="lang-en">View Solution</span> <span id="icon-ans-lat5" class="ml-1 transition-transform">&#9662;</span>
                                 </button>
                             </div>
                             <div id="ans-lat5" class="answer-reveal bg-stone-50 border-t border-stone-100">
                                 <div class="p-5 text-stone-700">
-                                    <p>Misalkan \(u = \sqrt{y}\), maka \(u^2 = y\). Persamaannya menjadi:</p>
+                                    <p>
+                                        <span class="lang-id">Misalkan \(u = \sqrt{y}\), maka \(u^2 = y\). Persamaannya menjadi:</span>
+                                        <span class="lang-en">Let \(u = \sqrt{y}\), then \(u^2 = y\). The equation becomes:</span>
+                                    </p>
                                     <div class="math-block">
                                         \(u^2 - 3u + 2 = 0\)<br>
                                         \((u - 1)(u - 2) = 0\)<br>
-                                        \(u = 1\) atau \(u = 2\)
+                                        \(u = 1\) <span class="lang-id">atau</span><span class="lang-en">or</span> \(u = 2\)
                                     </div>
-                                    <p>Substitusikan kembali \(u = \sqrt{y}\):</p>
+                                    <p>
+                                        <span class="lang-id">Substitusikan kembali \(u = \sqrt{y}\):</span>
+                                        <span class="lang-en">Substitute back \(u = \sqrt{y}\):</span>
+                                    </p>
                                     <ul class="list-disc pl-5">
-                                        <li>Untuk \(\sqrt{y} = 1 \implies y = 1^2 = 1\)</li>
-                                        <li>Untuk \(\sqrt{y} = 2 \implies y = 2^2 = 4\)</li>
+                                        <li><span class="lang-id">Untuk</span><span class="lang-en">For</span> \(\sqrt{y} = 1 \implies y = 1^2 = 1\)</li>
+                                        <li><span class="lang-id">Untuk</span><span class="lang-en">For</span> \(\sqrt{y} = 2 \implies y = 2^2 = 4\)</li>
                                     </ul>
-                                    <p class="mt-3 text-lg font-semibold text-teal-800">Himpunan Penyelesaian: \(y = 1\) atau \(y = 4\)</p>
+                                    <p class="mt-3 text-lg font-semibold text-teal-800">
+                                        <span class="lang-id">Himpunan Penyelesaian:</span><span class="lang-en">Solution Set:</span> \(y = 1\) <span class="lang-id">atau</span><span class="lang-en">or</span> \(y = 4\)
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -490,24 +802,41 @@
                         <!-- Latihan 6 -->
                         <div class="bg-white border border-stone-200 rounded-xl overflow-hidden shadow-sm">
                             <div class="p-5">
-                                <p class="font-medium mb-3">6. Cari titik (atau titik-titik) potong antara garis \(y = 3x - 1\) dan kurva \(y = 2x^2 - 5x + 7\).</p>
+                                <p class="font-medium mb-3">
+                                    <span class="lang-id">6. Cari titik (atau titik-titik) potong antara garis \(y = 3x - 1\) dan kurva \(y = 2x^2 - 5x + 7\).</span>
+                                    <span class="lang-en">6. Find the point(s) of intersection between the line \(y = 3x - 1\) and the curve \(y = 2x^2 - 5x + 7\).</span>
+                                </p>
                                 <button onclick="toggleAnswer('ans-lat6')" class="text-teal-600 font-semibold text-sm flex items-center hover:text-teal-800">
-                                    Lihat Pembahasan <span id="icon-ans-lat6" class="ml-1 transition-transform">&#9662;</span>
+                                    <span class="lang-id">Lihat Pembahasan</span><span class="lang-en">View Solution</span> <span id="icon-ans-lat6" class="ml-1 transition-transform">&#9662;</span>
                                 </button>
                             </div>
                             <div id="ans-lat6" class="answer-reveal bg-stone-50 border-t border-stone-100">
                                 <div class="p-5 text-stone-700">
-                                    <p>Substitusikan persamaan garis ke kurva:</p>
+                                    <p>
+                                        <span class="lang-id">Substitusikan persamaan garis ke kurva:</span>
+                                        <span class="lang-en">Substitute the line equation into the curve:</span>
+                                    </p>
                                     <div class="math-block">
                                         \(3x - 1 = 2x^2 - 5x + 7\)<br>
                                         \(0 = 2x^2 - 8x + 8\)<br>
-                                        \(x^2 - 4x + 4 = 0\) (bagi dengan 2)<br>
+                                        \(x^2 - 4x + 4 = 0\) <span class="lang-id">(bagi dengan 2)</span><span class="lang-en">(divide by 2)</span><br>
                                         \((x - 2)^2 = 0 \implies x = 2\)
                                     </div>
-                                    <p>Substitusi nilai \(x = 2\) ke persamaan garis \(y = 3x - 1\):</p>
+                                    <p>
+                                        <span class="lang-id">Substitusi nilai \(x = 2\) ke persamaan garis \(y = 3x - 1\):</span>
+                                        <span class="lang-en">Substitute \(x = 2\) into the line equation \(y = 3x - 1\):</span>
+                                    </p>
                                     <p>\(y = 3(2) - 1 = 5\)</p>
-                                    <p class="mt-3 text-lg font-semibold text-teal-800">Titik potongnya adalah \((2, 5)\).</p>
-                                    <p class="text-sm text-stone-500 mt-1"><em>Karena hanya ada satu titik potong, ini membuktikan garis tersebut adalah garis singgung (tangen).</em></p>
+                                    <p class="mt-3 text-lg font-semibold text-teal-800">
+                                        <span class="lang-id">Titik potongnya adalah \((2, 5)\).</span>
+                                        <span class="lang-en">The point of intersection is \((2, 5)\).</span>
+                                    </p>
+                                    <p class="text-sm text-stone-500 mt-1">
+                                        <em>
+                                            <span class="lang-id">Karena hanya ada satu titik potong, ini membuktikan garis tersebut adalah garis singgung (tangen).</span>
+                                            <span class="lang-en">Since there is only one intersection point, this proves the line is a tangent.</span>
+                                        </em>
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -516,19 +845,27 @@
 
                 <!-- LEVEL 3 -->
                 <div>
-                    <h3 class="text-xl font-serif-title border-b border-amber-300 pb-2 mb-4 text-stone-800 mt-8">Level 3: Advanced (Exam Style Paper 1)</h3>
+                    <h3 class="text-xl font-serif-title border-b border-amber-300 pb-2 mb-4 text-stone-800 mt-8">
+                        Level 3: Advanced (Exam Style Paper 1)
+                    </h3>
                     <div class="space-y-4">
                         <!-- Latihan 7 -->
                         <div class="bg-white border-l-4 border-amber-400 rounded-r-xl border-y border-r border-stone-200 overflow-hidden shadow-sm">
                             <div class="p-5">
-                                <p class="font-medium mb-3">7. Persamaan kuadrat \((k+1)x^2 - 2kx + (k-2) = 0\) memiliki dua akar real yang berbeda. Tentukan himpunan nilai \(k\) yang memenuhi kondisi ini.</p>
+                                <p class="font-medium mb-3">
+                                    <span class="lang-id">7. Persamaan kuadrat \((k+1)x^2 - 2kx + (k-2) = 0\) memiliki dua akar real yang berbeda. Tentukan himpunan nilai \(k\) yang memenuhi kondisi ini.</span>
+                                    <span class="lang-en">7. The quadratic equation \((k+1)x^2 - 2kx + (k-2) = 0\) has two distinct real roots. Find the set of possible values for \(k\).</span>
+                                </p>
                                 <button onclick="toggleAnswer('ans-lat7')" class="text-teal-600 font-semibold text-sm flex items-center hover:text-teal-800">
-                                    Lihat Pembahasan <span id="icon-ans-lat7" class="ml-1 transition-transform">&#9662;</span>
+                                    <span class="lang-id">Lihat Pembahasan</span><span class="lang-en">View Solution</span> <span id="icon-ans-lat7" class="ml-1 transition-transform">&#9662;</span>
                                 </button>
                             </div>
                             <div id="ans-lat7" class="answer-reveal bg-stone-50 border-t border-stone-100">
                                 <div class="p-5 text-stone-700">
-                                    <p>Syarat dua akar real berbeda adalah <strong>\(D > 0\)</strong>.</p>
+                                    <p>
+                                        <span class="lang-id">Syarat dua akar real berbeda adalah <strong>\(D > 0\)</strong>.</span>
+                                        <span class="lang-en">The condition for two distinct real roots is <strong>\(D > 0\)</strong>.</span>
+                                    </p>
                                     <div class="math-block">
                                         \(b^2 - 4ac > 0\)<br>
                                         \((-2k)^2 - 4(k+1)(k-2) > 0\)<br>
@@ -536,8 +873,15 @@
                                         \(4k^2 - 4k^2 + 4k + 8 > 0\)<br>
                                         \(4k > -8 \implies k > -2\)
                                     </div>
-                                    <p class="text-sm text-stone-500 mt-2"><em>Catatan: Sebagai syarat tambahan agar tetap menjadi persamaan kuadrat, koefisien \(x^2 \neq 0\), jadi \(k+1 \neq 0 \implies k \neq -1\).</em></p>
-                                    <p class="mt-3 text-lg font-semibold text-teal-800">Jawaban: \(k > -2\) (dan \(k \neq -1\))</p>
+                                    <p class="text-sm text-stone-500 mt-2">
+                                        <em>
+                                            <span class="lang-id">Catatan: Sebagai syarat tambahan agar tetap menjadi persamaan kuadrat, koefisien \(x^2 \neq 0\), jadi \(k+1 \neq 0 \implies k \neq -1\).</span>
+                                            <span class="lang-en">Note: As an additional condition for it to remain a quadratic equation, the coefficient of \(x^2 \neq 0\), so \(k+1 \neq 0 \implies k \neq -1\).</span>
+                                        </em>
+                                    </p>
+                                    <p class="mt-3 text-lg font-semibold text-teal-800">
+                                        <span class="lang-id">Jawaban:</span><span class="lang-en">Answer:</span> \(k > -2\) (<span class="lang-id">dan</span><span class="lang-en">and</span> \(k \neq -1\))
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -545,18 +889,30 @@
                         <!-- Latihan 8 -->
                         <div class="bg-white border-l-4 border-amber-400 rounded-r-xl border-y border-r border-stone-200 overflow-hidden shadow-sm">
                             <div class="p-5">
-                                <p class="font-medium mb-3">8. Fungsi f didefinisikan sebagai \(f(x) = 2x^2 - 8x + 11\) untuk \(x \in \mathbb{R}\).</p>
+                                <p class="font-medium mb-3">
+                                    <span class="lang-id">8. Fungsi f didefinisikan sebagai \(f(x) = 2x^2 - 8x + 11\) untuk \(x \in \mathbb{R}\).</span>
+                                    <span class="lang-en">8. The function f is defined as \(f(x) = 2x^2 - 8x + 11\) for \(x \in \mathbb{R}\).</span>
+                                </p>
                                 <ol class="list-[lower-alpha] pl-5 space-y-2 mb-3">
-                                    <li>Nyatakan \(f(x)\) dalam bentuk \(a(x+b)^2 + c\).</li>
-                                    <li>Fungsi \(g\) didefinisikan sebagai \(g(x) = x + c\). Garis \(y = g(x)\) memotong kurva \(y = f(x)\) di dua titik berbeda. Tentukan himpunan nilai \(c\) yang mungkin.</li>
+                                    <li>
+                                        <span class="lang-id">Nyatakan \(f(x)\) dalam bentuk \(a(x+b)^2 + c\).</span>
+                                        <span class="lang-en">Express \(f(x)\) in the form \(a(x+b)^2 + c\).</span>
+                                    </li>
+                                    <li>
+                                        <span class="lang-id">Fungsi \(g\) didefinisikan sebagai \(g(x) = x + c\). Garis \(y = g(x)\) memotong kurva \(y = f(x)\) di dua titik berbeda. Tentukan himpunan nilai \(c\) yang mungkin.</span>
+                                        <span class="lang-en">The function \(g\) is defined as \(g(x) = x + c\). The line \(y = g(x)\) intersects the curve \(y = f(x)\) at two distinct points. Find the set of possible values for \(c\).</span>
+                                    </li>
                                 </ol>
                                 <button onclick="toggleAnswer('ans-lat8')" class="text-teal-600 font-semibold text-sm flex items-center hover:text-teal-800">
-                                    Lihat Pembahasan <span id="icon-ans-lat8" class="ml-1 transition-transform">&#9662;</span>
+                                    <span class="lang-id">Lihat Pembahasan</span><span class="lang-en">View Solution</span> <span id="icon-ans-lat8" class="ml-1 transition-transform">&#9662;</span>
                                 </button>
                             </div>
                             <div id="ans-lat8" class="answer-reveal bg-stone-50 border-t border-stone-100">
                                 <div class="p-5 text-stone-700">
-                                    <p class="font-semibold text-teal-800">Pembahasan (a): Melengkapkan Kuadrat</p>
+                                    <p class="font-semibold text-teal-800">
+                                        <span class="lang-id">Pembahasan (a): Melengkapkan Kuadrat</span>
+                                        <span class="lang-en">Solution (a): Completing the Square</span>
+                                    </p>
                                     <div class="math-block">
                                         \(2(x^2 - 4x) + 11\)<br>
                                         \(2[(x - 2)^2 - 4] + 11\)<br>
@@ -566,20 +922,31 @@
                                     
                                     <hr class="my-4 border-stone-200">
                                     
-                                    <p class="font-semibold text-teal-800">Pembahasan (b): Persamaan Simultan & Diskriminan</p>
-                                    <p>Substitusikan \(y = x + c\) ke kurva \(y = 2x^2 - 8x + 11\):</p>
+                                    <p class="font-semibold text-teal-800">
+                                        <span class="lang-id">Pembahasan (b): Persamaan Simultan & Diskriminan</span>
+                                        <span class="lang-en">Solution (b): Simultaneous Eq & Discriminant</span>
+                                    </p>
+                                    <p>
+                                        <span class="lang-id">Substitusikan \(y = x + c\) ke kurva \(y = 2x^2 - 8x + 11\):</span>
+                                        <span class="lang-en">Substitute \(y = x + c\) into the curve \(y = 2x^2 - 8x + 11\):</span>
+                                    </p>
                                     <div class="math-block">
                                         \(x + c = 2x^2 - 8x + 11\)<br>
                                         \(0 = 2x^2 - 9x + (11 - c)\)
                                     </div>
-                                    <p>Syarat dua titik potong berbeda adalah <strong>\(D > 0\)</strong>:</p>
+                                    <p>
+                                        <span class="lang-id">Syarat dua titik potong berbeda adalah <strong>\(D > 0\)</strong>:</span>
+                                        <span class="lang-en">The condition for two distinct intersection points is <strong>\(D > 0\)</strong>:</span>
+                                    </p>
                                     <div class="math-block">
                                         \((-9)^2 - 4(2)(11 - c) > 0\)<br>
                                         \(81 - 8(11 - c) > 0\)<br>
                                         \(81 - 88 + 8c > 0\)<br>
                                         \(-7 + 8c > 0 \implies 8c > 7\)
                                     </div>
-                                    <p class="mt-3 text-lg font-semibold text-teal-800">Jawaban: \(c > \frac{7}{8}\)</p>
+                                    <p class="mt-3 text-lg font-semibold text-teal-800">
+                                        <span class="lang-id">Jawaban:</span><span class="lang-en">Answer:</span> \(c > \frac{7}{8}\)
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -588,29 +955,51 @@
             </div>
         </section>
 
+        <!-- TIPS GURU SECTION -->
         <section id="content-guru" class="hidden space-y-6">
             <div class="bg-indigo-50 border-l-4 border-indigo-600 p-6 rounded-r-lg">
-                <h2 class="text-2xl font-serif-title text-indigo-900 mb-4">Tips Pendekatan CPA (Concrete, Pictorial, Abstract)</h2>
+                <h2 class="text-2xl font-serif-title text-indigo-900 mb-4">
+                    <span class="lang-id">Tips Pendekatan CPA (Concrete, Pictorial, Abstract)</span>
+                    <span class="lang-en">CPA Approach Tips (Concrete, Pictorial, Abstract)</span>
+                </h2>
                 <ul class="space-y-4">
                     <li class="flex items-start">
                         <span class="text-indigo-600 text-xl mr-3">&#9656;</span>
                         <div>
-                            <strong class="text-stone-800 block">Concrete / Pictorial (Eksplorasi Parameter)</strong>
-                            <p class="text-stone-600 mt-1">Gunakan perangkat lunak visualisasi (seperti simulasi di tab Konsep) untuk menunjukkan bagaimana perubahan nilai \(a, p,\) dan \(q\) pada \(a(x+p)^2 + q\) menggeser grafik secara horizontal dan vertikal. Siswa harus <em>melihat</em> efek pergeseran sebelum menghitung.</p>
+                            <strong class="text-stone-800 block">
+                                <span class="lang-id">Concrete / Pictorial (Eksplorasi Parameter)</span>
+                                <span class="lang-en">Concrete / Pictorial (Parameter Exploration)</span>
+                            </strong>
+                            <p class="text-stone-600 mt-1">
+                                <span class="lang-id">Gunakan perangkat lunak visualisasi (seperti simulasi di tab Konsep) untuk menunjukkan bagaimana perubahan nilai \(a, p,\) dan \(q\) pada \(a(x+p)^2 + q\) menggeser grafik secara horizontal dan vertikal. Siswa harus <em>melihat</em> efek pergeseran sebelum menghitung.</span>
+                                <span class="lang-en">Use visualization software (like the simulation in the Concepts tab) to show how changing the values of \(a, p,\) and \(q\) in \(a(x+p)^2 + q\) shifts the graph horizontally and vertically. Students must <em>see</em> the translation effect before calculating.</span>
+                            </p>
                         </div>
                     </li>
                     <li class="flex items-start">
                         <span class="text-indigo-600 text-xl mr-3">&#9656;</span>
                         <div>
-                            <strong class="text-stone-800 block">Analisis Visual Akar</strong>
-                            <p class="text-stone-600 mt-1">Biasakan siswa melihat "akar" sebagai titik potong terhadap sumbu-\(x\) sebelum masuk ke perhitungan rumus \(x = \frac{-b \pm \sqrt{D}}{2a}\).</p>
+                            <strong class="text-stone-800 block">
+                                <span class="lang-id">Analisis Visual Akar</span>
+                                <span class="lang-en">Visual Analysis of Roots</span>
+                            </strong>
+                            <p class="text-stone-600 mt-1">
+                                <span class="lang-id">Biasakan siswa melihat "akar" sebagai titik potong terhadap sumbu-\(x\) sebelum masuk ke perhitungan rumus \(x = \frac{-b \pm \sqrt{D}}{2a}\).</span>
+                                <span class="lang-en">Get students used to seeing "roots" as x-axis intersections before proceeding to calculations with the formula \(x = \frac{-b \pm \sqrt{D}}{2a}\).</span>
+                            </p>
                         </div>
                     </li>
                     <li class="flex items-start">
                         <span class="text-indigo-600 text-xl mr-3">&#9656;</span>
                         <div>
-                            <strong class="text-stone-800 block">Koneksi Diskriminan dan Interseksi</strong>
-                            <p class="text-stone-600 mt-1">Hubungkan konsep diskriminan dengan posisi garis terhadap kurva. Misalnya untuk soal Advanced Level 3 No. 8(b), siswa harus menyadari bahwa substitusi persamaan garis ke parabola menghasilkan persamaan kuadrat baru, di mana \(D > 0\) menjamin terjadinya dua titik potong.</p>
+                            <strong class="text-stone-800 block">
+                                <span class="lang-id">Koneksi Diskriminan dan Interseksi</span>
+                                <span class="lang-en">Connection: Discriminant and Intersection</span>
+                            </strong>
+                            <p class="text-stone-600 mt-1">
+                                <span class="lang-id">Hubungkan konsep diskriminan dengan posisi garis terhadap kurva. Misalnya untuk soal Advanced Level 3 No. 8(b), siswa harus menyadari bahwa substitusi persamaan garis ke parabola menghasilkan persamaan kuadrat baru, di mana \(D > 0\) menjamin terjadinya dua titik potong.</span>
+                                <span class="lang-en">Connect the discriminant concept with the line's position relative to the curve. E.g., for Advanced Level 3 No. 8(b), students must realize that substituting the line equation into the parabola yields a new quadratic, where \(D > 0\) guarantees two intersection points.</span>
+                            </p>
                         </div>
                     </li>
                 </ul>
@@ -620,10 +1009,41 @@
     </main>
 
     <footer class="bg-stone-800 text-stone-300 py-6 text-center text-sm mt-12">
-        <p>Materi Pembelajaran Interaktif untuk Cambridge 9709 Paper 1</p>
+        <p>
+            <span class="lang-id">Materi Pembelajaran Interaktif untuk Cambridge 9709 Paper 1</span>
+            <span class="lang-en">Interactive Learning Material for Cambridge 9709 Paper 1</span>
+        </p>
     </footer>
 
     <script>
+        // Language Toggle Logic
+        let currentLang = 'id';
+        function setLang(lang) {
+            currentLang = lang;
+            document.body.classList.remove('lang-id', 'lang-en');
+            document.body.classList.add('lang-' + lang);
+            
+            // Update UI Button states (Desktop)
+            document.getElementById('btn-lang-id').className = lang === 'id' 
+                ? 'px-3 py-1 rounded-md text-sm font-semibold bg-white text-teal-700 shadow-sm transition-all'
+                : 'px-3 py-1 rounded-md text-sm font-semibold text-stone-500 hover:text-stone-700 transition-all';
+            document.getElementById('btn-lang-en').className = lang === 'en' 
+                ? 'px-3 py-1 rounded-md text-sm font-semibold bg-white text-teal-700 shadow-sm transition-all'
+                : 'px-3 py-1 rounded-md text-sm font-semibold text-stone-500 hover:text-stone-700 transition-all';
+
+            // Update UI Button states (Mobile)
+            document.getElementById('btn-lang-id-mob').className = lang === 'id' 
+                ? 'px-2 py-1 rounded text-xs font-semibold bg-white text-teal-700 shadow-sm transition-all'
+                : 'px-2 py-1 rounded text-xs font-semibold text-stone-500 hover:text-stone-700 transition-all';
+            document.getElementById('btn-lang-en-mob').className = lang === 'en' 
+                ? 'px-2 py-1 rounded text-xs font-semibold bg-white text-teal-700 shadow-sm transition-all'
+                : 'px-2 py-1 rounded text-xs font-semibold text-stone-500 hover:text-stone-700 transition-all';
+
+            // Refresh Dynamic Texts
+            updateVertexChart();
+            updateDiscChart(currentDiscType);
+        }
+
         function switchMainTab(tabId) {
             document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -711,11 +1131,15 @@
             let signQ = q >= 0 ? '+' : '-';
             document.getElementById('eq-display').innerText = `y = ${a}(x ${signP} ${Math.abs(p)})² ${signQ} ${Math.abs(q)}`;
 
-            vertexChartObj.data.datasets[0].data = generateParabolaData(a, p, q);
-            vertexChartObj.update();
+            if(vertexChartObj) {
+                vertexChartObj.data.datasets[0].data = generateParabolaData(a, p, q);
+                vertexChartObj.update();
+            }
         }
 
         let discChartObj = null;
+        let currentDiscType = 1;
+
         function initDiscChart() {
             const ctx = document.getElementById('discChart').getContext('2d');
             
@@ -723,7 +1147,7 @@
                 type: 'line',
                 data: {
                     datasets: [{
-                        label: 'Fungsi Kuadrat',
+                        label: 'Graph',
                         data: [],
                         borderColor: '#d97706',
                         borderWidth: 3,
@@ -745,28 +1169,38 @@
         }
 
         function updateDiscChart(type) {
+            currentDiscType = type;
             let data = [];
-            let text = "";
+            let textId = "";
+            let textEn = "";
             let color = "";
             
             if (type === 1) { 
                 for(let x = -5; x <= 5; x += 0.2) data.push({x: x, y: Math.pow(x, 2) - 4});
-                text = "D > 0: Kurva memotong sumbu-x di dua titik berbeda.";
+                textId = "D > 0: Kurva memotong sumbu-x di dua titik berbeda.";
+                textEn = "D > 0: Curve intersects the x-axis at two distinct points.";
                 color = '#059669';
             } else if (type === 0) { 
                 for(let x = -5; x <= 5; x += 0.2) data.push({x: x, y: Math.pow(x, 2)});
-                text = "D = 0: Kurva menyinggung sumbu-x di satu titik (akar kembar).";
+                textId = "D = 0: Kurva menyinggung sumbu-x di satu titik (akar kembar).";
+                textEn = "D = 0: Curve is tangent to the x-axis at one point (repeated root).";
                 color = '#d97706'; 
             } else { 
                 for(let x = -5; x <= 5; x += 0.2) data.push({x: x, y: Math.pow(x, 2) + 3});
-                text = "D < 0: Kurva tidak menyentuh sumbu-x (tidak ada akar real).";
+                textId = "D < 0: Kurva tidak menyentuh sumbu-x (tidak ada akar real).";
+                textEn = "D < 0: Curve does not touch the x-axis (no real roots).";
                 color = '#dc2626'; 
             }
             
-            document.getElementById('disc-text').innerText = text;
-            discChartObj.data.datasets[0].data = data;
-            discChartObj.data.datasets[0].borderColor = color;
-            discChartObj.update();
+            // Build bilingual HTML for JS generated text
+            document.getElementById('disc-text-container').innerHTML = 
+                `<span class="lang-id">${textId}</span><span class="lang-en">${textEn}</span>`;
+            
+            if(discChartObj) {
+                discChartObj.data.datasets[0].data = data;
+                discChartObj.data.datasets[0].borderColor = color;
+                discChartObj.update();
+            }
         }
 
         window.onload = function() {
